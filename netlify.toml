@@ -1,0 +1,5 @@
+[build]
+  publish = "."
+
+# Static multi-page routing
+# Existing HTML files in / and /samples/ will be served directly by Netlify.
