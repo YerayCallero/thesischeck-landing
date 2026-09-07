@@ -158,7 +158,7 @@
                     </div>
                     <div class="w-full sm:w-44 flex items-center px-3.5 py-2.5 bg-dark-900/70 rounded-xl border border-slate-800 focus-within:border-brand-500/50 transition">
                         <i data-lucide="trending-up" class="w-4 h-4 text-slate-500 mr-2 shrink-0"></i>
-                        <input type="text" id="tickerInput" name="tickers" placeholder="e.g. INTU, MSFT, REP" class="bg-transparent border-none text-white text-sm focus:outline-none w-full placeholder:text-slate-500 uppercase font-mono">
+                        <input type="text" id="tickerInput" name="tickers" placeholder="e.g. GOOGL, INTU, ASML" class="bg-transparent border-none text-white text-sm focus:outline-none w-full placeholder:text-slate-500 uppercase font-mono">
                     </div>
                     <button type="submit" id="submitBtn" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-dark-950 font-extrabold text-sm transition shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 shrink-0">
                         <span data-i18n="form_submit">Join Free Beta</span>
@@ -205,17 +205,17 @@
                     <div class="p-6 sm:p-7 rounded-2xl bg-red-950/15 border border-red-500/25 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-red-500/20 text-red-400 border border-red-500/30 uppercase tracking-wider" data-i18n="proof_media_tag">Media Noise (Seeking Alpha / CNBC)</span>
-                                <span class="text-xs font-mono text-slate-500">08:01 EST</span>
+                                <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-red-500/20 text-red-400 border border-red-500/30 uppercase tracking-wider" data-i18n="proof_media_tag">Mainstream Financial Press (08:00 EST)</span>
+                                <span class="text-xs font-mono text-slate-500">Bloomberg / WSJ Alert</span>
                             </div>
-                            <h4 class="text-xl font-bold text-white mb-3" data-i18n="proof_media_title">"INTUIT (INTU) MISSES Q4 REVENUE ESTIMATES BY 0.3%, SHARES PLUNGE 4.2% PRE-MARKET"</h4>
+                            <h4 class="text-xl font-bold text-white mb-3" data-i18n="proof_media_title">"ALPHABET (GOOGL) FALLS -6.4% PRE-MARKET AS AI CAPEX SURGES TO $44.9B; SQUEEZING CASH FLOW AMID DOJ THREAT"</h4>
                             <p class="text-sm text-slate-300 leading-relaxed mb-4" data-i18n="proof_media_desc">
-                                "Intuit reported fourth-quarter revenue slightly below consensus analyst forecasts, triggering an aggressive pre-market sell-off amidst software sector valuation concerns..."
+                                "Alphabet shares fell sharply in pre-market trading as capital expenditures soared to historic highs, causing quarterly free cash flow to dip negative while federal antitrust remedy hearings cast doubt on Google Search..."
                             </p>
                         </div>
                         <div class="pt-4 border-t border-red-500/20 text-xs font-mono text-red-400 flex items-center gap-2">
                             <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
-                            <span data-i18n="proof_media_footer">Misleading headline. Ignores cash flow, margin expansion & recurring revenue.</span>
+                            <span data-i18n="proof_media_footer">Sensationalist panic. Ignores cloud margin explosion & appellate stay of structural remedies.</span>
                         </div>
                     </div>
 
@@ -223,12 +223,12 @@
                     <div class="p-6 sm:p-7 rounded-2xl bg-emerald-950/20 border border-brand-500/40 flex flex-col justify-between glow-subtle">
                         <div>
                             <div class="flex items-center justify-between gap-2 mb-4">
-                                <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-brand-500/20 text-brand-400 border border-brand-500/30 uppercase tracking-wider" data-i18n="proof_audit_tag">ThesisCheck.ai Filing Audit (Form 10-K)</span>
+                                <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-brand-500/20 text-brand-400 border border-brand-500/30 uppercase tracking-wider" data-i18n="proof_audit_tag">ThesisCheck.ai Filing Audit (Form 10-Q)</span>
                                 <span class="text-xs font-mono text-brand-400 font-semibold">08:03 EST</span>
                             </div>
-                            <h4 class="text-xl font-bold text-white mb-3" data-i18n="proof_audit_title">"THESIS VERIFIED (SCORE: 8.5/10): Small Business Margin +140 bps & Free Cash Flow +18%"</h4>
+                            <h4 class="text-xl font-bold text-white mb-3" data-i18n="proof_audit_title">"THESIS VERIFIED (SCORE: 8.8/10): Cloud Margin Hyper-Expansion (35.5%) & DOJ Remedies Stayed in Appeals"</h4>
                             <p class="text-sm text-slate-200 leading-relaxed mb-4" data-i18n="proof_audit_desc">
-                                <strong>Page 32:</strong> Small Business revenue rose +19% with operating margin expanding to 39.4%. The minor headline 'miss' was driven solely by conservative Desktop timing. Core catalyst intact.
+                                <strong>Pages 28 & 44:</strong> Google Cloud revenue surged +82% YoY to $24.8B with operating margin reaching 35.5% ($8.8B income), absorbing CapEx. Note 10 confirms zero loss provisions for DOJ remedies, legally stayed pending multi-year appeals.
                             </p>
                         </div>
                         <div class="pt-4 border-t border-brand-500/20 flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -349,11 +349,8 @@
                         <button onclick="switchTab('intu')" id="tab-intu" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
                             INTU (Intuit)
                         </button>
-                        <button onclick="switchTab('rep')" id="tab-rep" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
-                            REP (Repsol)
-                        </button>
-                        <button onclick="switchTab('msft')" id="tab-msft" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
-                            MSFT (Microsoft)
+                        <button onclick="switchTab('asml')" id="tab-asml" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
+                            ASML (ASML Holding)
                         </button>
                     </div>
                 </div>
@@ -365,14 +362,14 @@
                     <div id="content-header" class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-700/60">
                         <div>
                             <div class="flex items-center gap-3 mb-1">
-                                <h4 id="companyName" class="text-xl sm:text-2xl font-bold text-white">Intuit Inc. (NASDAQ: INTU)</h4>
-                                <span id="companyPeriod" class="px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Q4 / FY26 Earnings</span>
+                                <h4 id="companyName" class="text-xl sm:text-2xl font-bold text-white">Alphabet Inc. (NASDAQ: GOOGL)</h4>
+                                <span id="companyPeriod" class="px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Q2 2026 Earnings (Form 10-Q)</span>
                             </div>
-                            <p id="companyFiling" class="text-xs text-slate-400 font-mono">Audited Filing: Form 10-K & Slide Deck • Published Today 08:30 EST</p>
+                            <p id="companyFiling" class="text-xs text-slate-400 font-mono">Audited Filing: Form 10-Q & Earnings Release • SEC EDGAR #0001652044-26-000042</p>
                         </div>
                         <div class="flex items-center gap-2 bg-dark-900/80 px-4 py-2 rounded-xl border border-slate-700">
                             <span class="text-xs text-slate-400" data-i18n="score_label">Thesis Health Score:</span>
-                            <span id="thesisScore" class="text-base font-mono font-bold text-brand-400">8.5 / 10 (Solid)</span>
+                            <span id="thesisScore" class="text-base font-mono font-bold text-brand-400">8.8 / 10 (Thesis Intact)</span>
                         </div>
                     </div>
 
@@ -540,13 +537,13 @@
                 proof_eyebrow: "The Signal-To-Noise Gap",
                 proof_heading: "Financial Media vs. Primary Filings",
                 proof_subheading: "Why relying on consensus headlines leads to disastrous portfolio decisions during earnings season.",
-                proof_media_tag: "Media Noise (Seeking Alpha / CNBC)",
-                proof_media_title: '"INTUIT (INTU) MISSES Q4 REVENUE ESTIMATES BY 0.3%, SHARES PLUNGE 4.2% PRE-MARKET"',
-                proof_media_desc: '"Intuit reported fourth-quarter revenue slightly below consensus analyst forecasts, triggering an aggressive pre-market sell-off amidst software sector valuation concerns..."',
-                proof_media_footer: "Misleading headline. Ignores cash flow, margin expansion & recurring revenue.",
-                proof_audit_tag: "ThesisCheck.ai Filing Audit (Form 10-K)",
-                proof_audit_title: '"THESIS VERIFIED (SCORE: 8.5/10): Small Business Margin +140 bps & Free Cash Flow +18%"',
-                proof_audit_desc: "<strong>Page 32:</strong> Small Business revenue rose +19% with operating margin expanding to 39.4%. The minor headline 'miss' was driven solely by conservative Desktop timing. Core catalyst intact.",
+                proof_media_tag: "Mainstream Financial Press (08:00 EST)",
+                proof_media_title: '"ALPHABET (GOOGL) FALLS -6.4% PRE-MARKET AS AI CAPEX SURGES TO $44.9B; SQUEEZING CASH FLOW AMID DOJ THREAT"',
+                proof_media_desc: '"Alphabet shares fell sharply in pre-market trading as capital expenditures soared to historic highs, causing quarterly free cash flow to dip negative while federal antitrust remedy hearings cast doubt on Google Search..."',
+                proof_media_footer: "Sensationalist panic. Ignores cloud margin explosion & appellate stay of structural remedies.",
+                proof_audit_tag: "ThesisCheck.ai Filing Audit (Form 10-Q)",
+                proof_audit_title: '"THESIS VERIFIED (SCORE: 8.8/10): Cloud Margin Hyper-Expansion (35.5%) & DOJ Remedies Stayed in Appeals"',
+                proof_audit_desc: "<strong>Pages 28 & 44:</strong> Google Cloud revenue surged +82% YoY to $24.8B with operating margin reaching 35.5% ($8.8B income), absorbing CapEx. Note 10 confirms zero loss provisions for DOJ remedies, legally stayed pending multi-year appeals.",
                 proof_audit_footer: "Zero emotional panic. Investor protected against shaking out of a compounder.",
                 problem_eyebrow: "The Fundamental Investor Dilemma",
                 problem_heading: "The traditional workflow is broken",
@@ -647,13 +644,13 @@
                 proof_eyebrow: "La Brecha entre Ruido y Señal",
                 proof_heading: "Prensa Financiera vs. Filings Oficiales",
                 proof_subheading: "Por qué fiarse de los titulares de consenso provoca decisiones desastrosas en la temporada de resultados.",
-                proof_media_tag: "Ruido de Prensa (Seeking Alpha / Expansión)",
-                proof_media_title: '"INTUIT (INTU) DECEPCIONA EN INGRESOS POR UN 0,3% Y SE HUNDE UN 4,2% PRE-MARKET"',
-                proof_media_desc: '"Intuit reportó unos ingresos en el 4T ligeramente por debajo de las previsiones de Wall Street, desatando una oleada de ventas ante el temor a la desaceleración del software..."',
-                proof_media_footer: "Titular engañoso. Ignora el flujo de caja, la expansión de márgenes y el negocio recurrente.",
-                proof_audit_tag: "Auditoría ThesisCheck.ai (Form 10-K)",
-                proof_audit_title: '"TESIS VALIDADA (SCORE: 8.5/10): Margen Small Business +140 bps y Flujo de Caja +18%"',
-                proof_audit_desc: "<strong>Página 32:</strong> El segmento Small Business creció un +19% con márgenes operativos al 39,4%. El 'miss' de titular se debió únicamente a la transición contable de licencias Desktop. Catalizador intacto.",
+                proof_media_tag: "Prensa Financiera Sensacionalista (08:00 EST)",
+                proof_media_title: '"ALPHABET (GOOGL) CAE UN 6,4% AL DISPARARSE EL CAPEX EN IA A 44.900 M$ Y POR LA AMENAZA DE RUPTURA DEL DOJ"',
+                proof_media_desc: '"Las acciones de Alphabet cayeron con fuerza en la preapertura tras un desembolso récord en infraestructura de IA que dejó el flujo de caja trimestral en negativo, mientras se cierne el juicio antimonopolio del DOJ..."',
+                proof_media_footer: "Pánico sensacionalista. Ignora la explosión de márgenes en Cloud y la suspensión legal del juicio.",
+                proof_audit_tag: "Auditoría ThesisCheck.ai (Form 10-Q)",
+                proof_audit_title: '"TESIS VALIDADA (SCORE: 8.8/10): Expansión Récord en Cloud (35,5%) y Remedios del DOJ Suspendidos en Apelación"',
+                proof_audit_desc: "<strong>Páginas 28 y 44:</strong> Google Cloud creció un +82% YoY hasta 24.800 M$ con un margen operativo del 35,5% (8.800 M$ de beneficio), absorbiendo el CapEx. La Nota 10 confirma cero provisiones por el DOJ, suspendido por apelación judicial.",
                 proof_audit_footer: "Cero pánico emocional. El inversor protegido de vender una gran compañía en mínimos.",
                 problem_eyebrow: "La Realidad del Inversor Fundamental",
                 problem_heading: "El método tradicional está roto",
@@ -776,77 +773,41 @@
                     ],
                     risk: "FY27 Capex guidance increased by +25% due to generative AI infrastructure (Intuit Assist), which will moderately compress Free Cash Flow in the first fiscal half."
                 },
-                rep: {
-                    name: "Repsol S.A. (BME: REP)",
-                    period: "Q2 2026 Earnings",
-                    filing: "Audited Filing: Half-Year CNMV Report & Slide Deck • Published 07:45 CEST",
-                    score: "7.8 / 10 (Favorable)",
+                asml: {
+                    name: "ASML Holding N.V. (NASDAQ: ASML)",
+                    period: "Q2 2026 Earnings (SEC Form 20-F / 6-K)",
+                    filing: "Audited Filing: Form 6-K & Half-Year 20-F • SEC EDGAR #0000937966-26-000018",
+                    score: "8.6 / 10 (Solid)",
                     items: [
                         {
-                            title: "1. Operating Free Cash Flow Generation > €1,200M in H1",
-                            status: "MET",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "CNMV Page 14",
-                            evidence: "Operating cash flow reached <strong>€1,450M</strong>, comfortably covering shareholder dividends and energy transition capex."
-                        },
-                        {
-                            title: "2. Refining Margin Resilience amidst European normalization",
-                            status: "NEUTRAL",
-                            statusClass: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-                            dotClass: "bg-amber-400",
-                            borderClass: "border-amber-500/40",
-                            citation: "Deck Page 22",
-                            evidence: "Refining margin premium stood at <strong>$6.3/bbl</strong> (vs $11.2/bbl in 2025). In line with updated guidance but near bottom of mid-cycle."
-                        },
-                        {
-                            title: "3. Shareholder Distribution Commitment (Buybacks + Dividends)",
-                            status: "MET",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "Release Page 7",
-                            evidence: "Confirmed additional cancellation of <strong>20M shares</strong> in September, lifting total annualized distribution yield to 9.2%."
-                        }
-                    ],
-                    risk: "Regulatory pressure in the European refining segment and pending local extraordinary levy rulings create temporary tax overhang."
-                },
-                msft: {
-                    name: "Microsoft Corporation (NASDAQ: MSFT)",
-                    period: "Q4 / FY26 Earnings",
-                    filing: "Audited Filing: Form 10-K & Webcast Transcript • Published 16:05 EST",
-                    score: "9.2 / 10 (Excellent)",
-                    items: [
-                        {
-                            title: "1. Azure Cloud Revenue Growth Acceleration (>28% CC)",
+                            title: "1. EUV / High-NA Net System Bookings Acceleration (>€2.5B)",
                             status: "EXCEEDED",
                             statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
                             dotClass: "bg-emerald-400",
                             borderClass: "border-emerald-500/40",
-                            citation: "10-K Page 19",
-                            evidence: "Azure and other cloud services revenue grew <strong>+30% constant currency</strong>, with 8 percentage points contributed directly by AI services."
+                            citation: "Form 6-K Page 12",
+                            evidence: "Total net bookings reached <strong>€5.57B</strong> (with EUV systems contributing €2.50B), confirming strong 2nm and High-NA tool commitment from leading logic and memory foundries."
                         },
                         {
-                            title: "2. Copilot Monetization in Microsoft 365 Commercial",
+                            title: "2. Gross Margin Resilience & Product Mix (>51.5%)",
                             status: "MET",
                             statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
                             dotClass: "bg-emerald-400",
                             borderClass: "border-emerald-500/40",
-                            citation: "10-K Page 27",
-                            evidence: "Office 365 Commercial ARPU rose <strong>+12%</strong> driven by Enterprise Copilot seat adoption."
+                            citation: "Form 6-K Page 18",
+                            evidence: "Gross margin expanded to <strong>53.7%</strong> (vs. 51.5% guidance midpoint), driven by higher immersion DUV system margins and installed base field upgrade revenue."
                         },
                         {
-                            title: "3. Return on Capital Expenditure (Capex in GPU & Data Centers)",
+                            title: "3. China Export Control Exposure & License Restrictions",
                             status: "MONITORING",
                             statusClass: "bg-amber-500/20 text-amber-400 border-amber-500/30",
                             dotClass: "bg-amber-400",
                             borderClass: "border-amber-500/40",
-                            citation: "10-K Page 52",
-                            evidence: "Quarterly capex hit a record <strong>$19.0B</strong>. Management reiterated demand continues to outstrip available capacity through 2027."
+                            citation: "Form 6-K Page 31",
+                            evidence: "China system sales normalized to <strong>27% of total</strong> (down from 49% peak). Note disclosures confirm no retroactive Dutch/US license cancellations for existing installed base maintenance."
                         }
                     ],
-                    risk: "Temporary datacenter power and delivery constraints in Europe capping short-term AI capacity throughput."
+                    risk: "Geopolitical export licensing: Dutch and US regulatory adjustments require ongoing monitoring for DUV maintenance services, although existing backlog covers 18 months of projected shipments."
                 }
             },
             es: {
@@ -922,77 +883,41 @@
                     ],
                     risk: "Guidance de Capex para FY27 se incrementa un +25% debido a infraestructura de IA generativa (Intuit Assist), lo que comprimirá ligeramente el Flujo de Caja Libre en el primer semestre fiscal."
                 },
-                rep: {
-                    name: "Repsol S.A. (BME: REP)",
-                    period: "Resultados Q2 2026",
-                    filing: "Filing Auditado: Informe Semestral CNMV & Slide Deck • Publicado 07:45 CEST",
-                    score: "7.8 / 10 (Favorable)",
+                asml: {
+                    name: "ASML Holding N.V. (NASDAQ: ASML)",
+                    period: "Resultados Q2 2026 (SEC Form 20-F / 6-K)",
+                    filing: "Filing Auditado: Form 6-K & 20-F Semestral • SEC EDGAR #0000937966-26-000018",
+                    score: "8.6 / 10 (Sólido)",
                     items: [
                         {
-                            title: "1. Generación de Caja Libre Operativa > 1.200 M€ en el semestre",
+                            title: "1. Aceleración de Nuevos Pedidos Netos en EUV / High-NA (>2.500 M€)",
+                            status: "SUPERADO",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "Form 6-K Pág. 12",
+                            evidence: "Los pedidos netos totales alcanzaron <strong>5.570 M€</strong> (con sistemas EUV aportando 2.500 M€), confirmando la fuerte demanda de nodos de 2nm y herramientas High-NA por fabricantes de chips lógicos y memoria."
+                        },
+                        {
+                            title: "2. Resiliencia del Margen Bruto y Mix de Producto (>51,5%)",
                             status: "CUMPLIDO",
                             statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
                             dotClass: "bg-emerald-400",
                             borderClass: "border-emerald-500/40",
-                            citation: "CNMV Pág. 14",
-                            evidence: "Flujo de caja operativo de <strong>1.450 M€</strong>, cubriendo sobradamente el dividendo y las inversiones de transición energética."
+                            citation: "Form 6-K Pág. 18",
+                            evidence: "El margen bruto aumentó al <strong>53,7%</strong> (por encima del 51,5% estimado en el guidance), impulsado por mejores márgenes en sistemas DUV de inmersión y actualizaciones de servicio de la base instalada."
                         },
                         {
-                            title: "2. Resiliencia del Margen de Refino frente a normalización europea",
-                            status: "NEUTRAL",
+                            title: "3. Exposición a Restricciones de Exportación a China",
+                            status: "EN MONITORIZACIÓN",
                             statusClass: "bg-amber-500/20 text-amber-400 border-amber-500/30",
                             dotClass: "bg-amber-400",
                             borderClass: "border-amber-500/40",
-                            citation: "Deck Pág. 22",
-                            evidence: "Margen de refino se situó en <strong>$6.3/bbl</strong> (vs $11.2/bbl en 2025). En línea con el guidance actualizado pero en rango bajo de ciclo."
-                        },
-                        {
-                            title: "3. Compromiso de Retribución al Accionista (Buyback + Dividendo)",
-                            status: "CUMPLIDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "Release Pág. 7",
-                            evidence: "Confirmada amortización adicional de <strong>20 millones de acciones propias</strong> en septiembre, elevando el yield total al 9.2% anual."
+                            citation: "Form 6-K Pág. 31",
+                            evidence: "Las ventas a China se normalizaron al <strong>27% del total</strong> (frente al pico del 49%). Las notas del informe confirman que no hay revocaciones retroactivas de licencias para el mantenimiento de máquinas ya instaladas."
                         }
                     ],
-                    risk: "Presión regulatoria en el negocio de refino y posibles cargos impositivos extraordinarios en España pendientes de resolución judicial."
-                },
-                msft: {
-                    name: "Microsoft Corporation (NASDAQ: MSFT)",
-                    period: "Resultados Q4 / FY26",
-                    filing: "Filing Auditado: Form 10-K & Webcast Transcript • Publicado 16:05 EST",
-                    score: "9.2 / 10 (Excelente)",
-                    items: [
-                        {
-                            title: "1. Aceleración de Ingresos de Azure Cloud (>28% CC)",
-                            status: "CUMPLIDO CON CRECES",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-K Pág. 19",
-                            evidence: "Azure y otros servicios en la nube crecieron un <strong>+30% en moneda constante</strong>, con 8 puntos porcentuales atribuidos directamente a servicios de IA."
-                        },
-                        {
-                            title: "2. Monetización de Copilot en Office 365 Commercial",
-                            status: "CUMPLIDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-K Pág. 27",
-                            evidence: "ARPU de Microsoft 365 Commercial subió un <strong>+12%</strong> gracias al despliegue de licencias Copilot en grandes cuentas corporativas."
-                        },
-                        {
-                            title: "3. Retorno sobre el Gasto de Capital (Capex en GPU & Data Centers)",
-                            status: "EN SEGUIMIENTO",
-                            statusClass: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-                            dotClass: "bg-amber-400",
-                            borderClass: "border-amber-500/40",
-                            citation: "10-K Pág. 52",
-                            evidence: "Capex trimestral récord de <strong>$19.0B</strong>. Management reitera que la demanda sigue superando la capacidad instalada hasta 2027."
-                        }
-                    ],
-                    risk: "Restricciones temporales de capacidad de centros de datos en Europa que limitan el ritmo de entrega de contratos de IA a corto plazo."
+                    risk: "Regulación geopolítica de exportaciones: monitorizar ajustes en licencias holandesas/estadounidenses para servicios de mantenimiento DUV, si bien la cartera de pedidos actual cubre 18 meses de producción."
                 }
             }
         };
@@ -1039,7 +964,7 @@
             const data = sampleReports[currentLang][ticker];
             if (!data) return;
 
-            ['googl', 'intu', 'rep', 'msft'].forEach(t => {
+            ['googl', 'intu', 'asml'].forEach(t => {
                 const el = document.getElementById('tab-' + t);
                 if (t === ticker) {
                     el.className = "px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-brand-500/20 text-brand-400 border border-brand-500/30";
