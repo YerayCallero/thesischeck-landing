@@ -96,12 +96,15 @@
                 </div>
             </div>
             
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
                 <a href="#problema" class="hover:text-white transition" data-i18n="nav_problem">The Problem</a>
                 <a href="#proof" class="hover:text-white transition" data-i18n="nav_proof">Media vs. Filing</a>
                 <a href="#ejemplo" class="hover:text-white transition" data-i18n="nav_report">Sample Audit</a>
                 <a href="#como-funciona" class="hover:text-white transition" data-i18n="nav_how">How It Works</a>
-                <a href="#faq" class="hover:text-white transition" data-i18n="nav_faq">FAQ</a>
+                <a href="samples/alphabet-googl-10q-audit.html" class="hover:text-white transition flex items-center gap-1.5 text-brand-400 font-semibold font-mono text-xs bg-brand-500/10 px-2.5 py-1 rounded-lg border border-brand-500/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+                    Live Sample (GOOGL) ↗
+                </a>
             </nav>
 
             <div class="flex items-center gap-3">
@@ -173,6 +176,14 @@
                     <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-400"></i> <span data-i18n="perk_2">100% Primary IR Sources</span></span>
                     <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-400"></i> <span data-i18n="perk_3">Limited to 50 Investors</span></span>
                 </div>
+
+                <!-- Prominent Live Sample Banner -->
+                <div class="mt-6 flex items-center justify-center">
+                    <a href="samples/alphabet-googl-10q-audit.html" class="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-brand-500/40 text-xs font-mono text-slate-200 hover:text-white transition shadow-lg shadow-brand-500/10 group">
+                        <span class="flex h-2 w-2 rounded-full bg-brand-400 animate-ping"></span>
+                        <span>Live SEC Audit Sample: <strong class="text-brand-400 group-hover:underline">Alphabet (GOOGL) Form 10-Q &rarr;</strong></span>
+                    </a>
+                </div>
             </div>
 
         </section>
@@ -220,13 +231,14 @@
                                 <strong>Page 32:</strong> Small Business revenue rose +19% with operating margin expanding to 39.4%. The minor headline 'miss' was driven solely by conservative Desktop timing. Core catalyst intact.
                             </p>
                         </div>
-                        <div class="pt-4 border-t border-brand-500/20 text-xs font-mono text-brand-400 flex flex-col sm:flex-row sm:items-center justify-between gap-2 font-semibold">
-                            <div class="flex items-center gap-2">
+                        <div class="pt-4 border-t border-brand-500/20 flex flex-col sm:flex-row items-center justify-between gap-3">
+                            <div class="flex items-center gap-2 text-xs font-mono text-brand-400 font-semibold">
                                 <i data-lucide="check-circle" class="w-4 h-4 shrink-0"></i>
                                 <span data-i18n="proof_audit_footer">Zero emotional panic. Investor protected against shaking out of a compounder.</span>
                             </div>
-                            <a href="samples/alphabet-googl-10q-audit.html" class="inline-flex items-center gap-1 text-brand-300 hover:text-white underline underline-offset-4 text-xs font-sans font-bold transition shrink-0">
-                                View Full GOOGL Audit &rarr;
+                            <a href="samples/alphabet-googl-10q-audit.html" class="w-full sm:w-auto px-4 py-2 rounded-lg bg-brand-500 hover:bg-brand-400 text-dark-950 font-bold text-xs flex items-center justify-center gap-1.5 transition shadow-sm shrink-0">
+                                <span>View Full GOOGL Audit</span>
+                                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                             </a>
                         </div>
                     </div>
@@ -331,11 +343,14 @@
                     </div>
 
                     <div class="flex items-center gap-2">
-                        <button onclick="switchTab('intu')" id="tab-intu" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-brand-500/20 text-brand-400 border border-brand-500/30">
-                            INTU (Intuit Inc.)
+                        <button onclick="switchTab('googl')" id="tab-googl" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-brand-500/20 text-brand-400 border border-brand-500/30">
+                            GOOGL (Alphabet)
+                        </button>
+                        <button onclick="switchTab('intu')" id="tab-intu" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
+                            INTU (Intuit)
                         </button>
                         <button onclick="switchTab('rep')" id="tab-rep" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
-                            REP (Repsol S.A.)
+                            REP (Repsol)
                         </button>
                         <button onclick="switchTab('msft')" id="tab-msft" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
                             MSFT (Microsoft)
@@ -578,6 +593,42 @@
                 footer_f3: "Zero Press Noise"
             },
             es: {
+                googl: {
+                    name: "Alphabet Inc. (NASDAQ: GOOGL)",
+                    period: "Resultados Q2 2026 (Form 10-Q)",
+                    filing: "Filing Auditado: Form 10-Q & Earnings Release • SEC EDGAR #0001652044-26-000042",
+                    score: "8.8 / 10 (Tesis Intacta)",
+                    items: [
+                        {
+                            title: "1. Crecimiento y Expansión de Margen en Google Cloud (>25%)",
+                            status: "ACELERANDO",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Pág. 28, Nota 11",
+                            evidence: "Los ingresos de Cloud crecieron un <strong>+82.0% YoY a $24.8B</strong> con margen operativo disparándose al <strong>35.5%</strong> ($8.8B de beneficio operativo vs $2.8B). El CapEx de IA genera retornos inmediatos de alto ROI."
+                        },
+                        {
+                            title: "2. Mitigación Legal y Blindaje de Remedios del DOJ",
+                            status: "RIESGO ACOTADO",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Parte II Ítem 1 y Nota 10, págs. 36, 44",
+                            evidence: "El filing oficial confirma que cualquier remedio estructural queda <strong>suspendido por la vía legal de apelación</strong> (horizonte 2027–2028). Cero provisiones por pérdidas extraordinarias y contratos de distribución vigentes."
+                        },
+                        {
+                            title: "3. Solidez del Foso en Búsqueda y Monetización de IA Overviews",
+                            status: "CUMPLIDO",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Págs. 3–5",
+                            evidence: "Búsqueda y publicidad crecieron un <strong>+17.0% YoY ($61.2B)</strong>, demostrando que AI Overviews amplía el volumen de consultas monetizables. La caja neta y valores negociables alcanzaron <strong>$242.5B</strong>."
+                        }
+                    ],
+                    risk: "CapEx trimestral récord de $44.9B por despliegue de centros de datos que provoca un FCF puntual negativo (-$5.85B), plenamente absorbido por los $8.8B de beneficio operativo de Cloud."
+                },
                 badge_beta: "Beta Privada",
                 nav_problem: "El Problema",
                 nav_proof: "Prensa vs. Filing",
@@ -653,6 +704,42 @@
         // Multi-language Sample Data
         const sampleReports = {
             en: {
+                googl: {
+                    name: "Alphabet Inc. (NASDAQ: GOOGL)",
+                    period: "Q2 2026 Earnings (Form 10-Q)",
+                    filing: "Audited Filing: Form 10-Q & Earnings Release • SEC EDGAR #0001652044-26-000042",
+                    score: "8.8 / 10 (Thesis Intact)",
+                    items: [
+                        {
+                            title: "1. Google Cloud Growth & Operating Margin Leverage (>25%)",
+                            status: "ACCELERATING",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Page 28, Note 11",
+                            evidence: "Cloud revenue surged <strong>+82.0% YoY to $24.8B</strong> with operating margin expanding to <strong>35.5%</strong> ($8.8B operating income vs $2.8B). AI infrastructure CapEx is driving immediate high-ROI monetization."
+                        },
+                        {
+                            title: "2. Antitrust & DOJ Monopolization Remedies Ringfenced",
+                            status: "RISK CONTAINED",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Part II Item 1 & Note 10, pp. 36, 44",
+                            evidence: "Statutory disclosure confirms prospective structural remedies remain <strong>legally stayed pending federal appeal</strong> (2027–2028 horizon). Zero extraordinary loss provisions recorded. Search distribution agreements intact."
+                        },
+                        {
+                            title: "3. Core Search Moat Resilience & AI Overviews Monetization",
+                            status: "MET",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Pages 3–5",
+                            evidence: "Search & other advertising grew <strong>+17.0% YoY ($61.2B)</strong>, confirming AI Overviews expand overall monetizable query volume. Cash and marketable securities fortress reached <strong>$242.5B</strong>."
+                        }
+                    ],
+                    risk: "Quarterly CapEx elevated at $44.9B for TPU/datacenter expansion causing a temporary single-quarter FCF dip (-$5.85B), but structurally absorbed by $8.8B in quarterly Cloud operating profit."
+                },
                 intu: {
                     name: "Intuit Inc. (NASDAQ: INTU)",
                     period: "Q4 / FY26 Earnings",
@@ -763,6 +850,42 @@
                 }
             },
             es: {
+                googl: {
+                    name: "Alphabet Inc. (NASDAQ: GOOGL)",
+                    period: "Resultados Q2 2026 (Form 10-Q)",
+                    filing: "Filing Auditado: Form 10-Q & Earnings Release • SEC EDGAR #0001652044-26-000042",
+                    score: "8.8 / 10 (Tesis Intacta)",
+                    items: [
+                        {
+                            title: "1. Crecimiento y Expansión de Margen en Google Cloud (>25%)",
+                            status: "ACELERANDO",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Pág. 28, Nota 11",
+                            evidence: "Los ingresos de Cloud crecieron un <strong>+82.0% YoY a $24.8B</strong> con margen operativo disparándose al <strong>35.5%</strong> ($8.8B de beneficio operativo vs $2.8B). El CapEx de IA genera retornos inmediatos de alto ROI."
+                        },
+                        {
+                            title: "2. Mitigación Legal y Blindaje de Remedios del DOJ",
+                            status: "RIESGO ACOTADO",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Parte II Ítem 1 y Nota 10, págs. 36, 44",
+                            evidence: "El filing oficial confirma que cualquier remedio estructural queda <strong>suspendido por la vía legal de apelación</strong> (horizonte 2027–2028). Cero provisiones por pérdidas extraordinarias y contratos de distribución vigentes."
+                        },
+                        {
+                            title: "3. Solidez del Foso en Búsqueda y Monetización de IA Overviews",
+                            status: "CUMPLIDO",
+                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
+                            dotClass: "bg-emerald-400",
+                            borderClass: "border-emerald-500/40",
+                            citation: "10-Q Págs. 3–5",
+                            evidence: "Búsqueda y publicidad crecieron un <strong>+17.0% YoY ($61.2B)</strong>, demostrando que AI Overviews amplía el volumen de consultas monetizables. La caja neta y valores negociables alcanzaron <strong>$242.5B</strong>."
+                        }
+                    ],
+                    risk: "CapEx trimestral récord de $44.9B por despliegue de centros de datos que provoca un FCF puntual negativo (-$5.85B), plenamente absorbido por los $8.8B de beneficio operativo de Cloud."
+                },
                 intu: {
                     name: "Intuit Inc. (NASDAQ: INTU)",
                     period: "Resultados Q4 / FY26",
@@ -875,7 +998,7 @@
         };
 
         let currentLang = 'en';
-        let currentTicker = 'intu';
+        let currentTicker = 'googl';
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -916,7 +1039,7 @@
             const data = sampleReports[currentLang][ticker];
             if (!data) return;
 
-            ['intu', 'rep', 'msft'].forEach(t => {
+            ['googl', 'intu', 'rep', 'msft'].forEach(t => {
                 const el = document.getElementById('tab-' + t);
                 if (t === ticker) {
                     el.className = "px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-brand-500/20 text-brand-400 border border-brand-500/30";
