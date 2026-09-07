@@ -151,6 +151,12 @@
                 <form id="leadForm" name="beta-waitlist" method="POST" action="/" netlify data-netlify="true" netlify-honeypot="bot-field" class="p-2 bg-dark-800/95 border border-slate-700/90 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col sm:flex-row gap-2 glow-emerald transition">
                     <input type="hidden" name="form-name" value="beta-waitlist" />
                     <input type="hidden" id="langInput" name="language" value="en" />
+                    <input type="hidden" name="utm_source" value="" />
+                    <input type="hidden" name="utm_medium" value="" />
+                    <input type="hidden" name="utm_campaign" value="" />
+                    <input type="hidden" name="utm_term" value="" />
+                    <input type="hidden" name="utm_content" value="" />
+                    <input type="hidden" name="referrer" value="" />
                     <p class="hidden"><label>Don’t fill this out if you're human: <input name="bot-field" /></label></p>
                     <div class="flex-1 flex items-center px-3.5 py-2.5 bg-dark-900/70 rounded-xl border border-slate-800 focus-within:border-brand-500/50 transition">
                         <i data-lucide="mail" class="w-5 h-5 text-slate-500 mr-2 shrink-0"></i>
@@ -1019,9 +1025,50 @@
             }
         }
 
+        // Attribution & UTM Capture (LOCAL-SB-810)
+        function initAttribution() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+                
+                utmParams.forEach(param => {
+                    let val = urlParams.get(param);
+                    if (val) {
+                        sessionStorage.setItem('tc_' + param, val);
+                    } else {
+                        val = sessionStorage.getItem('tc_' + param) || '';
+                    }
+                    const input = document.querySelector(`input[name="${param}"]`);
+                    if (input) input.value = val;
+                });
+
+                // Referrer tracking
+                let ref = document.referrer || '';
+                if (ref) {
+                    try {
+                        const refHost = new URL(ref).hostname;
+                        if (refHost && refHost !== window.location.hostname) {
+                            sessionStorage.setItem('tc_referrer', ref);
+                        } else {
+                            ref = sessionStorage.getItem('tc_referrer') || '';
+                        }
+                    } catch(e) {
+                        sessionStorage.setItem('tc_referrer', ref);
+                    }
+                } else {
+                    ref = sessionStorage.getItem('tc_referrer') || '';
+                }
+                const refInput = document.querySelector('input[name="referrer"]');
+                if (refInput) refInput.value = ref;
+            } catch(err) {
+                console.warn('Attribution init warning:', err);
+            }
+        }
+
         // Handle Form Submission with Netlify Forms + Local Storage Fallback
         document.getElementById('leadForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            initAttribution();
             const form = e.target;
             const submitBtn = document.getElementById('submitBtn') || form.querySelector('button[type="submit"]');
             const submitBtnSpan = submitBtn ? submitBtn.querySelector('span') : null;
@@ -1041,10 +1088,24 @@
             const langField = document.getElementById('langInput');
             if (langField) langField.value = currentLang;
 
+            const utmSource = form.querySelector('input[name="utm_source"]')?.value || '';
+            const utmMedium = form.querySelector('input[name="utm_medium"]')?.value || '';
+            const utmCampaign = form.querySelector('input[name="utm_campaign"]')?.value || '';
+            const referrer = form.querySelector('input[name="referrer"]')?.value || '';
+
             // Persistent local backup
             try {
                 const leads = JSON.parse(localStorage.getItem('thesischeck_waitlist') || '[]');
-                leads.push({ email, tickers, lang: currentLang, timestamp: new Date().toISOString() });
+                leads.push({ 
+                    email, 
+                    tickers, 
+                    lang: currentLang, 
+                    utm_source: utmSource,
+                    utm_medium: utmMedium,
+                    utm_campaign: utmCampaign,
+                    referrer: referrer,
+                    timestamp: new Date().toISOString() 
+                });
                 localStorage.setItem('thesischeck_waitlist', JSON.stringify(leads));
             } catch(err) {
                 console.warn('localStorage save warning:', err);
@@ -1073,6 +1134,7 @@
 
         const savedLang = localStorage.getItem('thesischeck_lang') || 'en';
         setLanguage(savedLang);
+        initAttribution();
     </script>
 </body>
 </html>
