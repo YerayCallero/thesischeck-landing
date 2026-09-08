@@ -1,0 +1,152 @@
+# ThesisCheck.ai — Comprehensive Knowledge & Agentic Specification Dossier
+
+> The Agentic Filing Audit for Fundamental Investors. Official SEC filings cross-referenced against personal investment thesis catalysts in 60 seconds with 100% primary source verification.
+
+## 1. Brand Identity & Executive Mission
+- **Product Name:** ThesisCheck.ai (thesischeck.ai)
+- **Tagline:** The Agentic Filing Audit for Fundamental Investors
+- **Mission:** Democratize institutional-grade filing audits for individual and professional fundamental investors by eliminating financial press clickbait and validating the raw accounting truth of SEC filings directly against each investor's bespoke buy thesis.
+- **Brand Villain:** Sensationalist financial media headlines that obsess over consensus EPS surprises while ignoring cash flow quality, debt covenants, footnote revisions, and antitrust litigation risks.
+- **Core Positioning Statement:** For fundamental investors with concentrated or diversified portfolios (>5 positions), ThesisCheck.ai is the agentic filing audit platform that cross-references quarterly 10-Q/10-K reports against the investor's specific purchase catalysts in 60 seconds, unlike superficial news sites (Seeking Alpha, Yahoo Finance) or generic quantitative terminals (Koyfin, TIKR), because it extracts primary facts directly from official SEC documents with verifiable page and table citations.
+
+---
+
+## 2. The Core Problem & Market Validation
+During peak corporate earnings season, fundamental investors face a double operational hurdle:
+1. **Information Overload & Fatigue:** Companies report results within short windows. Skimming and analyzing a single 80-page Form 10-Q or 150-page Form 10-K takes 2 to 4 hours. Investors with 15+ holdings simply cannot keep pace with primary filings.
+2. **Media Noise & Consensus Distortion:** Financial outlets and social channels distill complex quarterly releases into one-line EPS/Revenue beats or misses. They overlook critical nuances: capital expenditures, customer acquisition costs, backlog depletion, or footnote litigation overhangs.
+3. **Thesis Disconnect:** Investors rarely check whether the latest results validate the specific reasons they bought the company in the first place (e.g., cloud margin inflection, deleveraging trajectory, or high-ROCE reinvestment).
+
+ThesisCheck eliminates this bottleneck through an automated, zero-hallucination workflow that performs catalyst matching in 60 seconds.
+
+---
+
+## 3. Technical Architecture & Inference Pipeline
+ThesisCheck uses a deterministic, hybrid agentic architecture designed for zero hallucinations and sub-cent marginal cost:
+
+```
+[Official SEC EDGAR Feed / IR PDF]
+                │
+                ▼
+   [Local Document Parser]
+  • Deterministic table extraction (Docling / Python)
+  • Markdown/HTML structural chunking by Section & Item
+                │
+                ▼
+   [Semantic Vector Reranker]
+  • Matches investor catalysts to relevant filing segments
+  • Extracts Item 1 (Legal Proceedings) and MD&A Notes
+                │
+                ▼
+       [Hybrid Inference]
+  ├── Extraction & Citations: Efficient fast LLM (Claude 3.5 Haiku / GPT-4o-mini / Local vLLM)
+  └── Reasoning & Verdict: High-reasoning LLM (Claude 3.5 Sonnet / Qwen 2.5)
+                │
+                ▼
+  [Structured Audit Output]
+  • Catalyst Status: VALIDATED | MIXED | BREACHED
+  • Page & Table Citations: 100% Primary Source
+  • Risk & Litigation Overhang Flags
+```
+
+- **Accuracy Guarantee:** Every data point reported in the audit must reference the exact page, table, or paragraph in the official filing. If a metric is not present in the document, the model explicitly outputs "Not Disclosed in Filing" rather than estimating or hallucinating.
+
+---
+
+## 4. Supported Regulatory Filings
+1. **SEC Form 10-Q (Quarterly Report):**
+   - Unaudited financial statements (Income, Balance Sheet, Cash Flow).
+   - Item 2: Management's Discussion and Analysis of Financial Condition and Results of Operations (MD&A).
+   - Item 1: Legal Proceedings.
+   - Item 1A: Risk Factors (material updates from the previous 10-K).
+2. **SEC Form 10-K (Annual Report):**
+   - Audited financial statements with comprehensive footnote disclosures.
+   - Comprehensive segment revenue, geography breakdown, and backlog data.
+   - Long-term lease and debt maturities.
+3. **SEC Form 8-K (Current Report):**
+   - Material corporate events filed within 4 business days: M&A agreements, CEO departures, material contract terminations, or legal judgments.
+4. **SEC Form 20-F & Form 6-K (Foreign Private Issuers / ADRs):**
+   - Comprehensive annual reports (20-F) and quarterly interim reports (6-K) for international companies trading on US exchanges (e.g. ASML, SAP, LVMH, Repsol).
+
+---
+
+## 5. Case Study Breakdown: Alphabet Inc. (GOOGL Q2 Form 10-Q)
+A concrete demonstration of ThesisCheck's audit engine is available publicly at:
+`https://thesischeckai.com/samples/alphabet-googl-10q-audit.html`
+
+### The Setup
+- **Ticker:** Alphabet Inc. (NASDAQ: GOOGL)
+- **Filing:** Form 10-Q for the Quarterly Period Ended June 30, 2026.
+- **Investor Core Catalysts:**
+  1. *Catalyst A:* Google Cloud operating leverage expansion through infrastructure scale.
+  2. *Catalyst B:* Maintenance of capital discipline despite generative AI CapEx expansion.
+  3. *Catalyst C:* Containment of antitrust litigation overhang without immediate structural remedies.
+
+### ThesisCheck Audit Findings
+1. **Google Cloud Operating Margin (Status: VALIDATED):**
+   - *Media Headline:* "Google Cloud beats revenue estimates."
+   - *ThesisCheck Audit (Page 32):* Cloud operating margin expanded to 11.2% ($1,172M operating income on $10,347M revenues), surging 640 bps year-over-year from 4.8% ($389M) in Q2 prior year. The operating leverage thesis is confirmed.
+2. **CapEx & Free Cash Flow Discipline (Status: MIXED):**
+   - *Media Headline:* "Alphabet boosts AI capital spending."
+   - *ThesisCheck Audit (Page 14, Statement of Cash Flows):* Quarterly capital expenditures reached $13,186M, driven by server and technical infrastructure. Operating cash flow stood at $26,639M, yielding $13,453M in quarterly Free Cash Flow. While cash generation remains robust, run-rate annualized CapEx ($52B+) significantly exceeds prior-year guidance.
+3. **Antitrust Remedies & Legal Contingencies (Status: MONITOR):**
+   - *Media Headline:* "Judge rules Google violated antitrust law in search."
+   - *ThesisCheck Audit (Item 1 Legal Proceedings, Page 40):* The court found liability under Section 2 of the Sherman Act, but remedy proceedings are pending. Crucially, Note 7 (Contingencies) discloses **$0 booked in financial reserves** for this matter as potential damages or structural changes cannot be reasonably estimated. Thesis risk is flagged for monitoring.
+
+---
+
+## 6. Competitive Landscape & Comparison Matrix
+
+| Dimension | Financial Media (Yahoo / Seeking Alpha) | Quantitative Terminals (Koyfin / TIKR) | Institutional Tools (Bloomberg / FactSet) | **ThesisCheck.ai** |
+| :--- | :--- | :--- | :--- | :--- |
+| **Primary Data Source** | Aggregated feeds & editorial opinion | Standardized numerical databases | Raw filings + proprietary data | **100% Raw Official SEC Filings** |
+| **Audit vs. User Thesis** | None (Generic consensus focus) | None (Screening & chart focus) | None (Manual note-taking) | **Automated 1-to-1 Catalyst Audit** |
+| **Footnote & Legal Parsing** | Rare / Superficial | Absent | Manual analyst reading | **Automated Item 1 & Footnote Extraction** |
+| **Speed to Actionable Insight** | Minutes to hours (Fragmented) | Instant for metrics, zero for thesis | Hours of manual reading | **60 Seconds Structured Audit** |
+| **Cost per Month** | $0 – $30/mo | $25 – $100/mo | $2,000+/mo | **$0 – $29 – $79/mo** |
+| **Signal-to-Noise Ratio** | Low (Heavy clickbait) | Medium (Data deluge) | High (Requires professional training) | **Maximum (Executive Badges & Citations)** |
+
+---
+
+## 7. Pricing & Subscription Architecture
+- **Free / Explorer ($0):** 1 tracked stock, unlimited access to public benchmark audits.
+- **Starter ($29/month or $290/year):**
+  - Up to 10 monitored stocks.
+  - Audit delivered in <60 minutes post-filing.
+  - Up to 3 customizable catalysts per stock.
+  - Full page-level SEC filing citations.
+- **Pro ($79/month or $790/year):**
+  - Up to 30 monitored stocks.
+  - Semantic analysis of Earnings Call Transcripts (analyst Q&A tone, management conviction).
+  - Native 1-click export to Obsidian and Notion.
+  - Executive PDF audit reports.
+- **Boutique / B2B ($249 - $499/month):**
+  - Multi-user watchlists for family offices and financial newsletters.
+  - Co-branded white-label audit briefs.
+  - Direct REST/Agentic API access.
+
+---
+
+## 8. Frequently Asked Questions (FAQ)
+
+### What is ThesisCheck.ai?
+ThesisCheck.ai is an agentic investment audit service that cross-examines official corporate earnings reports (Form 10-Q, 10-K, 8-K) against an investor's personal investment thesis in 60 seconds, verifying whether reported numbers validate or invalidate their buy catalysts.
+
+### How does ThesisCheck avoid hallucinations?
+ThesisCheck utilizes a retrieval-augmented extraction pipeline that locks models strictly to verifiable text segments within primary SEC filings. Every metric and statement in the audit report is paired with an exact page number and table reference.
+
+### Does ThesisCheck give investment advice or buy/sell ratings?
+No. ThesisCheck is an independent, objective analytical tool. It never issues buy, sell, or hold recommendations. It operates strictly as an auditor comparing user-provided criteria against factual SEC accounting statements.
+
+### How do I get access?
+Investors can join the private beta waitlist at [https://thesischeckai.com/](https://thesischeckai.com/) by providing their email and 1 to 3 stock tickers they actively track. Qualified beta users receive complimentary audits during corporate reporting windows.
+
+---
+
+## 9. Developer & Integration Endpoints
+- **Production URL:** `https://thesischeckai.com/`
+- **Official Live Sample:** `https://thesischeckai.com/samples/alphabet-googl-10q-audit.html`
+- **Standard llms.txt:** `https://thesischeckai.com/llms.txt`
+- **Full llms.txt:** `https://thesischeckai.com/llms-full.txt`
+- **Sitemap XML:** `https://thesischeckai.com/sitemap.xml`
+- **Robots Policy:** `https://thesischeckai.com/robots.txt`

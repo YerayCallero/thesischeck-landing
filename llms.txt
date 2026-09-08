@@ -1,0 +1,33 @@
+# ThesisCheck.ai
+
+> The Agentic Filing Audit for Fundamental Investors. Cross-reference your personal investment thesis against official SEC filings (Form 10-Q, 10-K, 8-K, 20-F) in 60 seconds with 100% primary source citations. Zero financial media noise.
+
+## Overview
+ThesisCheck.ai is an agentic fintech platform built for fundamental and value equity investors who maintain concentrated or diversified portfolios (>5 positions). Instead of relying on sensationalized financial media headlines or spending 3 to 4 hours manually skimming 80-page quarterly reports, ThesisCheck ingests raw regulatory filings, parses accounting tables, footnotes, and litigation sections, and cross-checks them against the investor's explicit purchase catalysts.
+
+The platform delivers an executive audit verdict ("Intact", "Mixed", or "Breached") within 60 seconds of a filing being published, complete with page-level citations to primary investor relations documents.
+
+## Key Capabilities & Differentiation
+- **100% Primary SEC Filings:** Audits exclusively official sources (SEC Form 10-K, 10-Q, 8-K, and 20-F/6-K for foreign private issuers / ADRs). Never uses third-party financial blog commentary.
+- **Thesis Compliance Cross-Examination:** Maps reported metrics (operating margin expansion, segment revenue, free cash flow conversion, net debt reduction) directly against user-defined buy thesis pillars.
+- **Footnote & Litigation Extraction:** Audits Item 1 ("Legal Proceedings") and accounting footnotes to flag hidden contingencies, antitrust remedies, or working capital distortions.
+- **Zero-Hallucination Architecture:** Grounded in a hybrid inference pipeline with deterministic table chunking and page/paragraph source attribution.
+- **Privacy-First & No Account Lock-In:** Export audits to Obsidian, Notion, or executive PDF.
+
+## Core Filings Supported
+- **Form 10-Q:** Quarterly financial reports, MD&A (Management's Discussion & Analysis), and condensed balance sheet/income/cash flow statements.
+- **Form 10-K:** Annual audited reports, segment profitability, full risk factors, and long-term contractual obligations.
+- **Form 8-K:** Unscheduled material corporate events (acquisitions, executive departures, major litigation rulings).
+- **Form 20-F / 6-K:** Foreign private issuer annual and periodic reports for cross-listed international companies (e.g. ASML, SAP, LVMH).
+
+## Pricing Tiers
+- **Free / Explorer ($0):** Track 1 portfolio position, full access to curated live audit samples of mega-cap companies (Google, Nvidia, ASML).
+- **Starter ($29/month or $290/year):** Monitor up to 10 stocks in real-time, instant alerts in <60 minutes post-filing, 3 customizable thesis catalysts per stock, full page citations.
+- **Pro ($79/month or $790/year):** Monitor up to 30 companies, semantic analysis of Earnings Call Transcripts (Q&A tone and management sentiment), native Notion/Obsidian sync, executive PDF exports.
+- **Boutique / B2B ($249 - $499/month):** Family offices, RIAs, and financial newsletter creators. Unlimited watchlist tracking, white-label client reports, and programmatic API access.
+
+## Live Samples & Documentation
+- [Full LLM Documentation](https://thesischeckai.com/llms-full.txt): Comprehensive documentation including audit methodology, comparative architecture against financial terminals, and extended FAQs.
+- [Live Audit Sample: Alphabet Inc. (GOOGL Q2 10-Q)](https://thesischeckai.com/samples/alphabet-googl-10q-audit.html): Full interactive audit demonstration verifying Google Cloud operating margin expansion against antitrust litigation risks.
+- [Main Landing Page](https://thesischeckai.com/): Official homepage with interactive demo tabs, bilingual interface (EN/ES), and private beta waitlist application.
+- [Sitemap](https://thesischeckai.com/sitemap.xml): Machine-readable XML sitemap of all public URLs.

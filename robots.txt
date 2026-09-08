@@ -1,0 +1,32 @@
+# robots.txt for ThesisCheck.ai (https://thesischeckai.com/)
+
+User-agent: *
+Allow: /
+
+# Explicit rules for Search Engines and AI Crawlers (GEO - Generative Engine Optimization)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+# Sitemap declaration
+Sitemap: https://thesischeckai.com/sitemap.xml
