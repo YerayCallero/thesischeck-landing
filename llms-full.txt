@@ -145,7 +145,9 @@ Investors can join the private beta waitlist at [https://thesischeckai.com/](htt
 
 ## 9. Developer & Integration Endpoints
 - **Production URL:** `https://thesischeckai.com/`
-- **Official Live Sample:** `https://thesischeckai.com/samples/alphabet-googl-10q-audit.html`
+- **Alphabet Live Sample:** `https://thesischeckai.com/samples/alphabet-googl-10q-audit.html`
+- **CrowdStrike Live Sample:** `https://thesischeckai.com/samples/crowdstrike-crwd-10q-audit.html`
+- **NVIDIA Live Sample:** `https://thesischeckai.com/samples/nvidia-nvda-10q-audit.html`
 - **Standard llms.txt:** `https://thesischeckai.com/llms.txt`
 - **Full llms.txt:** `https://thesischeckai.com/llms-full.txt`
 - **Sitemap XML:** `https://thesischeckai.com/sitemap.xml`

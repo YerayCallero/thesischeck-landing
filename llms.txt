@@ -29,5 +29,7 @@ The platform delivers an executive audit verdict ("Intact", "Mixed", or "Breache
 ## Live Samples & Documentation
 - [Full LLM Documentation](https://thesischeckai.com/llms-full.txt): Comprehensive documentation including audit methodology, comparative architecture against financial terminals, and extended FAQs.
 - [Live Audit Sample: Alphabet Inc. (GOOGL Q2 10-Q)](https://thesischeckai.com/samples/alphabet-googl-10q-audit.html): Full interactive audit demonstration verifying Google Cloud operating margin expansion against antitrust litigation risks.
+- [Live Audit Sample: CrowdStrike Holdings (CRWD Q2 10-Q)](https://thesischeckai.com/samples/crowdstrike-crwd-10q-audit.html): Event-driven forensic audit following the July 19 outage, auditing 98% gross customer retention, Rule of 40 cash flow absorption, and ASC 450 legal liability caps.
+- [Live Audit Sample: NVIDIA Corporation (NVDA Q2 10-Q)](https://thesischeckai.com/samples/nvidia-nvda-10q-audit.html): Deep-dive audit proving $27.8B statutory wafer and packaging commitments (TSMC CoWoS), Blackwell mask redesign with zero architectural flaw, and sequential China recovery.
 - [Main Landing Page](https://thesischeckai.com/): Official homepage with interactive demo tabs, bilingual interface (EN/ES), and private beta waitlist application.
 - [Sitemap](https://thesischeckai.com/sitemap.xml): Machine-readable XML sitemap of all public URLs.
