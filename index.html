@@ -575,14 +575,14 @@
                     </div>
 
                     <!-- ACTION BAR: Run Audit Button with 400ms Scanning Animation -->
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-dark-900/90 border border-slate-700/80">
+                    <div id="sandboxActionBar" class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-dark-900/90 border border-slate-700/80 transition duration-300">
                         <div class="flex items-center gap-3 text-xs font-mono text-slate-300">
-                            <div class="w-8 h-8 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center shrink-0 border border-brand-500/20">
-                                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            <div id="sandboxStatusIconBox" class="w-9 h-9 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center shrink-0 border border-brand-500/20 transition">
+                                <i data-lucide="shield-check" id="sandboxStatusIcon" class="w-4 h-4"></i>
                             </div>
                             <div>
                                 <span id="sandboxFilingMeta" class="block font-bold text-white">Auditing SEC EDGAR Form 10-Q</span>
-                                <span class="text-[11px] text-slate-400 font-mono" data-i18n="sandbox_zero_hallucination">Primary statutory statements & accounting footnotes</span>
+                                <span id="sandboxSubStatus" class="text-[11px] text-slate-400 font-mono" data-i18n="sandbox_zero_hallucination">Primary statutory statements & accounting footnotes</span>
                             </div>
                         </div>
                         <button onclick="runSandboxAudit()" id="runAuditBtn" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-dark-950 font-extrabold text-sm transition shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 shrink-0 cursor-pointer">
@@ -592,16 +592,19 @@
                     </div>
 
                     <!-- STEP 2: Live Audit Verdict & Citation Breakdown -->
-                    <div id="sandboxVerdictContainer" class="space-y-6 pt-2">
+                    <div id="sandboxVerdictContainer" class="space-y-6 pt-2 transition-all duration-300">
                         
                         <!-- Header Score & Verdict Banner -->
-                        <div id="verdictBannerBox" class="p-6 rounded-2xl bg-dark-900/90 border border-brand-500/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition duration-300">
+                        <div id="verdictBannerBox" class="p-6 rounded-2xl bg-dark-900/90 border border-brand-500/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition duration-300 relative overflow-hidden">
                             <div class="space-y-2">
-                                <div class="flex items-center gap-2.5">
+                                <div class="flex flex-wrap items-center gap-2.5">
                                     <span id="verdictTickerBadge" class="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-brand-500/20 text-brand-300 border border-brand-500/30">
                                         GOOGL Q2 2026 (Form 10-Q)
                                     </span>
                                     <span id="verdictFilingCitation" class="text-xs font-mono text-slate-400">SEC EDGAR #0001652044-26-000042</span>
+                                    <span id="pendingAuditPill" class="hidden px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">
+                                        ⏳ PENDING AUDIT
+                                    </span>
                                 </div>
                                 <h4 id="verdictHeadline" class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
                                     <span>Thesis Status:</span>
@@ -630,7 +633,7 @@
                                 Granular Catalyst Cross-Examination (10-Q Primary Citations)
                             </h5>
                             <div id="verdictPillarsList" class="space-y-3">
-                                <!-- Injected dynamically by renderSandbox() -->
+                                <!-- Injected dynamically by renderVerdict() -->
                             </div>
                         </div>
 
@@ -910,7 +913,11 @@
                 preset_bear: "Skeptical Bear",
                 sandbox_zero_hallucination: "Primary statutory statements & accounting footnotes",
                 sandbox_btn_audit: "⚡ Audit My Custom Thesis Against 10-Q",
+                sandbox_btn_audit_changed: "⚡ Run Audit with Updated Criteria",
                 sandbox_btn_auditing: "Scanning SEC EDGAR 10-Q...",
+                sandbox_meta_synced: "Statutory statements & accounting footnotes verified",
+                sandbox_meta_changed: "⚠️ Criteria changed. Click 'Run Audit' below to evaluate against 10-Q.",
+                sandbox_pending_badge: "⏳ PENDING AUDIT (CRITERIA CHANGED)",
                 sandbox_breakdown_label: "Granular Catalyst Cross-Examination (10-Q Primary Citations)",
                 sandbox_view_full_report: "View Full 10-Q Audit",
                 risk_eyebrow: "Hidden Risk Detected in Footnotes",
@@ -994,7 +1001,11 @@
                 preset_bear: "Oso Escéptico",
                 sandbox_zero_hallucination: "Estados contables oficiales y notas al pie",
                 sandbox_btn_audit: "⚡ Auditar Mi Tesis Contra el 10-Q",
+                sandbox_btn_audit_changed: "⚡ Auditar Mi Tesis con Criterios Nuevos",
                 sandbox_btn_auditing: "Escaneando SEC EDGAR 10-Q...",
+                sandbox_meta_synced: "Estados contables oficiales y notas al pie verificadas",
+                sandbox_meta_changed: "⚠️ Criterios modificados. Pulsa 'Auditar' para contrastar contra el 10-Q.",
+                sandbox_pending_badge: "⏳ AUDITORÍA PENDIENTE (CRITERIOS MODIFICADOS)",
                 sandbox_breakdown_label: "Contraste Granular de Catalizadores (Citas Primarias 10-Q)",
                 sandbox_view_full_report: "Ver Auditoría 10-Q Completa",
                 risk_eyebrow: "Riesgo Oculto Detectado en las Notas al Pie",
@@ -1206,7 +1217,9 @@
         const sandboxState = {
             ticker: 'googl',
             preset: 'balanced',
-            selectedOptions: [0, 0, 0],
+            selectedOptions: [0, 0, 0], // Currently chosen in UI toggles
+            auditedOptions: [0, 0, 0],  // Currently evaluated and displayed in verdict
+            needsAudit: false,          // True when selectedOptions != auditedOptions
             isAuditing: false
         };
 
@@ -1215,6 +1228,8 @@
             sandboxState.ticker = ticker;
             sandboxState.preset = 'balanced';
             sandboxState.selectedOptions = [0, 0, 0];
+            sandboxState.auditedOptions = [0, 0, 0];
+            sandboxState.needsAudit = false;
 
             ['googl', 'crwd', 'nvda'].forEach(t => {
                 const el = document.getElementById('sandbox-tab-' + t);
@@ -1228,7 +1243,10 @@
             });
 
             updatePresetButtons();
-            renderSandbox();
+            renderControlCards();
+            renderVerdict();
+            updateAuditButtonState();
+
             if (window.tcAnalytics) {
                 window.tcAnalytics.track('sandbox_ticker_change', { ticker: ticker });
             }
@@ -1244,7 +1262,11 @@
                 sandboxState.selectedOptions = [2, 2, 2];
             }
             updatePresetButtons();
-            renderSandbox();
+            renderControlCards();
+
+            // Presets trigger the audit scan directly for instant benchmarking
+            runSandboxAudit();
+
             if (window.tcAnalytics) {
                 window.tcAnalytics.track('sandbox_preset_apply', { preset: presetKey, ticker: sandboxState.ticker });
             }
@@ -1267,7 +1289,15 @@
             sandboxState.selectedOptions[catalystIdx] = optionIdx;
             sandboxState.preset = 'custom';
             updatePresetButtons();
-            renderSandbox();
+            renderControlCards();
+
+            // Compare selected options with audited options
+            const hasChanged = JSON.stringify(sandboxState.selectedOptions) !== JSON.stringify(sandboxState.auditedOptions);
+            sandboxState.needsAudit = hasChanged;
+
+            updateAuditButtonState();
+            updateVerdictVisualState();
+
             if (window.tcAnalytics) {
                 window.tcAnalytics.track('sandbox_catalyst_change', {
                     ticker: sandboxState.ticker,
@@ -1277,19 +1307,65 @@
             }
         }
 
+        function updateAuditButtonState() {
+            const btn = document.getElementById('runAuditBtn');
+            const btnText = document.getElementById('runAuditBtnText');
+            const subStatus = document.getElementById('sandboxSubStatus');
+            const iconBox = document.getElementById('sandboxStatusIconBox');
+            if (!btn || !btnText) return;
+
+            if (sandboxState.isAuditing) {
+                btn.disabled = true;
+                btn.className = "w-full sm:w-auto px-6 py-3.5 rounded-xl bg-brand-500/50 text-dark-950 font-extrabold text-sm transition shadow-lg flex items-center justify-center gap-2 shrink-0 opacity-75 cursor-wait";
+                btnText.innerText = currentLang === 'es' ? i18n.es.sandbox_btn_auditing : i18n.en.sandbox_btn_auditing;
+                return;
+            }
+
+            btn.disabled = false;
+            if (sandboxState.needsAudit) {
+                // Highlighted pulsing button inviting the audit click
+                btn.className = "w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 via-brand-400 to-brand-500 hover:from-amber-300 hover:to-brand-400 text-dark-950 font-black text-sm transition shadow-xl shadow-amber-500/25 ring-4 ring-amber-400/40 animate-pulse flex items-center justify-center gap-2 shrink-0 cursor-pointer";
+                btnText.innerText = currentLang === 'es' ? i18n.es.sandbox_btn_audit_changed : i18n.en.sandbox_btn_audit_changed;
+                if (subStatus) subStatus.innerText = currentLang === 'es' ? i18n.es.sandbox_meta_changed : i18n.en.sandbox_meta_changed;
+                if (iconBox) iconBox.className = "w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/30 transition animate-bounce";
+            } else {
+                // Normal verified state
+                btn.className = "w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-dark-950 font-extrabold text-sm transition shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 shrink-0 cursor-pointer";
+                btnText.innerText = currentLang === 'es' ? i18n.es.sandbox_btn_audit : i18n.en.sandbox_btn_audit;
+                if (subStatus) subStatus.innerText = currentLang === 'es' ? i18n.es.sandbox_meta_synced : i18n.en.sandbox_meta_synced;
+                if (iconBox) iconBox.className = "w-9 h-9 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center shrink-0 border border-brand-500/20 transition";
+            }
+        }
+
+        function updateVerdictVisualState() {
+            const container = document.getElementById('sandboxVerdictContainer');
+            const pendingPill = document.getElementById('pendingAuditPill');
+
+            if (sandboxState.needsAudit) {
+                if (container) {
+                    container.classList.add('opacity-60');
+                }
+                if (pendingPill) {
+                    pendingPill.innerText = currentLang === 'es' ? i18n.es.sandbox_pending_badge : i18n.en.sandbox_pending_badge;
+                    pendingPill.classList.remove('hidden');
+                }
+            } else {
+                if (container) {
+                    container.classList.remove('opacity-60');
+                }
+                if (pendingPill) {
+                    pendingPill.classList.add('hidden');
+                }
+            }
+        }
+
         function runSandboxAudit() {
             if (sandboxState.isAuditing) return;
             sandboxState.isAuditing = true;
+            updateAuditButtonState();
 
-            const btn = document.getElementById('runAuditBtn');
-            const btnText = document.getElementById('runAuditBtnText');
             const btnIcon = document.getElementById('runAuditBtnIcon');
-
-            if (btn) btn.classList.add('opacity-75', 'cursor-wait');
             if (btnIcon) btnIcon.classList.add('animate-spin');
-            if (btnText) {
-                btnText.innerText = currentLang === 'es' ? 'Escaneando SEC EDGAR 10-Q...' : 'Scanning SEC EDGAR 10-Q...';
-            }
 
             if (window.tcAnalytics) {
                 window.tcAnalytics.track('sandbox_audit_run', {
@@ -1300,76 +1376,85 @@
             }
 
             setTimeout(() => {
+                // Apply staged options to audited state
+                sandboxState.auditedOptions = [...sandboxState.selectedOptions];
+                sandboxState.needsAudit = false;
                 sandboxState.isAuditing = false;
-                if (btn) btn.classList.remove('opacity-75', 'cursor-wait');
+
                 if (btnIcon) btnIcon.classList.remove('animate-spin');
-                if (btnText) {
-                    btnText.innerText = i18n[currentLang].sandbox_btn_audit;
-                }
-                renderSandbox();
+                updateAuditButtonState();
+                updateVerdictVisualState();
+                renderVerdict();
                 lucide.createIcons();
 
+                // Payoff Flash Animation on the verdict banner
                 const banner = document.getElementById('verdictBannerBox');
                 if (banner) {
-                    banner.classList.add('ring-4', 'ring-brand-500/40');
-                    setTimeout(() => banner.classList.remove('ring-4', 'ring-brand-500/40'), 900);
+                    banner.classList.add('ring-4', 'ring-brand-400/80', 'bg-dark-850');
+                    setTimeout(() => {
+                        banner.classList.remove('ring-4', 'ring-brand-400/80', 'bg-dark-850');
+                    }, 800);
                 }
             }, 400);
         }
 
-        function renderSandbox() {
+        function renderControlCards() {
             const data = sandboxConfig[sandboxState.ticker];
             if (!data) return;
 
-            // Render Catalyst Controls (Step 1)
             const controlCardsContainer = document.getElementById('catalystControlCards');
-            if (controlCardsContainer) {
-                let controlsHtml = '';
-                data.catalysts.forEach((cat, catIdx) => {
-                    const selectedOptIdx = sandboxState.selectedOptions[catIdx];
-                    const catTitle = currentLang === 'es' ? cat.titleEs : cat.titleEn;
+            if (!controlCardsContainer) return;
 
-                    let optionsHtml = '';
-                    cat.options.forEach((opt, optIdx) => {
-                        const optLabel = currentLang === 'es' ? opt.labelEs : opt.labelEn;
-                        const isSelected = selectedOptIdx === optIdx;
-                        const activeClasses = isSelected
-                            ? 'bg-brand-500/20 text-brand-300 border-brand-500/50 font-bold shadow-sm'
-                            : 'bg-dark-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700';
+            let controlsHtml = '';
+            data.catalysts.forEach((cat, catIdx) => {
+                const selectedOptIdx = sandboxState.selectedOptions[catIdx];
+                const catTitle = currentLang === 'es' ? cat.titleEs : cat.titleEn;
 
-                        optionsHtml += `
-                            <button type="button" onclick="selectSandboxOption(${catIdx}, ${optIdx})" class="w-full text-left px-3 py-2 rounded-xl text-xs font-mono border transition flex items-center justify-between gap-2 ${activeClasses}">
-                                <span class="truncate">${optLabel}</span>
-                                ${isSelected ? '<span class="w-2 h-2 rounded-full bg-brand-400 shrink-0"></span>' : '<span class="w-2 h-2 rounded-full bg-slate-700 shrink-0"></span>'}
-                            </button>
-                        `;
-                    });
+                let optionsHtml = '';
+                cat.options.forEach((opt, optIdx) => {
+                    const optLabel = currentLang === 'es' ? opt.labelEs : opt.labelEn;
+                    const isSelected = selectedOptIdx === optIdx;
+                    const activeClasses = isSelected
+                        ? 'bg-brand-500/20 text-brand-300 border-brand-500/50 font-bold shadow-sm ring-1 ring-brand-500/30'
+                        : 'bg-dark-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700';
 
-                    controlsHtml += `
-                        <div class="p-4 rounded-2xl bg-dark-900/80 border border-slate-700/80 flex flex-col justify-between space-y-3">
-                            <div>
-                                <div class="flex items-center justify-between gap-2 mb-2">
-                                    <span class="w-6 h-6 rounded-lg bg-brand-500/10 text-brand-400 font-mono text-xs font-bold flex items-center justify-center border border-brand-500/20">${catIdx + 1}</span>
-                                    <span class="text-[10px] font-mono text-slate-500 truncate">${cat.citation}</span>
-                                </div>
-                                <h5 class="text-sm font-bold text-white mb-2 leading-snug">${catTitle}</h5>
-                            </div>
-                            <div class="space-y-1.5 pt-1">
-                                ${optionsHtml}
-                            </div>
-                        </div>
+                    optionsHtml += `
+                        <button type="button" onclick="selectSandboxOption(${catIdx}, ${optIdx})" class="w-full text-left px-3 py-2 rounded-xl text-xs font-mono border transition flex items-center justify-between gap-2 ${activeClasses}">
+                            <span class="truncate">${optLabel}</span>
+                            ${isSelected ? '<span class="w-2 h-2 rounded-full bg-brand-400 shrink-0"></span>' : '<span class="w-2 h-2 rounded-full bg-slate-700 shrink-0"></span>'}
+                        </button>
                     `;
                 });
-                controlCardsContainer.innerHTML = controlsHtml;
-            }
 
-            // Compute Audit Verdict Results
+                controlsHtml += `
+                    <div class="p-4 rounded-2xl bg-dark-900/80 border border-slate-700/80 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-brand-500/10 text-brand-400 font-mono text-xs font-bold flex items-center justify-center border border-brand-500/20">${catIdx + 1}</span>
+                                <span class="text-[10px] font-mono text-slate-500 truncate">${cat.citation}</span>
+                            </div>
+                            <h5 class="text-sm font-bold text-white mb-2 leading-snug">${catTitle}</h5>
+                        </div>
+                        <div class="space-y-1.5 pt-1">
+                            ${optionsHtml}
+                        </div>
+                    </div>
+                `;
+            });
+            controlCardsContainer.innerHTML = controlsHtml;
+        }
+
+        function renderVerdict() {
+            const data = sandboxConfig[sandboxState.ticker];
+            if (!data) return;
+
+            // Compute Audit Verdict Results based strictly on auditedOptions
             let totalScore = 0;
             let passedCount = 0;
             const results = [];
 
             data.catalysts.forEach((cat, idx) => {
-                const optIdx = sandboxState.selectedOptions[idx];
+                const optIdx = sandboxState.auditedOptions[idx];
                 const opt = cat.options[optIdx];
                 const isPassed = opt.passed;
                 if (isPassed) {
@@ -1487,7 +1572,7 @@
                                 </div>
                             </div>
                             <div class="text-xs text-slate-400 font-mono mt-0.5">
-                                <span class="text-slate-500">${currentLang === 'es' ? 'Tu umbral definido:' : 'Your chosen hurdle:'}</span> <strong class="text-slate-200">${res.chosenHurdle}</strong>
+                                <span class="text-slate-500">${currentLang === 'es' ? 'Tu umbral auditado:' : 'Your audited hurdle:'}</span> <strong class="text-slate-200">${res.chosenHurdle}</strong>
                             </div>
                             <p class="text-xs text-slate-300 pl-3.5 border-l-2 ${borderAccent} mt-1 leading-relaxed">
                                 ${res.evidence}
@@ -1533,8 +1618,12 @@
                 }
             });
 
-            renderSandbox();
+            renderControlCards();
+            renderVerdict();
+            updateAuditButtonState();
+            updateVerdictVisualState();
             lucide.createIcons();
+
             if (window.tcAnalytics) {
                 window.tcAnalytics.track('lang_switch', { lang: lang });
             }
