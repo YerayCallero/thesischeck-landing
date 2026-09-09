@@ -296,7 +296,7 @@
             <!-- Positioning Pill -->
             <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-dark-800/90 border border-slate-700/90 text-xs font-mono text-slate-300 mb-8 backdrop-blur-sm shadow-sm">
                 <span class="flex h-2 w-2 rounded-full bg-brand-400 animate-pulse"></span>
-                <span data-i18n="hero_pill">The Agentic Filing Audit for Fundamental Investors</span>
+                <span data-i18n="hero_pill">Your Investment Thesis. Official SEC Filings. Zero Consensus Noise.</span>
             </div>
 
             <!-- Main Heading -->
@@ -308,7 +308,7 @@
 
             <!-- Subtitle -->
             <p class="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed mb-10" data-i18n-html="hero_subtitle">
-                Skip the clickbait financial media noise and 80-page 10-Q PDFs. Receive a structured briefing that verifies whether quarterly earnings <strong>confirm or break the exact catalysts you bought the stock for</strong>.
+                You define the 3 exact catalysts you bought the stock for. Our agentic engine cross-references quarterly 10-Q filings the second they drop and audits whether your thesis held true or broke. In 60 seconds with exact page citations.
             </p>
 
             <!-- Lead Capture Form -->
@@ -498,79 +498,172 @@
             </div>
         </section>
 
-        <!-- Interactive Sample Report Section -->
-        <section id="ejemplo" class="py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <!-- Interactive Sample Report Section / Thesis Sandbox Simulator -->
+        <section id="ejemplo" class="py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto scroll-mt-20">
             <div class="text-center max-w-3xl mx-auto mb-12">
-                <h2 class="text-xs uppercase font-mono tracking-widest text-brand-400 font-semibold mb-3" data-i18n="report_eyebrow">Real-Time Thesis Audit</h2>
-                <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight" data-i18n="report_heading">What lands in your inbox</h3>
-                <p class="text-slate-400 mt-4 text-sm sm:text-base" data-i18n="report_subheading">
-                    Structured, concise, and citing exact page numbers from official SEC and company filings.
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/25 text-xs font-mono text-brand-400 font-semibold mb-3">
+                    <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+                    <span data-i18n="sandbox_eyebrow">Interactive Thesis Simulator</span>
+                </div>
+                <h3 class="text-3xl sm:text-4xl font-bold text-white tracking-tight" data-i18n="sandbox_heading">Test how the 10-Q audits YOUR custom thesis</h3>
+                <p class="text-slate-400 mt-4 text-sm sm:text-base leading-relaxed" data-i18n="sandbox_subheading">
+                    ThesisCheck does not sell consensus opinions. Select a stock, adjust your catalyst hurdles, and watch our deterministic engine cross-reference statutory SEC 10-Q filings in real time.
                 </p>
             </div>
 
             <!-- Interactive Report Container -->
-            <div class="bg-dark-800 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="bg-dark-800 border border-slate-700/80 rounded-3xl shadow-2xl overflow-hidden glow-subtle">
                 
-                <!-- Report Header / Ticker Switcher -->
-                <div class="px-6 py-4 bg-dark-900/85 border-b border-slate-700/80 flex flex-wrap items-center justify-between gap-4">
+                <!-- Simulator Top Header / Ticker Switcher -->
+                <div class="px-6 py-4 bg-dark-900/90 border-b border-slate-700/80 flex flex-wrap items-center justify-between gap-4">
                     <div class="flex items-center gap-3">
                         <div class="flex gap-1.5">
                             <div class="w-3 h-3 rounded-full bg-red-500/60"></div>
                             <div class="w-3 h-3 rounded-full bg-amber-500/60"></div>
                             <div class="w-3 h-3 rounded-full bg-emerald-500/60"></div>
                         </div>
-                        <span class="text-xs font-mono text-slate-400 ml-2">thesis_audit_delivery.eml</span>
+                        <span class="text-xs font-mono text-slate-400 ml-1.5 flex items-center gap-2">
+                            <i data-lucide="terminal" class="w-3.5 h-3.5 text-brand-400"></i>
+                            <span data-i18n="sandbox_terminal_title">sec_10q_thesis_sandbox.sh</span>
+                        </span>
                     </div>
 
+                    <!-- Ticker Switcher Buttons -->
                     <div class="flex items-center gap-2">
-                        <button onclick="switchTab('googl')" id="tab-googl" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-brand-500/20 text-brand-400 border border-brand-500/30">
-                            GOOGL (Alphabet)
+                        <button onclick="switchSandboxTicker('googl')" id="sandbox-tab-googl" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+                            <span>GOOGL</span>
+                            <span class="text-[10px] text-slate-400 hidden sm:inline">(Alphabet)</span>
                         </button>
-                        <button onclick="switchTab('intu')" id="tab-intu" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
-                            INTU (Intuit)
+                        <button onclick="switchSandboxTicker('crwd')" id="sandbox-tab-crwd" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                            <span>CRWD</span>
+                            <span class="text-[10px] text-slate-400 hidden sm:inline">(CrowdStrike)</span>
                         </button>
-                        <button onclick="switchTab('asml')" id="tab-asml" class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white">
-                            ASML (ASML Holding)
+                        <button onclick="switchSandboxTicker('nvda')" id="sandbox-tab-nvda" class="px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span>NVDA</span>
+                            <span class="text-[10px] text-slate-400 hidden sm:inline">(NVIDIA)</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Report Body -->
-                <div class="p-6 sm:p-8 font-sans space-y-6">
+                <!-- Simulator Body -->
+                <div class="p-6 sm:p-8 space-y-8">
 
-                    <!-- Ticker Header Meta -->
-                    <div id="content-header" class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-700/60">
-                        <div>
-                            <div class="flex items-center gap-3 mb-1">
-                                <h4 id="companyName" class="text-xl sm:text-2xl font-bold text-white">Alphabet Inc. (NASDAQ: GOOGL)</h4>
-                                <span id="companyPeriod" class="px-2.5 py-0.5 rounded-full text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Q2 2026 Earnings (Form 10-Q)</span>
-                            </div>
-                            <p id="companyFiling" class="text-xs text-slate-400 font-mono">Audited Filing: Form 10-Q & Earnings Release • SEC EDGAR #0001652044-26-000042</p>
-                        </div>
-                        <div class="flex items-center gap-2 bg-dark-900/80 px-4 py-2 rounded-xl border border-slate-700">
-                            <span class="text-xs text-slate-400" data-i18n="score_label">Thesis Health Score:</span>
-                            <span id="thesisScore" class="text-base font-mono font-bold text-brand-400">8.8 / 10 (Thesis Intact)</span>
-                        </div>
-                    </div>
-
-                    <!-- Thesis Audit Breakdown -->
+                    <!-- STEP 1: Customize Your Thesis Catalysts -->
                     <div class="space-y-4">
-                        <h5 class="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold" data-i18n="audit_subhead">Audit Against Your Personal Thesis Catalysts</h5>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-700/60">
+                            <div>
+                                <span class="text-[11px] font-mono font-bold text-brand-400 uppercase tracking-wider block" data-i18n="sandbox_step1_badge">Step 1: Your Buy Thesis</span>
+                                <h4 class="text-lg font-bold text-white" data-i18n="sandbox_step1_title">Adjust Your 3 Catalyst Hurdles</h4>
+                            </div>
 
-                        <div id="thesisItems" class="space-y-3">
-                            <!-- Injected dynamically -->
+                            <!-- Presets -->
+                            <div class="flex items-center gap-1.5 bg-dark-900/90 p-1 rounded-xl border border-slate-700 text-xs font-mono">
+                                <span class="text-slate-400 px-2 text-[11px] hidden sm:inline" data-i18n="sandbox_presets_label">Presets:</span>
+                                <button onclick="applySandboxPreset('balanced')" id="preset-balanced" class="px-2.5 py-1 rounded-lg font-bold transition bg-brand-500/20 text-brand-300 border border-brand-500/30" data-i18n="preset_balanced">Balanced</button>
+                                <button onclick="applySandboxPreset('strict')" id="preset-strict" class="px-2.5 py-1 rounded-lg font-medium transition text-slate-400 hover:text-white" data-i18n="preset_strict">Strict</button>
+                                <button onclick="applySandboxPreset('bear')" id="preset-bear" class="px-2.5 py-1 rounded-lg font-medium transition text-slate-400 hover:text-white" data-i18n="preset_bear">Skeptical Bear</button>
+                            </div>
+                        </div>
+
+                        <!-- 3 Catalyst Control Cards (Injected via JS) -->
+                        <div id="catalystControlCards" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Injected dynamically by renderSandbox() -->
                         </div>
                     </div>
 
-                    <!-- Risk Signals Detected -->
-                    <div class="p-4 rounded-xl bg-red-950/20 border border-red-500/30">
-                        <div class="flex items-center gap-2 text-xs font-mono font-bold text-red-400 mb-1">
-                            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                            <span data-i18n="risk_eyebrow">Hidden Risk Detected in Footnotes (Page 74)</span>
+                    <!-- ACTION BAR: Run Audit Button with 400ms Scanning Animation -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-dark-900/90 border border-slate-700/80">
+                        <div class="flex items-center gap-3 text-xs font-mono text-slate-300">
+                            <div class="w-8 h-8 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center shrink-0 border border-brand-500/20">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <span id="sandboxFilingMeta" class="block font-bold text-white">Auditing SEC EDGAR Form 10-Q</span>
+                                <span class="text-[11px] text-slate-400 font-mono" data-i18n="sandbox_zero_hallucination">Primary statutory statements & accounting footnotes</span>
+                            </div>
                         </div>
-                        <p id="riskText" class="text-xs text-slate-300 leading-relaxed">
-                            FY27 Capex guidance increased by +25% due to generative AI infrastructure (Intuit Assist), which will moderately compress Free Cash Flow in the first fiscal half.
-                        </p>
+                        <button onclick="runSandboxAudit()" id="runAuditBtn" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-400 hover:to-brand-500 text-dark-950 font-extrabold text-sm transition shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 shrink-0 cursor-pointer">
+                            <i data-lucide="zap" id="runAuditBtnIcon" class="w-4 h-4"></i>
+                            <span id="runAuditBtnText" data-i18n="sandbox_btn_audit">⚡ Audit My Custom Thesis Against 10-Q</span>
+                        </button>
+                    </div>
+
+                    <!-- STEP 2: Live Audit Verdict & Citation Breakdown -->
+                    <div id="sandboxVerdictContainer" class="space-y-6 pt-2">
+                        
+                        <!-- Header Score & Verdict Banner -->
+                        <div id="verdictBannerBox" class="p-6 rounded-2xl bg-dark-900/90 border border-brand-500/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition duration-300">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2.5">
+                                    <span id="verdictTickerBadge" class="px-2.5 py-0.5 rounded-md text-xs font-mono font-bold bg-brand-500/20 text-brand-300 border border-brand-500/30">
+                                        GOOGL Q2 2026 (Form 10-Q)
+                                    </span>
+                                    <span id="verdictFilingCitation" class="text-xs font-mono text-slate-400">SEC EDGAR #0001652044-26-000042</span>
+                                </div>
+                                <h4 id="verdictHeadline" class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                    <span>Thesis Status:</span>
+                                    <span id="verdictStatusText" class="text-brand-400">8.8 / 10 (Thesis Intact)</span>
+                                </h4>
+                                <p id="verdictSubline" class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                                    3 of 3 custom catalyst conditions met or exceeded official SEC reported numbers.
+                                </p>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto shrink-0">
+                                <div id="verdictScoreBadge" class="px-4 py-2.5 rounded-xl bg-emerald-950/60 border border-brand-500/40 text-brand-400 font-mono font-black text-2xl flex items-center justify-center gap-2 shadow-inner">
+                                    <span id="verdictScoreDot" class="w-2.5 h-2.5 rounded-full bg-brand-400"></span>
+                                    <span id="verdictScoreNum">8.8</span><span class="text-xs text-slate-400 font-normal">/10</span>
+                                </div>
+                                <a id="verdictSampleLink" href="samples/alphabet-googl-10q-audit.html" target="_blank" class="px-4 py-3 rounded-xl bg-dark-750 hover:bg-dark-700 text-slate-200 hover:text-white text-xs font-mono font-bold border border-slate-600 flex items-center justify-center gap-2 transition shadow-sm">
+                                    <span data-i18n="sandbox_view_full_report">View Full 10-Q Audit</span>
+                                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-brand-400"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Granular Catalyst Breakdown Results -->
+                        <div class="space-y-3">
+                            <h5 class="text-xs font-mono uppercase tracking-wider text-slate-400 font-semibold" data-i18n="sandbox_breakdown_label">
+                                Granular Catalyst Cross-Examination (10-Q Primary Citations)
+                            </h5>
+                            <div id="verdictPillarsList" class="space-y-3">
+                                <!-- Injected dynamically by renderSandbox() -->
+                            </div>
+                        </div>
+
+                        <!-- Footnote Risk Warning Box -->
+                        <div id="verdictRiskBox" class="p-4 rounded-xl bg-red-950/20 border border-red-500/30">
+                            <div class="flex items-center gap-2 text-xs font-mono font-bold text-red-400 mb-1">
+                                <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0"></i>
+                                <span id="verdictRiskTitle" data-i18n="risk_eyebrow">Hidden Risk Detected in Footnotes</span>
+                            </div>
+                            <p id="verdictRiskDesc" class="text-xs text-slate-300 leading-relaxed pl-6">
+                                CapEx elevated at $44.9B for TPU/datacenter expansion causing a temporary single-quarter FCF dip (-$5.85B), structurally absorbed by $8.8B in quarterly Cloud operating profit.
+                            </p>
+                        </div>
+
+                        <!-- The Aha-Moment Explainer Banner -->
+                        <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-brand-950/40 via-dark-800 to-dark-850 border border-brand-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 glow-subtle">
+                            <div class="flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center shrink-0 mt-0.5 border border-brand-500/30">
+                                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h5 class="text-sm font-bold text-white mb-1" data-i18n="aha_title">Notice how the verdict shifted with your thresholds?</h5>
+                                    <p class="text-xs text-slate-300 leading-relaxed" data-i18n="aha_desc">
+                                        ThesisCheck does not sell consensus opinions or generic price targets. It runs YOUR personal investment criteria against statutory SEC EDGAR disclosures with exact page and table citations.
+                                    </p>
+                                </div>
+                            </div>
+                            <a href="#waitlist" onclick="focusWaitlist(event)" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-400 text-dark-950 font-extrabold text-xs font-mono transition shadow-lg shadow-brand-500/20 flex items-center justify-center gap-2 shrink-0 cursor-pointer">
+                                <span data-i18n="aha_cta">Audit My Portfolio Free</span>
+                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </a>
+                        </div>
+
                     </div>
 
                 </div>
@@ -591,33 +684,33 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     
-                    <div class="flex flex-col items-start">
+                    <div class="flex flex-col items-start p-6 rounded-2xl bg-dark-900/60 border border-slate-800/80">
                         <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 border border-brand-500/20 flex items-center justify-center font-mono font-bold text-lg mb-6">
                             01
                         </div>
-                        <h4 class="text-xl font-bold text-white mb-2" data-i18n="step1_title">Add Portfolio & Thesis</h4>
+                        <h4 class="text-xl font-bold text-white mb-2" data-i18n="step1_title">01. Define Your Custom Thesis</h4>
                         <p class="text-sm text-slate-400 leading-relaxed" data-i18n="step1_desc">
-                            Input your tickers and the 2-3 key catalysts you care about (e.g. debt payoff, subscriber growth, gross margin expansion). Or apply standard fundamental benchmarks with one click.
+                            Input your tickers and the 2-3 key catalysts you bought the stock for (e.g. gross margin >35%, cloud growth >30%, debt reduction). Or use standard institutional benchmarks with one click.
                         </p>
                     </div>
 
-                    <div class="flex flex-col items-start">
+                    <div class="flex flex-col items-start p-6 rounded-2xl bg-dark-900/60 border border-slate-800/80">
                         <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 flex items-center justify-center font-mono font-bold text-lg mb-6">
                             02
                         </div>
-                        <h4 class="text-xl font-bold text-white mb-2" data-i18n="step2_title">SEC & IR Filing Monitor</h4>
+                        <h4 class="text-xl font-bold text-white mb-2" data-i18n="step2_title">02. Real-Time SEC EDGAR Audit</h4>
                         <p class="text-sm text-slate-400 leading-relaxed" data-i18n="step2_desc">
-                            Our agents monitor EDGAR/SEC servers and corporate IR portals in real time. The second a filing drops, we fetch the complete original PDF with zero third-party delay.
+                            Our agentic engine fetches the official 10-Q/10-K filing the second it hits SEC EDGAR, extracting financial statements, segment disclosures, and legal footnotes without third-party bias.
                         </p>
                     </div>
 
-                    <div class="flex flex-col items-start">
+                    <div class="flex flex-col items-start p-6 rounded-2xl bg-dark-900/60 border border-slate-800/80">
                         <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-mono font-bold text-lg mb-6">
                             03
                         </div>
-                        <h4 class="text-xl font-bold text-white mb-2" data-i18n="step3_title">Thesis Verdict in Your Inbox</h4>
+                        <h4 class="text-xl font-bold text-white mb-2" data-i18n="step3_title">03. Objective Verdict & Page Citations</h4>
                         <p class="text-sm text-slate-400 leading-relaxed" data-i18n="step3_desc">
-                            Receive the structured briefing within 5 minutes of release. Featuring exact page citations, footnote risk warnings, and clear verdict badges before market open.
+                            Receive an objective audit briefing in your inbox before market open. Every catalyst is marked Passed or Breached, complete with exact 10-Q page numbers and footnote warnings.
                         </p>
                     </div>
 
@@ -696,552 +789,6 @@
     <script>
         lucide.createIcons();
 
-        // Translations Dictionary
-        const i18n = {
-            en: {
-                badge_beta: "Private Beta",
-                nav_problem: "The Problem",
-                nav_proof: "Media vs. Filing",
-                nav_how: "How It Works",
-                nav_report: "Sample Audit",
-                nav_faq: "FAQ",
-                nav_cta: "Early Access",
-                hero_pill: "The Agentic Filing Audit for Fundamental Investors",
-                hero_title: 'Your investment thesis <br class="hidden sm:inline" /><span class="bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent">audited against official SEC filings</span>. <br />In 60 seconds.',
-                hero_subtitle: 'Skip the clickbait financial media noise and 80-page 10-Q PDFs. Receive a structured briefing that verifies whether quarterly earnings <strong>confirm or break the exact catalysts you bought the stock for</strong>.',
-                form_submit: "Join Free Beta",
-                form_success: "Registration complete! Priority spot reserved in our private beta.",
-                perk_1: "No Credit Card Required",
-                perk_2: "100% Primary IR Sources",
-                perk_3: "Limited to 50 Investors",
-                proof_eyebrow: "The Signal-To-Noise Gap",
-                proof_heading: "Financial Media vs. Primary Filings",
-                proof_subheading: "Why relying on consensus headlines leads to disastrous portfolio decisions during earnings season.",
-                proof_media_tag: "Mainstream Financial Press (08:00 EST)",
-                proof_media_title: '"ALPHABET (GOOGL) FALLS -6.4% PRE-MARKET AS AI CAPEX SURGES TO $44.9B; SQUEEZING CASH FLOW AMID DOJ THREAT"',
-                proof_media_desc: '"Alphabet shares fell sharply in pre-market trading as capital expenditures soared to historic highs, causing quarterly free cash flow to dip negative while federal antitrust remedy hearings cast doubt on Google Search..."',
-                proof_media_footer: "Sensationalist panic. Ignores cloud margin explosion & appellate stay of structural remedies.",
-                proof_audit_tag: "ThesisCheck.ai Filing Audit (Form 10-Q)",
-                proof_audit_title: '"THESIS VERIFIED (SCORE: 8.8/10): Cloud Margin Hyper-Expansion (35.5%) & DOJ Remedies Stayed in Appeals"',
-                proof_audit_desc: "<strong>Pages 28 & 44:</strong> Google Cloud revenue surged +82% YoY to $24.8B with operating margin reaching 35.5% ($8.8B income), absorbing CapEx. Note 10 confirms zero loss provisions for DOJ remedies, legally stayed pending multi-year appeals.",
-                proof_audit_footer: "Zero emotional panic. Investor protected against shaking out of a compounder.",
-                problem_eyebrow: "The Fundamental Investor Dilemma",
-                problem_heading: "The traditional workflow is broken",
-                problem_subheading: "Holding 15+ stocks turns every earnings season into an exhausting race between unread 10-Qs and oversimplified media headlines.",
-                card1_title: "Mainstream Financial Media",
-                card1_desc: "Sensationalist headlines obsessed with Wall Street consensus EPS beats/misses. Clickbait that ignores free cash flow, share dilution, or the true drivers of your thesis.",
-                card1_footer: "Noise, bias, zero thesis context",
-                card2_title: "Manual 10-Q / 10-K Filings",
-                card2_desc: "80-page PDFs packed with accounting footnotes and legal jargon. Takes 2-3 hours per holding. Impossible to sustain across 15+ positions without burning out.",
-                card2_footer: "Severe fatigue & backlog delay",
-                card3_badge: "The Solution",
-                card3_title: "ThesisCheck.ai",
-                card3_desc: "Our agentic engine fetches the official IR filing instantly, parses tables & notes, and semantically audits whether your 3 core thesis pillars held true.",
-                card3_footer: "Zero noise. 100% verified in 60s.",
-                report_eyebrow: "Real-Time Thesis Audit",
-                report_heading: "What lands in your inbox",
-                report_subheading: "Structured, concise, and citing exact page numbers from official SEC and company filings.",
-                score_label: "Thesis Health Score:",
-                audit_subhead: "Audit Against Your Personal Thesis Catalysts",
-                risk_eyebrow: "Hidden Risk Detected in Footnotes (Page 74)",
-                how_eyebrow: "Automated Intelligence Workflow",
-                how_heading: "How ThesisCheck Works",
-                how_subheading: "Zero manual effort. Define your portfolio once and receive high-signal intelligence every earnings season.",
-                step1_title: "Add Portfolio & Thesis",
-                step1_desc: "Input your tickers and the 2-3 key catalysts you care about (e.g. debt payoff, subscriber growth, gross margin expansion). Or apply standard fundamental benchmarks with one click.",
-                step2_title: "SEC & IR Filing Monitor",
-                step2_desc: "Our agents monitor EDGAR/SEC servers and corporate IR portals in real time. The second a filing drops, we fetch the complete original PDF with zero third-party delay.",
-                step3_title: "Thesis Verdict in Your Inbox",
-                step3_desc: "Receive the structured briefing within 5 minutes of release. Featuring exact page citations, footnote risk warnings, and clear verdict badges before market open.",
-                faq_eyebrow: "Common Questions",
-                faq_heading: "Frequently Asked Questions",
-                faq1_q: "Where does ThesisCheck get its data?",
-                faq1_a: "Exclusively from primary sources: SEC EDGAR filings (10-Q, 10-K, 8-K), official Investor Relations slide decks, and audited financial statements. We never rely on summarized news feeds or social media sentiment.",
-                faq2_q: "Is my personal investment thesis private?",
-                faq2_a: "Yes, 100%. Your thesis notes, custom metrics, and portfolio holdings are encrypted and strictly isolated. They are never shared, sold, or used to train public models.",
-                faq3_q: "How much will ThesisCheck cost after the beta?",
-                faq3_a: "Access is completely free during the Private Beta. Early adopters on the waitlist will lock in lifetime grandfathered pricing when our Pro plans launch.",
-                cta_heading: "Audit quarterly results without wasting hours",
-                cta_subheading: "Join the private beta waitlist and get your first thesis-audited earnings briefings delivered before next quarter.",
-                cta_button: "Reserve Free Beta Spot",
-                footer_tag: "The Agentic Filing Audit for Fundamental Investors.",
-                footer_f1: "Official SEC / IR Sources",
-                footer_f2: "Semantic RAG Auditing",
-                footer_f3: "Zero Press Noise"
-            },
-            es: {
-                googl: {
-                    name: "Alphabet Inc. (NASDAQ: GOOGL)",
-                    period: "Resultados Q2 2026 (Form 10-Q)",
-                    filing: "Filing Auditado: Form 10-Q & Earnings Release • SEC EDGAR #0001652044-26-000042",
-                    score: "8.8 / 10 (Tesis Intacta)",
-                    items: [
-                        {
-                            title: "1. Crecimiento y Expansión de Margen en Google Cloud (>25%)",
-                            status: "ACELERANDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Pág. 28, Nota 11",
-                            evidence: "Los ingresos de Cloud crecieron un <strong>+82.0% YoY a $24.8B</strong> con margen operativo disparándose al <strong>35.5%</strong> ($8.8B de beneficio operativo vs $2.8B). El CapEx de IA genera retornos inmediatos de alto ROI."
-                        },
-                        {
-                            title: "2. Mitigación Legal y Blindaje de Remedios del DOJ",
-                            status: "RIESGO ACOTADO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Parte II Ítem 1 y Nota 10, págs. 36, 44",
-                            evidence: "El filing oficial confirma que cualquier remedio estructural queda <strong>suspendido por la vía legal de apelación</strong> (horizonte 2027–2028). Cero provisiones por pérdidas extraordinarias y contratos de distribución vigentes."
-                        },
-                        {
-                            title: "3. Solidez del Foso en Búsqueda y Monetización de IA Overviews",
-                            status: "CUMPLIDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Págs. 3–5",
-                            evidence: "Búsqueda y publicidad crecieron un <strong>+17.0% YoY ($61.2B)</strong>, demostrando que AI Overviews amplía el volumen de consultas monetizables. La caja neta y valores negociables alcanzaron <strong>$242.5B</strong>."
-                        }
-                    ],
-                    risk: "CapEx trimestral récord de $44.9B por despliegue de centros de datos que provoca un FCF puntual negativo (-$5.85B), plenamente absorbido por los $8.8B de beneficio operativo de Cloud."
-                },
-                badge_beta: "Beta Privada",
-                nav_problem: "El Problema",
-                nav_proof: "Prensa vs. Filing",
-                nav_how: "Cómo Funciona",
-                nav_report: "Reporte Real",
-                nav_faq: "Preguntas Frecuentes",
-                nav_cta: "Acceso Anticipado",
-                hero_pill: "La Auditoría Agéntica de Filings para Inversores Fundamentales",
-                hero_title: 'Tus tesis de inversión <br class="hidden sm:inline" /><span class="bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent">auditadas contra filings oficiales</span>. <br />En 60 segundos.',
-                hero_subtitle: 'Olvida el ruido de la prensa financiera y las 80 páginas de cada 10-Q. Recibe en tu email un informe estructurado que verifica si los resultados trimestrales <strong>confirman o invalidan los catalizadores exactos por los que compraste la acción</strong>.',
-                form_submit: "Unirme Gratis",
-                form_success: "¡Registro completado! Te hemos reservado plaza prioritaria en la beta privada.",
-                perk_1: "Sin Tarjeta de Crédito",
-                perk_2: "100% Fuentes Oficiales IR",
-                perk_3: "Cupos limitados a 50 inversores",
-                proof_eyebrow: "La Brecha entre Ruido y Señal",
-                proof_heading: "Prensa Financiera vs. Filings Oficiales",
-                proof_subheading: "Por qué fiarse de los titulares de consenso provoca decisiones desastrosas en la temporada de resultados.",
-                proof_media_tag: "Prensa Financiera Sensacionalista (08:00 EST)",
-                proof_media_title: '"ALPHABET (GOOGL) CAE UN 6,4% AL DISPARARSE EL CAPEX EN IA A 44.900 M$ Y POR LA AMENAZA DE RUPTURA DEL DOJ"',
-                proof_media_desc: '"Las acciones de Alphabet cayeron con fuerza en la preapertura tras un desembolso récord en infraestructura de IA que dejó el flujo de caja trimestral en negativo, mientras se cierne el juicio antimonopolio del DOJ..."',
-                proof_media_footer: "Pánico sensacionalista. Ignora la explosión de márgenes en Cloud y la suspensión legal del juicio.",
-                proof_audit_tag: "Auditoría ThesisCheck.ai (Form 10-Q)",
-                proof_audit_title: '"TESIS VALIDADA (SCORE: 8.8/10): Expansión Récord en Cloud (35,5%) y Remedios del DOJ Suspendidos en Apelación"',
-                proof_audit_desc: "<strong>Páginas 28 y 44:</strong> Google Cloud creció un +82% YoY hasta 24.800 M$ con un margen operativo del 35,5% (8.800 M$ de beneficio), absorbiendo el CapEx. La Nota 10 confirma cero provisiones por el DOJ, suspendido por apelación judicial.",
-                proof_audit_footer: "Cero pánico emocional. El inversor protegido de vender una gran compañía en mínimos.",
-                problem_eyebrow: "La Realidad del Inversor Fundamental",
-                problem_heading: "El método tradicional está roto",
-                problem_subheading: "Tener más de 15 empresas en cartera convierte cada temporada de resultados en una pesadilla de PDFs no leídos o titulares simplistas.",
-                card1_title: "Prensa Financiera & Titulares",
-                card1_desc: "Titulares centrados en el consenso trimestral de Wall Street. Clickbait que ignora el flujo de caja libre, la dilución de acciones o los verdaderos catalizadores de tu tesis.",
-                card1_footer: "Ruido, sesgo y nulo contexto",
-                card2_title: "Lectura Manual de Filings (10-Q)",
-                card2_desc: "Documentos de 80 páginas repletos de notas al pie y jerga contable. Consume 2-3 horas por empresa. Inviable de mantener para más de 10 posiciones sin quemarse.",
-                card2_footer: "Fatiga severa y retrasos de días",
-                card3_badge: "La Solución",
-                card3_title: "ThesisCheck.ai",
-                card3_desc: "Nuestro motor descarga el PDF oficial de Investor Relations al instante, extrae las tablas contables y audita semánticamente si se cumplen los 3 puntos clave de tu tesis.",
-                card3_footer: "Cero ruido. 100% contrastable en 60s.",
-                report_eyebrow: "Auditoría en Tiempo Real",
-                report_heading: "Así es el reporte que llega a tu email",
-                report_subheading: "Estructurado, directo al grano y con citas directas al número de página del documento oficial presentado por la compañía.",
-                score_label: "Score de Tesis:",
-                audit_subhead: "Auditoría Frente a tus Criterios de Tesis",
-                risk_eyebrow: "Riesgo Oculto Detectado en las Notas al Pie (Pág. 74)",
-                how_eyebrow: "Flujo de Trabajo Automatizado",
-                how_heading: "Cómo funciona ThesisCheck",
-                how_subheading: "Diseñado para operar en segundo plano. Configuras tus tickers una vez y recibes inteligencia accionable sin mover un dedo.",
-                step1_title: "Añade tu Cartera & Tesis",
-                step1_desc: "Introduce tus tickers y los 2-3 catalizadores clave que quieres vigilar (ej. reducción de deuda, crecimiento de suscriptores, margen bruto). Si no tienes tesis escrita, aplicamos la plantilla fundamental estándar.",
-                step2_title: "Monitorización de Filings IR",
-                step2_desc: "Nuestros agentes vigilan en tiempo real los servidores de la SEC y portales oficiales de Investor Relations. En cuanto se publica el reporte, descargamos el PDF oficial íntegro sin intermediarios.",
-                step3_title: "Briefing de Contraste en tu Email",
-                step3_desc: "Recibes el veredicto en tu bandeja de entrada en menos de 5 minutos desde la publicación. Con citas exactas, páginas del PDF y detección de riesgos ocultos en las notas contables.",
-                faq_eyebrow: "Dudas Habituales",
-                faq_heading: "Preguntas Frecuentes",
-                faq1_q: "¿De dónde saca la información ThesisCheck?",
-                faq1_a: "Exclusivamente de fuentes primarias oficiales: documentos SEC (10-Q, 10-K, 8-K), presentaciones de resultados de Investor Relations y transcripciones de llamadas con analistas. No usamos noticias de prensa ni resúmenes de redes sociales.",
-                faq2_q: "¿Mis tesis de inversión son privadas?",
-                faq2_a: "Totalmente. Tus notas de tesis y los tickers de tu cartera están aislados y encriptados. No se comparten con terceros ni se utilizan para entrenar modelos públicos.",
-                faq3_q: "¿Cuánto costará el servicio tras la beta?",
-                faq3_a: "Durante la fase Beta privada el acceso es 100% gratuito. Los primeros betatesters mantendrán un plan con descuento vitalicio cuando lancemos los planes Pro para inversores individuales y profesionales.",
-                cta_heading: "Audita tus resultados trimestrales sin perder el tiempo",
-                cta_subheading: "Únete a la lista de espera de la beta privada y recibe tus primeros reportes de filings contrastados en la próxima temporada de resultados.",
-                cta_button: "Reservar mi Plaza Gratuita",
-                footer_tag: "La Auditoría Agéntica de Filings para Inversores Fundamentales.",
-                footer_f1: "Fuentes Oficiales SEC / IR",
-                footer_f2: "Auditoría Semántica RAG",
-                footer_f3: "Zero Press Noise"
-            }
-        };
-
-        // Multi-language Sample Data
-        const sampleReports = {
-            en: {
-                googl: {
-                    name: "Alphabet Inc. (NASDAQ: GOOGL)",
-                    period: "Q2 2026 Earnings (Form 10-Q)",
-                    filing: "Audited Filing: Form 10-Q & Earnings Release • SEC EDGAR #0001652044-26-000042",
-                    score: "8.8 / 10 (Thesis Intact)",
-                    items: [
-                        {
-                            title: "1. Google Cloud Growth & Operating Margin Leverage (>25%)",
-                            status: "ACCELERATING",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Page 28, Note 11",
-                            evidence: "Cloud revenue surged <strong>+82.0% YoY to $24.8B</strong> with operating margin expanding to <strong>35.5%</strong> ($8.8B operating income vs $2.8B). AI infrastructure CapEx is driving immediate high-ROI monetization."
-                        },
-                        {
-                            title: "2. Antitrust & DOJ Monopolization Remedies Ringfenced",
-                            status: "RISK CONTAINED",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Part II Item 1 & Note 10, pp. 36, 44",
-                            evidence: "Statutory disclosure confirms prospective structural remedies remain <strong>legally stayed pending federal appeal</strong> (2027–2028 horizon). Zero extraordinary loss provisions recorded. Search distribution agreements intact."
-                        },
-                        {
-                            title: "3. Core Search Moat Resilience & AI Overviews Monetization",
-                            status: "MET",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Pages 3–5",
-                            evidence: "Search & other advertising grew <strong>+17.0% YoY ($61.2B)</strong>, confirming AI Overviews expand overall monetizable query volume. Cash and marketable securities fortress reached <strong>$242.5B</strong>."
-                        }
-                    ],
-                    risk: "Quarterly CapEx elevated at $44.9B for TPU/datacenter expansion causing a temporary single-quarter FCF dip (-$5.85B), but structurally absorbed by $8.8B in quarterly Cloud operating profit."
-                },
-                intu: {
-                    name: "Intuit Inc. (NASDAQ: INTU)",
-                    period: "Q4 / FY26 Earnings",
-                    filing: "Audited Filing: Form 10-K & Slide Deck • Published Today 08:30 EST",
-                    score: "8.5 / 10 (Solid)",
-                    items: [
-                        {
-                            title: "1. Operating Margin Expansion in Small Business (>38%)",
-                            status: "MET",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-K Page 32",
-                            evidence: "Small Business segment operating margin reached <strong>39.4%</strong> (+140 bps YoY), driven by QuickBooks Online price realization and payroll automation adoption."
-                        },
-                        {
-                            title: "2. Reacceleration of Credit Karma Revenue after headwinds",
-                            status: "MET",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-K Page 41",
-                            evidence: "Credit Karma revenue grew <strong>+14% YoY</strong> ($502M vs $440M in Q4 FY25), confirming insurance and personal loan originations recovery."
-                        },
-                        {
-                            title: "3. Share Repurchase Pace & Stock-Based Comp Dilution",
-                            status: "WATCH / MIXED",
-                            statusClass: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-                            dotClass: "bg-amber-400",
-                            borderClass: "border-amber-500/40",
-                            citation: "10-K Page 68",
-                            evidence: "Repurchased $580M during the quarter, but SBC rose to $412M (12.8% of sales). Net share count reduced by only 0.4% YoY."
-                        }
-                    ],
-                    risk: "FY27 Capex guidance increased by +25% due to generative AI infrastructure (Intuit Assist), which will moderately compress Free Cash Flow in the first fiscal half."
-                },
-                asml: {
-                    name: "ASML Holding N.V. (NASDAQ: ASML)",
-                    period: "Q2 2026 Earnings (SEC Form 20-F / 6-K)",
-                    filing: "Audited Filing: Form 6-K & Half-Year 20-F • SEC EDGAR #0000937966-26-000018",
-                    score: "8.6 / 10 (Solid)",
-                    items: [
-                        {
-                            title: "1. EUV / High-NA Net System Bookings Acceleration (>€2.5B)",
-                            status: "EXCEEDED",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "Form 6-K Page 12",
-                            evidence: "Total net bookings reached <strong>€5.57B</strong> (with EUV systems contributing €2.50B), confirming strong 2nm and High-NA tool commitment from leading logic and memory foundries."
-                        },
-                        {
-                            title: "2. Gross Margin Resilience & Product Mix (>51.5%)",
-                            status: "MET",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "Form 6-K Page 18",
-                            evidence: "Gross margin expanded to <strong>53.7%</strong> (vs. 51.5% guidance midpoint), driven by higher immersion DUV system margins and installed base field upgrade revenue."
-                        },
-                        {
-                            title: "3. China Export Control Exposure & License Restrictions",
-                            status: "MONITORING",
-                            statusClass: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-                            dotClass: "bg-amber-400",
-                            borderClass: "border-amber-500/40",
-                            citation: "Form 6-K Page 31",
-                            evidence: "China system sales normalized to <strong>27% of total</strong> (down from 49% peak). Note disclosures confirm no retroactive Dutch/US license cancellations for existing installed base maintenance."
-                        }
-                    ],
-                    risk: "Geopolitical export licensing: Dutch and US regulatory adjustments require ongoing monitoring for DUV maintenance services, although existing backlog covers 18 months of projected shipments."
-                }
-            },
-            es: {
-                googl: {
-                    name: "Alphabet Inc. (NASDAQ: GOOGL)",
-                    period: "Resultados Q2 2026 (Form 10-Q)",
-                    filing: "Filing Auditado: Form 10-Q & Earnings Release • SEC EDGAR #0001652044-26-000042",
-                    score: "8.8 / 10 (Tesis Intacta)",
-                    items: [
-                        {
-                            title: "1. Crecimiento y Expansión de Margen en Google Cloud (>25%)",
-                            status: "ACELERANDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Pág. 28, Nota 11",
-                            evidence: "Los ingresos de Cloud crecieron un <strong>+82.0% YoY a $24.8B</strong> con margen operativo disparándose al <strong>35.5%</strong> ($8.8B de beneficio operativo vs $2.8B). El CapEx de IA genera retornos inmediatos de alto ROI."
-                        },
-                        {
-                            title: "2. Mitigación Legal y Blindaje de Remedios del DOJ",
-                            status: "RIESGO ACOTADO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Parte II Ítem 1 y Nota 10, págs. 36, 44",
-                            evidence: "El filing oficial confirma que cualquier remedio estructural queda <strong>suspendido por la vía legal de apelación</strong> (horizonte 2027–2028). Cero provisiones por pérdidas extraordinarias y contratos de distribución vigentes."
-                        },
-                        {
-                            title: "3. Solidez del Foso en Búsqueda y Monetización de IA Overviews",
-                            status: "CUMPLIDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-Q Págs. 3–5",
-                            evidence: "Búsqueda y publicidad crecieron un <strong>+17.0% YoY ($61.2B)</strong>, demostrando que AI Overviews amplía el volumen de consultas monetizables. La caja neta y valores negociables alcanzaron <strong>$242.5B</strong>."
-                        }
-                    ],
-                    risk: "CapEx trimestral récord de $44.9B por despliegue de centros de datos que provoca un FCF puntual negativo (-$5.85B), plenamente absorbido por los $8.8B de beneficio operativo de Cloud."
-                },
-                intu: {
-                    name: "Intuit Inc. (NASDAQ: INTU)",
-                    period: "Resultados Q4 / FY26",
-                    filing: "Filing Auditado: Form 10-K & Slide Presentation • Publicado hoy 08:30 EST",
-                    score: "8.5 / 10 (Sólido)",
-                    items: [
-                        {
-                            title: "1. Expansión de Margen Operativo en Small Business (>38%)",
-                            status: "CUMPLIDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-K Pág. 32",
-                            evidence: "El margen operativo del segmento Small Business alcanzó el <strong>39.4%</strong> (+140 bps YoY), impulsado por el aumento de precios en QuickBooks Online y adopción de nóminas automatizadas."
-                        },
-                        {
-                            title: "2. Retorno de Crecimiento en Credit Karma tras vientos en contra",
-                            status: "CUMPLIDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "10-K Pág. 41",
-                            evidence: "Ingresos de Credit Karma crecieron un <strong>+14% YoY</strong> ($502M vs $440M en Q4 FY25), confirmando la recuperación de colocación de seguros y préstamos personales."
-                        },
-                        {
-                            title: "3. Ritmo de Recompra de Acciones & Dilución por SBC",
-                            status: "ATENCIÓN / MIXTO",
-                            statusClass: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-                            dotClass: "bg-amber-400",
-                            borderClass: "border-amber-500/40",
-                            citation: "10-K Pág. 68",
-                            evidence: "Recompraron $580M en el trimestre, pero la compensación basada en acciones (SBC) subió a $412M (12.8% de las ventas). Dilución neta reducida solo un 0.4% anual."
-                        }
-                    ],
-                    risk: "Guidance de Capex para FY27 se incrementa un +25% debido a infraestructura de IA generativa (Intuit Assist), lo que comprimirá ligeramente el Flujo de Caja Libre en el primer semestre fiscal."
-                },
-                asml: {
-                    name: "ASML Holding N.V. (NASDAQ: ASML)",
-                    period: "Resultados Q2 2026 (SEC Form 20-F / 6-K)",
-                    filing: "Filing Auditado: Form 6-K & 20-F Semestral • SEC EDGAR #0000937966-26-000018",
-                    score: "8.6 / 10 (Sólido)",
-                    items: [
-                        {
-                            title: "1. Aceleración de Nuevos Pedidos Netos en EUV / High-NA (>2.500 M€)",
-                            status: "SUPERADO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "Form 6-K Pág. 12",
-                            evidence: "Los pedidos netos totales alcanzaron <strong>5.570 M€</strong> (con sistemas EUV aportando 2.500 M€), confirmando la fuerte demanda de nodos de 2nm y herramientas High-NA por fabricantes de chips lógicos y memoria."
-                        },
-                        {
-                            title: "2. Resiliencia del Margen Bruto y Mix de Producto (>51,5%)",
-                            status: "CUMPLIDO",
-                            statusClass: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
-                            dotClass: "bg-emerald-400",
-                            borderClass: "border-emerald-500/40",
-                            citation: "Form 6-K Pág. 18",
-                            evidence: "El margen bruto aumentó al <strong>53,7%</strong> (por encima del 51,5% estimado en el guidance), impulsado por mejores márgenes en sistemas DUV de inmersión y actualizaciones de servicio de la base instalada."
-                        },
-                        {
-                            title: "3. Exposición a Restricciones de Exportación a China",
-                            status: "EN MONITORIZACIÓN",
-                            statusClass: "bg-amber-500/20 text-amber-400 border-amber-500/30",
-                            dotClass: "bg-amber-400",
-                            borderClass: "border-amber-500/40",
-                            citation: "Form 6-K Pág. 31",
-                            evidence: "Las ventas a China se normalizaron al <strong>27% del total</strong> (frente al pico del 49%). Las notas del informe confirman que no hay revocaciones retroactivas de licencias para el mantenimiento de máquinas ya instaladas."
-                        }
-                    ],
-                    risk: "Regulación geopolítica de exportaciones: monitorizar ajustes en licencias holandesas/estadounidenses para servicios de mantenimiento DUV, si bien la cartera de pedidos actual cubre 18 meses de producción."
-                }
-            }
-        };
-
-        let currentLang = 'en';
-        let currentTicker = 'googl';
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('thesischeck_lang', lang);
-
-            const btnEn = document.getElementById('btn-lang-en');
-            const btnEs = document.getElementById('btn-lang-es');
-            if (lang === 'en') {
-                btnEn.className = "px-2.5 py-1 rounded font-bold transition bg-brand-500 text-dark-950";
-                btnEs.className = "px-2.5 py-1 rounded font-bold transition text-slate-400 hover:text-white";
-                document.documentElement.lang = "en";
-            } else {
-                btnEs.className = "px-2.5 py-1 rounded font-bold transition bg-brand-500 text-dark-950";
-                btnEn.className = "px-2.5 py-1 rounded font-bold transition text-slate-400 hover:text-white";
-                document.documentElement.lang = "es";
-            }
-
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (i18n[lang][key]) {
-                    el.innerText = i18n[lang][key];
-                }
-            });
-
-            document.querySelectorAll('[data-i18n-html]').forEach(el => {
-                const key = el.getAttribute('data-i18n-html');
-                if (i18n[lang][key]) {
-                    el.innerHTML = i18n[lang][key];
-                }
-            });
-
-            switchTab(currentTicker);
-            lucide.createIcons();
-            if (window.tcAnalytics) {
-                tcAnalytics.track('lang_switch', { lang: lang });
-            }
-        }
-
-        function switchTab(ticker) {
-            currentTicker = ticker;
-            const data = sampleReports[currentLang][ticker];
-            if (!data) return;
-
-            ['googl', 'intu', 'asml'].forEach(t => {
-                const el = document.getElementById('tab-' + t);
-                if (t === ticker) {
-                    el.className = "px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-brand-500/20 text-brand-400 border border-brand-500/30";
-                } else {
-                    el.className = "px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white";
-                }
-            });
-
-            document.getElementById('companyName').innerText = data.name;
-            document.getElementById('companyPeriod').innerText = data.period;
-            document.getElementById('companyFiling').innerText = data.filing;
-            document.getElementById('thesisScore').innerText = data.score;
-            document.getElementById('riskText').innerText = data.risk;
-
-            let itemsHtml = '';
-            data.items.forEach(item => {
-                itemsHtml += `
-                    <div class="p-4 rounded-xl bg-dark-950/70 border border-slate-800 flex flex-col gap-2">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                            <div class="flex items-center gap-2.5">
-                                <span class="w-2.5 h-2.5 rounded-full ${item.dotClass}"></span>
-                                <span class="text-sm font-bold text-white">${item.title}</span>
-                            </div>
-                            <div class="flex items-center gap-2 self-start sm:self-auto">
-                                <span class="font-mono text-[11px] text-brand-300 bg-dark-900 px-2 py-0.5 rounded border border-slate-700">${item.citation}</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${item.statusClass}">${item.status}</span>
-                            </div>
-                        </div>
-                        <p class="text-xs text-slate-300 pl-3.5 border-l-2 ${item.borderClass} mt-1 leading-relaxed">
-                            ${item.evidence}
-                        </p>
-                    </div>
-                `;
-            });
-            document.getElementById('thesisItems').innerHTML = itemsHtml;
-        }
-
-        function focusWaitlist(e) {
-            if (e) e.preventDefault();
-            const el = document.getElementById('waitlist');
-            if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => {
-                    const input = document.getElementById('emailInput');
-                    if (input) {
-                        input.focus();
-                        const form = document.getElementById('leadForm');
-                        form.classList.add('ring-4', 'ring-brand-500/50');
-                        setTimeout(() => form.classList.remove('ring-4', 'ring-brand-500/50'), 1500);
-                    }
-                }, 400);
-            }
-        }
-
-        // Attribution & UTM Capture (LOCAL-SB-810)
-        function initAttribution() {
-            try {
-                const urlParams = new URLSearchParams(window.location.search);
-                const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-                
-                utmParams.forEach(param => {
-                    let val = urlParams.get(param);
-                    if (val) {
-                        sessionStorage.setItem('tc_' + param, val);
-                    } else {
-                        val = sessionStorage.getItem('tc_' + param) || '';
-                    }
-                    const input = document.querySelector(`input[name="${param}"]`);
-                    if (input) input.value = val;
-                });
-
-                // Referrer tracking
-                let ref = document.referrer || '';
-                if (ref) {
-                    try {
-                        const refHost = new URL(ref).hostname;
-                        if (refHost && refHost !== window.location.hostname) {
-                            sessionStorage.setItem('tc_referrer', ref);
-                        } else {
-                            ref = sessionStorage.getItem('tc_referrer') || '';
-                        }
-                    } catch(e) {
-                        sessionStorage.setItem('tc_referrer', ref);
-                    }
-                } else {
-                    ref = sessionStorage.getItem('tc_referrer') || '';
-                }
-                const refInput = document.querySelector('input[name="referrer"]');
-                if (refInput) refInput.value = ref;
-            } catch(err) {
-                console.warn('Attribution init warning:', err);
-            }
-        }
-
         // Lightweight Privacy-First Analytics Engine (Zero cookies, GDPR-compliant)
         window.tcAnalytics = (function() {
             const STORAGE_KEY = 'thesischeck_analytics';
@@ -1264,13 +811,12 @@
                     stats.events.push({
                         name: eventName,
                         timestamp: new Date().toISOString(),
-                        lang: currentLang || 'en',
+                        lang: (typeof currentLang !== 'undefined' ? currentLang : 'en'),
                         meta: meta || {}
                     });
                     if (stats.events.length > 50) stats.events = stats.events.slice(-50);
                     saveStats(stats);
 
-                    // Optional Umami dispatch if integrated
                     if (window.umami && typeof window.umami.track === 'function') {
                         window.umami.track(eventName, meta);
                     }
@@ -1310,6 +856,746 @@
             return { track, initVisit, getStats };
         })();
 
+        // Translations Dictionary
+        const i18n = {
+            en: {
+                badge_beta: "Private Beta",
+                nav_problem: "The Problem",
+                nav_proof: "Media vs. Filing",
+                nav_how: "How It Works",
+                nav_report: "Thesis Simulator",
+                nav_faq: "FAQ",
+                nav_cta: "Early Access",
+                hero_pill: "Your Investment Thesis. Official SEC Filings. Zero Consensus Noise.",
+                hero_title: 'Your investment thesis <br class="hidden sm:inline" /><span class="bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent">audited against official SEC filings</span>. <br />In 60 seconds.',
+                hero_subtitle: 'You define the 3 exact catalysts you bought the stock for. Our agentic engine cross-references quarterly 10-Q filings the second they drop and audits whether your thesis held true or broke. In 60 seconds with exact page citations.',
+                form_submit: "Join Free Beta",
+                form_success: "Registration complete! Priority spot reserved in our private beta.",
+                perk_1: "No Credit Card Required",
+                perk_2: "100% Primary IR Sources",
+                perk_3: "Limited to 50 Investors",
+                proof_eyebrow: "The Signal-To-Noise Gap",
+                proof_heading: "Financial Media vs. Primary Filings",
+                proof_subheading: "Why relying on consensus headlines leads to disastrous portfolio decisions during earnings season.",
+                proof_media_tag: "Mainstream Financial Press (08:00 EST)",
+                proof_media_title: '"ALPHABET (GOOGL) FALLS -6.4% PRE-MARKET AS AI CAPEX SURGES TO $44.9B; SQUEEZING CASH FLOW AMID DOJ THREAT"',
+                proof_media_desc: '"Alphabet shares fell sharply in pre-market trading as capital expenditures soared to historic highs, causing quarterly free cash flow to dip negative while federal antitrust remedy hearings cast doubt on Google Search..."',
+                proof_media_footer: "Sensationalist panic. Ignores cloud margin explosion & appellate stay of structural remedies.",
+                proof_audit_tag: "ThesisCheck.ai Filing Audit (Form 10-Q)",
+                proof_audit_title: '"THESIS VERIFIED (SCORE: 8.8/10): Cloud Margin Hyper-Expansion (35.5%) & DOJ Remedies Stayed in Appeals"',
+                proof_audit_desc: "<strong>Pages 28 & 44:</strong> Google Cloud revenue surged +82% YoY to $24.8B with operating margin reaching 35.5% ($8.8B income), absorbing CapEx. Note 10 confirms zero loss provisions for DOJ remedies, legally stayed pending multi-year appeals.",
+                proof_audit_footer: "Zero emotional panic. Investor protected against shaking out of a compounder.",
+                problem_eyebrow: "The Fundamental Investor Dilemma",
+                problem_heading: "The traditional workflow is broken",
+                problem_subheading: "Holding 15+ stocks turns every earnings season into an exhausting race between unread 10-Qs and oversimplified media headlines.",
+                card1_title: "Mainstream Financial Media",
+                card1_desc: "Sensationalist headlines obsessed with Wall Street consensus EPS beats/misses. Clickbait that ignores free cash flow, share dilution, or the true drivers of your thesis.",
+                card1_footer: "Noise, bias, zero thesis context",
+                card2_title: "Manual 10-Q / 10-K Filings",
+                card2_desc: "80-page PDFs packed with accounting footnotes and legal jargon. Takes 2-3 hours per holding. Impossible to sustain across 15+ positions without burning out.",
+                card2_footer: "Severe fatigue & backlog delay",
+                card3_badge: "The Solution",
+                card3_title: "ThesisCheck.ai",
+                card3_desc: "Our agentic engine fetches the official IR filing instantly, parses tables & notes, and semantically audits whether your 3 core thesis pillars held true.",
+                card3_footer: "Zero noise. 100% verified in 60s.",
+                sandbox_eyebrow: "Interactive Thesis Simulator",
+                sandbox_heading: "Test how the 10-Q audits YOUR custom thesis",
+                sandbox_subheading: "ThesisCheck does not sell consensus opinions. Select a stock, adjust your catalyst hurdles, and watch our deterministic engine cross-reference statutory SEC 10-Q filings in real time.",
+                sandbox_terminal_title: "sec_10q_thesis_sandbox.sh",
+                sandbox_step1_badge: "Step 1: Your Buy Thesis",
+                sandbox_step1_title: "Adjust Your 3 Catalyst Hurdles",
+                sandbox_presets_label: "Presets:",
+                preset_balanced: "Balanced",
+                preset_strict: "Strict",
+                preset_bear: "Skeptical Bear",
+                sandbox_zero_hallucination: "Primary statutory statements & accounting footnotes",
+                sandbox_btn_audit: "⚡ Audit My Custom Thesis Against 10-Q",
+                sandbox_btn_auditing: "Scanning SEC EDGAR 10-Q...",
+                sandbox_breakdown_label: "Granular Catalyst Cross-Examination (10-Q Primary Citations)",
+                sandbox_view_full_report: "View Full 10-Q Audit",
+                risk_eyebrow: "Hidden Risk Detected in Footnotes",
+                aha_title: "Notice how the verdict shifted with your thresholds?",
+                aha_desc: "ThesisCheck does not sell consensus opinions or generic price targets. It runs YOUR personal investment criteria against statutory SEC EDGAR disclosures with exact page and table citations.",
+                aha_cta: "Audit My Portfolio Free",
+                how_eyebrow: "Automated Intelligence Workflow",
+                how_heading: "How ThesisCheck Works",
+                how_subheading: "Zero manual effort. Define your portfolio once and receive high-signal intelligence every earnings season.",
+                step1_title: "01. Define Your Custom Thesis",
+                step1_desc: "Input your tickers and the 2-3 key catalysts you bought the stock for (e.g. gross margin >35%, cloud growth >30%, debt reduction). Or use standard institutional benchmarks with one click.",
+                step2_title: "02. Real-Time SEC EDGAR Audit",
+                step2_desc: "Our agentic engine fetches the official 10-Q/10-K filing the second it hits SEC EDGAR, extracting financial statements, segment disclosures, and legal footnotes without third-party bias.",
+                step3_title: "03. Objective Verdict & Page Citations",
+                step3_desc: "Receive an objective audit briefing in your inbox before market open. Every catalyst is marked Passed or Breached, complete with exact 10-Q page numbers and footnote warnings.",
+                faq_eyebrow: "Common Questions",
+                faq_heading: "Frequently Asked Questions",
+                faq1_q: "Where does ThesisCheck get its data?",
+                faq1_a: "Exclusively from primary sources: SEC EDGAR filings (10-Q, 10-K, 8-K), official Investor Relations slide decks, and audited financial statements. We never rely on summarized news feeds or social media sentiment.",
+                faq2_q: "Is my personal investment thesis private?",
+                faq2_a: "Yes, 100%. Your thesis notes, custom metrics, and portfolio holdings are encrypted and strictly isolated. They are never shared, sold, or used to train public models.",
+                faq3_q: "How much will ThesisCheck cost after the beta?",
+                faq3_a: "Access is completely free during the Private Beta. Early adopters on the waitlist will lock in lifetime grandfathered pricing when our Pro plans launch.",
+                cta_heading: "Audit quarterly results without wasting hours",
+                cta_subheading: "Join the private beta waitlist and get your first thesis-audited earnings briefings delivered before next quarter.",
+                cta_button: "Reserve Free Beta Spot",
+                footer_tag: "The Agentic Filing Audit for Fundamental Investors.",
+                footer_f1: "Official SEC / IR Sources",
+                footer_f2: "Semantic RAG Auditing",
+                footer_f3: "Zero Press Noise"
+            },
+            es: {
+                badge_beta: "Beta Privada",
+                nav_problem: "El Problema",
+                nav_proof: "Prensa vs. Filing",
+                nav_how: "Cómo Funciona",
+                nav_report: "Simulador de Tesis",
+                nav_faq: "Preguntas Frecuentes",
+                nav_cta: "Acceso Anticipado",
+                hero_pill: "Tus Tesis de Inversión. Filings Oficiales de la SEC. Cero Ruido de Consenso.",
+                hero_title: 'Tus tesis de inversión <br class="hidden sm:inline" /><span class="bg-gradient-to-r from-brand-400 via-emerald-300 to-teal-200 bg-clip-text text-transparent">auditadas contra filings oficiales</span>. <br />En 60 segundos.',
+                hero_subtitle: 'Tú defines los 3 catalizadores exactos por los que compraste la acción. Nuestro motor agéntico audita el Form 10-Q oficial en cuanto se publica y verifica si tu tesis se cumple o se rompe. En 60 segundos y con citas de página exactas.',
+                form_submit: "Unirme Gratis",
+                form_success: "¡Registro completado! Te hemos reservado plaza prioritaria en la beta privada.",
+                perk_1: "Sin Tarjeta de Crédito",
+                perk_2: "100% Fuentes Oficiales IR",
+                perk_3: "Cupos limitados a 50 inversores",
+                proof_eyebrow: "La Brecha entre Ruido y Señal",
+                proof_heading: "Prensa Financiera vs. Filings Oficiales",
+                proof_subheading: "Por qué fiarse de los titulares de consenso provoca decisiones desastrosas en la temporada de resultados.",
+                proof_media_tag: "Prensa Financiera Sensacionalista (08:00 EST)",
+                proof_media_title: '"ALPHABET (GOOGL) CAE UN 6,4% AL DISPARARSE EL CAPEX EN IA A 44.900 M$ Y POR LA AMENAZA DE RUPTURA DEL DOJ"',
+                proof_media_desc: '"Las acciones de Alphabet cayeron con fuerza en la preapertura tras un desembolso récord en infraestructura de IA que dejó el flujo de caja trimestral en negativo, mientras se cierne el juicio antimonopolio del DOJ..."',
+                proof_media_footer: "Pánico sensacionalista. Ignora la explosión de márgenes en Cloud y la suspensión legal del juicio.",
+                proof_audit_tag: "Auditoría ThesisCheck.ai (Form 10-Q)",
+                proof_audit_title: '"TESIS VALIDADA (SCORE: 8.8/10): Expansión Récord en Cloud (35,5%) y Remedios del DOJ Suspendidos en Apelación"',
+                proof_audit_desc: "<strong>Páginas 28 y 44:</strong> Google Cloud creció un +82% YoY hasta 24.800 M$ con un margen operativo del 35,5% (8.800 M$ de beneficio), absorbiendo el CapEx. La Nota 10 confirma cero provisiones por el DOJ, suspendido por apelación judicial.",
+                proof_audit_footer: "Cero pánico emocional. El inversor protegido de vender una gran compañía en mínimos.",
+                problem_eyebrow: "La Realidad del Inversor Fundamental",
+                problem_heading: "El método tradicional está roto",
+                problem_subheading: "Tener más de 15 empresas en cartera convierte cada temporada de resultados en una pesadilla de PDFs no leídos o titulares simplistas.",
+                card1_title: "Prensa Financiera & Titulares",
+                card1_desc: "Titulares centrados en el consenso trimestral de Wall Street. Clickbait que ignora el flujo de caja libre, la dilución de acciones o los verdaderos catalizadores de tu tesis.",
+                card1_footer: "Ruido, sesgo y nulo contexto",
+                card2_title: "Lectura Manual de Filings (10-Q)",
+                card2_desc: "Documentos de 80 páginas repletos de notas al pie y jerga contable. Consume 2-3 horas por empresa. Inviable de mantener para más de 10 posiciones sin quemarse.",
+                card2_footer: "Fatiga severa y retrasos de días",
+                card3_badge: "La Solución",
+                card3_title: "ThesisCheck.ai",
+                card3_desc: "Nuestro motor descarga el PDF oficial de Investor Relations al instante, extrae las tablas contables y audita semánticamente si se cumplen los 3 puntos clave de tu tesis.",
+                card3_footer: "Cero ruido. 100% contrastable en 60s.",
+                sandbox_eyebrow: "Simulador Interactivo de Tesis",
+                sandbox_heading: "Prueba cómo el 10-Q audita TU tesis personalizada",
+                sandbox_subheading: "ThesisCheck no vende opiniones de consenso. Elige una acción, ajusta los umbrales de tus catalizadores y observa a nuestro motor contrastar los filings 10-Q en tiempo real.",
+                sandbox_terminal_title: "sec_10q_thesis_sandbox.sh",
+                sandbox_step1_badge: "Paso 1: Tu Tesis de Compra",
+                sandbox_step1_title: "Ajusta tus 3 Umbrales de Catalizadores",
+                sandbox_presets_label: "Perfiles:",
+                preset_balanced: "Equilibrado",
+                preset_strict: "Estricto",
+                preset_bear: "Oso Escéptico",
+                sandbox_zero_hallucination: "Estados contables oficiales y notas al pie",
+                sandbox_btn_audit: "⚡ Auditar Mi Tesis Contra el 10-Q",
+                sandbox_btn_auditing: "Escaneando SEC EDGAR 10-Q...",
+                sandbox_breakdown_label: "Contraste Granular de Catalizadores (Citas Primarias 10-Q)",
+                sandbox_view_full_report: "Ver Auditoría 10-Q Completa",
+                risk_eyebrow: "Riesgo Oculto Detectado en las Notas al Pie",
+                aha_title: "¿Te diste cuenta de cómo cambió el veredicto con tus criterios?",
+                aha_desc: "ThesisCheck no publica opiniones genéricas de consenso ni precios objetivo de Wall Street. Ejecuta TUS criterios personales de inversión contra los documentos oficiales de la SEC con citas exactas de página.",
+                aha_cta: "Auditar Mi Cartera Gratis",
+                how_eyebrow: "Flujo de Trabajo Automatizado",
+                how_heading: "Cómo funciona ThesisCheck",
+                how_subheading: "Diseñado para operar en segundo plano. Configuras tus tickers una vez y recibes inteligencia accionable sin mover un dedo.",
+                step1_title: "01. Define tus Criterios de Tesis",
+                step1_desc: "Introduce tus tickers y los 2-3 catalizadores clave por los que compraste la acción (ej. margen bruto >35%, crecimiento en la nube >30%, desapalancamiento). O aplica plantillas institucionales con un solo clic.",
+                step2_title: "02. Auditoría SEC EDGAR en Tiempo Real",
+                step2_desc: "Nuestro motor descarga el Form 10-Q/10-K oficial en cuanto se registra en la SEC, extrayendo estados financieros, métricas por segmento y notas legales sin sesgo de terceros.",
+                step3_title: "03. Veredicto Objetivo con Citas de Página",
+                step3_desc: "Recibe en tu bandeja de entrada un informe objetivo antes de la apertura del mercado. Cada catalizador se califica como Cumplido o Incumplido, citando las páginas exactas del 10-Q.",
+                faq_eyebrow: "Dudas Habituales",
+                faq_heading: "Preguntas Frecuentes",
+                faq1_q: "¿De dónde saca la información ThesisCheck?",
+                faq1_a: "Exclusivamente de fuentes primarias oficiales: documentos SEC (10-Q, 10-K, 8-K), presentaciones de resultados de Investor Relations y transcripciones de llamadas con analistas. No usamos noticias de prensa ni resúmenes de redes sociales.",
+                faq2_q: "¿Mis tesis de inversión son privadas?",
+                faq2_a: "Totalmente. Tus notas de tesis y los tickers de tu cartera están aislados y encriptados. No se comparten con terceros ni se utilizan para entrenar modelos públicos.",
+                faq3_q: "¿Cuánto costará el servicio tras la beta?",
+                faq3_a: "Durante la fase Beta privada el acceso es 100% gratuito. Los primeros betatesters mantendrán un plan con descuento vitalicio cuando lancemos los planes Pro para inversores individuales y profesionales.",
+                cta_heading: "Audita tus resultados trimestrales sin perder el tiempo",
+                cta_subheading: "Únete a la lista de espera de la beta privada y recibe tus primeros reportes de filings contrastados en la próxima temporada de resultados.",
+                cta_button: "Reservar mi Plaza Gratuita",
+                footer_tag: "La Auditoría Agéntica de Filings para Inversores Fundamentales.",
+                footer_f1: "Fuentes Oficiales SEC / IR",
+                footer_f2: "Auditoría Semántica RAG",
+                footer_f3: "Zero Press Noise"
+            }
+        };
+
+        // Complete Deterministic Interactive Thesis Sandbox Engine
+        const sandboxConfig = {
+            googl: {
+                name: "Alphabet Inc. (NASDAQ: GOOGL)",
+                periodEn: "Q2 2026 Form 10-Q (SEC EDGAR #0001652044-26-000042)",
+                periodEs: "Form 10-Q Q2 2026 (SEC EDGAR #0001652044-26-000042)",
+                sampleUrl: "samples/alphabet-googl-10q-audit.html",
+                riskEn: "CapEx elevated at $44.9B for TPU/datacenter expansion causing a temporary single-quarter FCF dip (-$5.85B), but structurally absorbed by $8.8B in quarterly Cloud operating profit.",
+                riskEs: "CapEx trimestral elevado a $44.9B por despliegue de centros de datos que provoca un FCF puntual negativo (-$5.85B), plenamente absorbido por los $8.8B de beneficio operativo de Cloud.",
+                riskCiteEn: "Note 10 & Cash Flows, Page 44",
+                riskCiteEs: "Nota 10 y Flujo de Efectivo, Pág. 44",
+                catalysts: [
+                    {
+                        id: "cloud",
+                        titleEn: "Google Cloud Revenue Growth & Operating Margin",
+                        titleEs: "Crecimiento de Ingresos y Margen Operativo en Google Cloud",
+                        options: [
+                            { labelEn: ">25% YoY & >20% Margin", labelEs: ">25% YoY y Margen >20%", passed: true, scoreDelta: 3.0 },
+                            { labelEn: ">50% YoY & >30% Margin", labelEs: ">50% YoY y Margen >30%", passed: true, scoreDelta: 3.0 },
+                            { labelEn: ">90% YoY & >40% Margin", labelEs: ">90% YoY y Margen >40%", passed: false, scoreDelta: -1.2 }
+                        ],
+                        citation: "10-Q Page 28, Note 11",
+                        evidencePassEn: "Cloud revenue surged <strong>+82.0% YoY to $24.8B</strong> with operating margin reaching <strong>35.5%</strong> ($8.8B income), easily surpassing your hurdle.",
+                        evidencePassEs: "Los ingresos de Cloud crecieron un <strong>+82.0% YoY a $24.8B</strong> con margen operativo del <strong>35.5%</strong> ($8.8B), superando holgadamente tu umbral.",
+                        evidenceFailEn: "Cloud revenue grew <strong>+82.0% YoY to $24.8B with 35.5% margin</strong>. While extraordinary, it missed your extreme >90% hurdle.",
+                        evidenceFailEs: "Cloud creció un <strong>+82.0% YoY con margen del 35.5%</strong>. Aunque es extraordinario, no alcanzó tu umbral extremo del >90%."
+                    },
+                    {
+                        id: "doj",
+                        titleEn: "DOJ Antitrust Remedies & Legal Exposure",
+                        titleEs: "Remedios Antimonopolio del DOJ y Exposición Legal",
+                        options: [
+                            { labelEn: "Appellate Stay Acceptable", labelEs: "Suspensión por Apelación Aceptable", passed: true, scoreDelta: 3.0 },
+                            { labelEn: "Zero Provision & Contract Safety", labelEs: "Cero Provisiones y Contratos Seguros", passed: true, scoreDelta: 3.0 },
+                            { labelEn: "Immediate Settlement / Zero Litigation", labelEs: "Acuerdo Total Inmediato / Cero Litigio", passed: false, scoreDelta: -1.5 }
+                        ],
+                        citation: "10-Q Part II Item 1 & Note 10, pp. 36, 44",
+                        evidencePassEn: "Statutory filing confirms structural remedies remain <strong>legally stayed pending federal appeal</strong> (2027–2028 horizon). Zero ASC 450 loss provisions accrued.",
+                        evidencePassEs: "El filing oficial confirma que cualquier remedio estructural queda <strong>suspendido por la vía legal de apelación</strong> (horizonte 2027–2028). Cero provisiones por pérdidas.",
+                        evidenceFailEn: "Antitrust proceedings remain actively contested on appeal. Fails your zero-litigation condition as DOJ hearings will continue into 2027.",
+                        evidenceFailEs: "El proceso antimonopolio sigue activo en apelación. Incumple tu exigencia de litigio cero ya que las audiencias se prolongarán hasta 2027."
+                    },
+                    {
+                        id: "search",
+                        titleEn: "Core Search Moat & AI Overviews Monetization",
+                        titleEs: "Foso en Búsqueda y Monetización de AI Overviews",
+                        options: [
+                            { labelEn: ">10% YoY Search Growth", labelEs: ">10% YoY Crecimiento en Búsqueda", passed: true, scoreDelta: 2.8 },
+                            { labelEn: ">15% YoY Search Growth", labelEs: ">15% YoY Crecimiento en Búsqueda", passed: true, scoreDelta: 2.8 },
+                            { labelEn: ">25% YoY Search Growth", labelEs: ">25% YoY Crecimiento en Búsqueda", passed: false, scoreDelta: -1.1 }
+                        ],
+                        citation: "10-Q Pages 3–5",
+                        evidencePassEn: "Search & other advertising grew <strong>+17.0% YoY ($61.2B)</strong>, confirming AI Overviews expand monetizable queries while cash fortress reached <strong>$242.5B</strong>.",
+                        evidencePassEs: "Búsqueda y publicidad crecieron un <strong>+17.0% YoY ($61.2B)</strong>, demostrando que AI Overviews amplía el volumen monetizable. La caja neta llegó a <strong>$242.5B</strong>.",
+                        evidenceFailEn: "Search grew at <strong>+17.0% YoY ($61.2B)</strong>. Extremely solid for its scale, but below your aggressive >25% hurdle.",
+                        evidenceFailEs: "Búsqueda creció un <strong>+17.0% YoY ($61.2B)</strong>. Muy sólido para su escala, pero inferior a tu exigencia del >25%."
+                    }
+                ]
+            },
+            crwd: {
+                name: "CrowdStrike Holdings (NASDAQ: CRWD)",
+                periodEn: "Q2 FY25 Form 10-Q (Post-July 19 Incident)",
+                periodEs: "Form 10-Q Q2 FY25 (Post-Incidente 19 Julio)",
+                sampleUrl: "samples/crowdstrike-crwd-10q-audit.html",
+                riskEn: "FY25 ARR guidance was adjusted downward by $100M due to Customer Commitment Packages (discount incentives), temporarily impacting sales cycles.",
+                riskEs: "El guidance de ARR para FY25 se redujo en $100M debido a Paquetes de Compromiso con Clientes (descuentos e incentivos), dilatando ciclos comerciales.",
+                riskCiteEn: "Note 4 & MD&A, Page 45",
+                riskCiteEs: "Nota 4 y MD&A, Pág. 45",
+                catalysts: [
+                    {
+                        id: "retention",
+                        titleEn: "Enterprise Moat & Gross Customer Retention",
+                        titleEs: "Foso Enterprise y Retención Bruta de Clientes",
+                        options: [
+                            { labelEn: "Gross Retention >95%", labelEs: "Retención Bruta >95%", passed: true, scoreDelta: 2.8 },
+                            { labelEn: "Retention >97% & DBNRR >115%", labelEs: "Retención >97% y DBNRR >115%", passed: true, scoreDelta: 2.8 },
+                            { labelEn: "100% Retention (Zero Churn)", labelEs: "100% Retención (Cero Churn)", passed: false, scoreDelta: -1.4 }
+                        ],
+                        citation: "10-Q Page 32 (ARR & Retention)",
+                        evidencePassEn: "Gross retention held strong at <strong>98%</strong>, DBNRR remained <strong>>115%</strong>, and 65% of enterprise clients run 5+ Falcon modules, verifying high switching barriers.",
+                        evidencePassEs: "La retención bruta se mantuvo en el <strong>98%</strong>, el DBNRR siguió <strong>>115%</strong> y el 65% de clientes usa 5+ módulos Falcon, confirmando el foso.",
+                        evidenceFailEn: "Gross retention was <strong>98%</strong>. Minimal churn occurred post-outage, but it breaches your impossible 100% zero-churn hurdle.",
+                        evidenceFailEs: "La retención bruta fue del <strong>98%</strong>. Hubo un churn mínimo tras el incidente, por lo que incumple tu exigencia del 100% sin bajas."
+                    },
+                    {
+                        id: "liability",
+                        titleEn: "ASC 450 Litigation Provision & Customer Liability",
+                        titleEs: "Provisión Legal ASC 450 y Responsabilidad Contractual",
+                        options: [
+                            { labelEn: "Loss Accrual <$50M", labelEs: "Pérdida Provisionada <$50M", passed: true, scoreDelta: 2.6 },
+                            { labelEn: "$0.00 Accrual & MSA Liability Cap", labelEs: "$0.00 Provisión y Límite MSA", passed: true, scoreDelta: 2.6 },
+                            { labelEn: "Zero Threat of Lawsuits (Delta)", labelEs: "Cero Amenaza de Demandas (Delta)", passed: false, scoreDelta: -1.6 }
+                        ],
+                        citation: "10-Q Part II Item 1 & Note 14",
+                        evidencePassEn: "Statutory Note 14 books <strong>$0.00 accrued legal provisions</strong>. Standard Master Subscription Agreements strictly cap direct damages to fees paid.",
+                        evidencePassEs: "La Nota 14 registra <strong>$0.00 en provisiones por litigios</strong>. Los contratos estándar limitan expresamente los daños directos al importe pagado.",
+                        evidenceFailEn: "External litigation threats (including Delta Air Lines) remain outstanding. Fails your zero-threat condition despite $0.00 booked liability.",
+                        evidenceFailEs: "Las amenazas de litigio externo (incluyendo Delta Air Lines) siguen vigentes. Incumple tu condición de cero amenazas a pesar de no haber provisiones."
+                    },
+                    {
+                        id: "fcf",
+                        titleEn: "Free Cash Flow Resilience & Profitability",
+                        titleEs: "Resiliencia del Flujo de Caja Libre y Rentabilidad",
+                        options: [
+                            { labelEn: "FCF Margin >20%", labelEs: "Margen FCF >20%", passed: true, scoreDelta: 2.6 },
+                            { labelEn: "FCF Margin >25%", labelEs: "Margen FCF >25%", passed: true, scoreDelta: 2.6 },
+                            { labelEn: "FCF Margin >35% & No Guidance Cut", labelEs: "Margen FCF >35% y Sin Ajuste de Guidance", passed: false, scoreDelta: -1.2 }
+                        ],
+                        citation: "10-Q Note 4, Operating Results",
+                        evidencePassEn: "Free Cash Flow reached <strong>$226M (28% margin)</strong>, confirming the core software engine continues generating high cash despite outage turbulence.",
+                        evidencePassEs: "El Flujo de Caja Libre alcanzó <strong>$226M (margen del 28%)</strong>, confirmando que la máquina de software sigue generando abundante efectivo.",
+                        evidenceFailEn: "FCF margin was <strong>28% ($226M)</strong> with a $100M full-year revenue guidance cut for customer retention credits, missing your 35% hurdle.",
+                        evidenceFailEs: "El margen FCF fue del <strong>28% ($226M)</strong> con un recorte de guidance de $100M para incentivos a clientes, incumpliendo tu criterio del 35%."
+                    }
+                ]
+            },
+            nvda: {
+                name: "NVIDIA Corporation (NASDAQ: NVDA)",
+                periodEn: "Q2 FY25 Form 10-Q (SEC EDGAR #0001045810-24-000029)",
+                periodEs: "Form 10-Q Q2 FY25 (SEC EDGAR #0001045810-24-000029)",
+                sampleUrl: "samples/nvidia-nvda-10q-audit.html",
+                riskEn: "Non-cancelable wafer and advanced packaging commitments jumped to $27.8B, concentrating counterparty exposure with TSMC and memory suppliers.",
+                riskEs: "Los compromisos irrevocables de obleas y empaquetado avanzado saltaron a $27.8B, concentrando el riesgo en TSMC y proveedores de memoria.",
+                riskCiteEn: "Note 13 (Commitments), Page 38",
+                riskCiteEs: "Nota 13 (Compromisos), Pág. 38",
+                catalysts: [
+                    {
+                        id: "supply",
+                        titleEn: "TSMC CoWoS Supply & Packaging Commitments",
+                        titleEs: "Compromisos de Suministro y Empaquetado TSMC CoWoS",
+                        options: [
+                            { labelEn: "Supply Commitments >$20B", labelEs: "Compromisos de Compra >$20B", passed: true, scoreDelta: 3.2 },
+                            { labelEn: "Commitments >$25B (+50% YoY)", labelEs: "Compromisos >$25B (+50% YoY)", passed: true, scoreDelta: 3.2 },
+                            { labelEn: "Commitments >$35B (+100% YoY)", labelEs: "Compromisos >$35B (+100% YoY)", passed: false, scoreDelta: -1.4 }
+                        ],
+                        citation: "10-Q Note 13, Page 38",
+                        evidencePassEn: "Contractual purchase commitments surged to <strong>$27.8B (+72% YoY vs $16.1B)</strong>, locking in multi-year packaging capacity to satisfy hyperscaler orders.",
+                        evidencePassEs: "Los compromisos contractuales de compra alcanzaron <strong>$27.8B (+72% YoY vs $16.1B)</strong>, asegurando capacidad de empaquetado para pedidos de hyperscalers.",
+                        evidenceFailEn: "Supply commitments reached <strong>$27.8B (+72% YoY)</strong>. Exceptional order visibility, but below your extreme >$35B hurdle.",
+                        evidenceFailEs: "Los compromisos alcanzaron <strong>$27.8B (+72% YoY)</strong>. Visibilidad de pedidos extraordinaria, pero por debajo de tu umbral de >$35B."
+                    },
+                    {
+                        id: "datacenter",
+                        titleEn: "Data Center Revenue Growth & China Resilience",
+                        titleEs: "Crecimiento en Centros de Datos y Resiliencia en China",
+                        options: [
+                            { labelEn: "Data Center Growth >80%", labelEs: "Crecimiento Data Center >80%", passed: true, scoreDelta: 3.1 },
+                            { labelEn: "Growth >120% & Sequential China Gain", labelEs: "Crecimiento >120% y Ganancia en China", passed: true, scoreDelta: 3.1 },
+                            { labelEn: "Data Center Growth >200%", labelEs: "Crecimiento Data Center >200%", passed: false, scoreDelta: -1.5 }
+                        ],
+                        citation: "10-Q Page 26",
+                        evidencePassEn: "Data Center surged <strong>+154% YoY to $26.3B</strong> with China revenue rebounding sequentially with zero regulatory write-downs.",
+                        evidencePassEs: "Data Center creció un <strong>+154% YoY hasta $26.3B</strong>, con los ingresos de China repuntando secuencialmente sin deterioros regulatorios.",
+                        evidenceFailEn: "Data Center grew at <strong>+154% YoY ($26.3B)</strong>. Monster execution, but falls short of your hyper-aggressive >200% threshold.",
+                        evidenceFailEs: "Data Center creció un <strong>+154% YoY ($26.3B)</strong>. Crecimiento descomunal, pero inferior a tu umbral hiper-agresivo del >200%."
+                    },
+                    {
+                        id: "blackwell",
+                        titleEn: "Blackwell Mask Modification & Q4 Ramp",
+                        titleEs: "Modificación de Máscara Blackwell y Rampa en Q4",
+                        options: [
+                            { labelEn: "No Functional Architecture Flaw", labelEs: "Sin Fallo Arquitectónico Funcional", passed: true, scoreDelta: 2.8 },
+                            { labelEn: "Mask Fix Complete & Q4 Ramp Intact", labelEs: "Máscara Lista y Rampa Q4 Intacta", passed: true, scoreDelta: 2.8 },
+                            { labelEn: "Full Volume in Q3 (Zero Ramp Delay)", labelEs: "Volumen Total en Q3 (Cero Retraso)", passed: false, scoreDelta: -1.5 }
+                        ],
+                        citation: "10-Q Page 27",
+                        evidencePassEn: "Filing confirms mask modification is complete with zero functional changes, guiding several billion dollars in Blackwell revenue for Q4.",
+                        evidencePassEs: "El informe confirma que la modificación de máscara finalizó sin cambios funcionales, proyectando varios miles de millones en Q4.",
+                        evidenceFailEn: "Blackwell volume ramp is scheduled for Q4. Fails your zero-delay Q3 requirement as initial samples are completing testing.",
+                        evidenceFailEs: "La rampa de volumen de Blackwell está programada para Q4. Incumple tu exigencia de despliegue masivo en Q3."
+                    }
+                ]
+            }
+        };
+
+        const sandboxState = {
+            ticker: 'googl',
+            preset: 'balanced',
+            selectedOptions: [0, 0, 0],
+            isAuditing: false
+        };
+
+        function switchSandboxTicker(ticker) {
+            if (!sandboxConfig[ticker]) return;
+            sandboxState.ticker = ticker;
+            sandboxState.preset = 'balanced';
+            sandboxState.selectedOptions = [0, 0, 0];
+
+            ['googl', 'crwd', 'nvda'].forEach(t => {
+                const el = document.getElementById('sandbox-tab-' + t);
+                if (el) {
+                    if (t === ticker) {
+                        el.className = "px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition bg-brand-500/20 text-brand-400 border border-brand-500/30 flex items-center gap-1.5";
+                    } else {
+                        el.className = "px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition bg-dark-900 text-slate-400 border border-slate-700 hover:text-white flex items-center gap-1.5";
+                    }
+                }
+            });
+
+            updatePresetButtons();
+            renderSandbox();
+            if (window.tcAnalytics) {
+                window.tcAnalytics.track('sandbox_ticker_change', { ticker: ticker });
+            }
+        }
+
+        function applySandboxPreset(presetKey) {
+            sandboxState.preset = presetKey;
+            if (presetKey === 'balanced') {
+                sandboxState.selectedOptions = [0, 0, 0];
+            } else if (presetKey === 'strict') {
+                sandboxState.selectedOptions = [1, 1, 1];
+            } else if (presetKey === 'bear') {
+                sandboxState.selectedOptions = [2, 2, 2];
+            }
+            updatePresetButtons();
+            renderSandbox();
+            if (window.tcAnalytics) {
+                window.tcAnalytics.track('sandbox_preset_apply', { preset: presetKey, ticker: sandboxState.ticker });
+            }
+        }
+
+        function updatePresetButtons() {
+            ['balanced', 'strict', 'bear'].forEach(p => {
+                const btn = document.getElementById('preset-' + p);
+                if (btn) {
+                    if (sandboxState.preset === p) {
+                        btn.className = "px-2.5 py-1 rounded-lg font-bold transition bg-brand-500/20 text-brand-300 border border-brand-500/30";
+                    } else {
+                        btn.className = "px-2.5 py-1 rounded-lg font-medium transition text-slate-400 hover:text-white";
+                    }
+                }
+            });
+        }
+
+        function selectSandboxOption(catalystIdx, optionIdx) {
+            sandboxState.selectedOptions[catalystIdx] = optionIdx;
+            sandboxState.preset = 'custom';
+            updatePresetButtons();
+            renderSandbox();
+            if (window.tcAnalytics) {
+                window.tcAnalytics.track('sandbox_catalyst_change', {
+                    ticker: sandboxState.ticker,
+                    catalyst: catalystIdx,
+                    option: optionIdx
+                });
+            }
+        }
+
+        function runSandboxAudit() {
+            if (sandboxState.isAuditing) return;
+            sandboxState.isAuditing = true;
+
+            const btn = document.getElementById('runAuditBtn');
+            const btnText = document.getElementById('runAuditBtnText');
+            const btnIcon = document.getElementById('runAuditBtnIcon');
+
+            if (btn) btn.classList.add('opacity-75', 'cursor-wait');
+            if (btnIcon) btnIcon.classList.add('animate-spin');
+            if (btnText) {
+                btnText.innerText = currentLang === 'es' ? 'Escaneando SEC EDGAR 10-Q...' : 'Scanning SEC EDGAR 10-Q...';
+            }
+
+            if (window.tcAnalytics) {
+                window.tcAnalytics.track('sandbox_audit_run', {
+                    ticker: sandboxState.ticker,
+                    preset: sandboxState.preset,
+                    options: sandboxState.selectedOptions
+                });
+            }
+
+            setTimeout(() => {
+                sandboxState.isAuditing = false;
+                if (btn) btn.classList.remove('opacity-75', 'cursor-wait');
+                if (btnIcon) btnIcon.classList.remove('animate-spin');
+                if (btnText) {
+                    btnText.innerText = i18n[currentLang].sandbox_btn_audit;
+                }
+                renderSandbox();
+                lucide.createIcons();
+
+                const banner = document.getElementById('verdictBannerBox');
+                if (banner) {
+                    banner.classList.add('ring-4', 'ring-brand-500/40');
+                    setTimeout(() => banner.classList.remove('ring-4', 'ring-brand-500/40'), 900);
+                }
+            }, 400);
+        }
+
+        function renderSandbox() {
+            const data = sandboxConfig[sandboxState.ticker];
+            if (!data) return;
+
+            // Render Catalyst Controls (Step 1)
+            const controlCardsContainer = document.getElementById('catalystControlCards');
+            if (controlCardsContainer) {
+                let controlsHtml = '';
+                data.catalysts.forEach((cat, catIdx) => {
+                    const selectedOptIdx = sandboxState.selectedOptions[catIdx];
+                    const catTitle = currentLang === 'es' ? cat.titleEs : cat.titleEn;
+
+                    let optionsHtml = '';
+                    cat.options.forEach((opt, optIdx) => {
+                        const optLabel = currentLang === 'es' ? opt.labelEs : opt.labelEn;
+                        const isSelected = selectedOptIdx === optIdx;
+                        const activeClasses = isSelected
+                            ? 'bg-brand-500/20 text-brand-300 border-brand-500/50 font-bold shadow-sm'
+                            : 'bg-dark-900/80 text-slate-400 border-slate-800 hover:text-white hover:border-slate-700';
+
+                        optionsHtml += `
+                            <button type="button" onclick="selectSandboxOption(${catIdx}, ${optIdx})" class="w-full text-left px-3 py-2 rounded-xl text-xs font-mono border transition flex items-center justify-between gap-2 ${activeClasses}">
+                                <span class="truncate">${optLabel}</span>
+                                ${isSelected ? '<span class="w-2 h-2 rounded-full bg-brand-400 shrink-0"></span>' : '<span class="w-2 h-2 rounded-full bg-slate-700 shrink-0"></span>'}
+                            </button>
+                        `;
+                    });
+
+                    controlsHtml += `
+                        <div class="p-4 rounded-2xl bg-dark-900/80 border border-slate-700/80 flex flex-col justify-between space-y-3">
+                            <div>
+                                <div class="flex items-center justify-between gap-2 mb-2">
+                                    <span class="w-6 h-6 rounded-lg bg-brand-500/10 text-brand-400 font-mono text-xs font-bold flex items-center justify-center border border-brand-500/20">${catIdx + 1}</span>
+                                    <span class="text-[10px] font-mono text-slate-500 truncate">${cat.citation}</span>
+                                </div>
+                                <h5 class="text-sm font-bold text-white mb-2 leading-snug">${catTitle}</h5>
+                            </div>
+                            <div class="space-y-1.5 pt-1">
+                                ${optionsHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+                controlCardsContainer.innerHTML = controlsHtml;
+            }
+
+            // Compute Audit Verdict Results
+            let totalScore = 0;
+            let passedCount = 0;
+            const results = [];
+
+            data.catalysts.forEach((cat, idx) => {
+                const optIdx = sandboxState.selectedOptions[idx];
+                const opt = cat.options[optIdx];
+                const isPassed = opt.passed;
+                if (isPassed) {
+                    passedCount++;
+                    totalScore += opt.scoreDelta;
+                } else {
+                    totalScore += opt.scoreDelta;
+                }
+
+                results.push({
+                    catTitle: currentLang === 'es' ? cat.titleEs : cat.titleEn,
+                    citation: cat.citation,
+                    isPassed: isPassed,
+                    chosenHurdle: currentLang === 'es' ? opt.labelEs : opt.labelEn,
+                    evidence: isPassed
+                        ? (currentLang === 'es' ? cat.evidencePassEs : cat.evidencePassEn)
+                        : (currentLang === 'es' ? cat.evidenceFailEs : cat.evidenceFailEn)
+                });
+            });
+
+            // Normalize Composite Score
+            let finalScore = 0;
+            if (passedCount === 3) {
+                finalScore = sandboxState.ticker === 'nvda' ? 9.1 : (sandboxState.ticker === 'googl' ? 8.8 : 8.4);
+            } else if (passedCount === 2) {
+                finalScore = 7.2;
+            } else if (passedCount === 1) {
+                finalScore = 5.8;
+            } else {
+                finalScore = 4.5;
+            }
+
+            // Update Verdict Banner
+            const badgeEl = document.getElementById('verdictTickerBadge');
+            const citationEl = document.getElementById('verdictFilingCitation');
+            const statusTextEl = document.getElementById('verdictStatusText');
+            const sublineEl = document.getElementById('verdictSubline');
+            const scoreNumEl = document.getElementById('verdictScoreNum');
+            const scoreDotEl = document.getElementById('verdictScoreDot');
+            const scoreBadgeEl = document.getElementById('verdictScoreBadge');
+            const sampleLinkEl = document.getElementById('verdictSampleLink');
+            const filingMetaEl = document.getElementById('sandboxFilingMeta');
+            const riskDescEl = document.getElementById('verdictRiskDesc');
+
+            if (badgeEl) badgeEl.innerText = `${sandboxState.ticker.toUpperCase()} ${currentLang === 'es' ? data.periodEs : data.periodEn}`;
+            if (citationEl) citationEl.innerText = currentLang === 'es' ? 'Fuente Primaria Oficial SEC' : 'Official SEC Primary Source';
+            if (filingMetaEl) filingMetaEl.innerText = `${data.name} • 10-Q Primary Audit`;
+            if (riskDescEl) riskDescEl.innerText = currentLang === 'es' ? data.riskEs : data.riskEn;
+            if (sampleLinkEl) sampleLinkEl.href = data.sampleUrl;
+
+            let verdictTitle = '';
+            let verdictColor = 'text-brand-400';
+            let dotColor = 'bg-brand-400';
+            let badgeBorder = 'border-brand-500/40';
+            let badgeBg = 'bg-emerald-950/60';
+
+            if (passedCount === 3) {
+                verdictTitle = currentLang === 'es' ? `${finalScore} / 10 (Tesis Intacta)` : `${finalScore} / 10 (Thesis Intact)`;
+                verdictColor = 'text-brand-400';
+                dotColor = 'bg-brand-400';
+                badgeBorder = 'border-brand-500/40';
+                badgeBg = 'bg-emerald-950/60';
+            } else if (passedCount === 2) {
+                verdictTitle = currentLang === 'es' ? `${finalScore} / 10 (Tesis Bajo Presión)` : `${finalScore} / 10 (Thesis Strained)`;
+                verdictColor = 'text-amber-400';
+                dotColor = 'bg-amber-400';
+                badgeBorder = 'border-amber-500/40';
+                badgeBg = 'bg-amber-950/60';
+            } else {
+                verdictTitle = currentLang === 'es' ? `${finalScore} / 10 (Tesis Incumplida)` : `${finalScore} / 10 (Thesis Breached)`;
+                verdictColor = 'text-red-400';
+                dotColor = 'bg-red-400';
+                badgeBorder = 'border-red-500/40';
+                badgeBg = 'bg-red-950/60';
+            }
+
+            if (statusTextEl) {
+                statusTextEl.innerText = verdictTitle;
+                statusTextEl.className = verdictColor;
+            }
+            if (scoreNumEl) scoreNumEl.innerText = finalScore.toFixed(1);
+            if (scoreDotEl) scoreDotEl.className = `w-2.5 h-2.5 rounded-full ${dotColor}`;
+            if (scoreBadgeEl) scoreBadgeEl.className = `px-4 py-2.5 rounded-xl ${badgeBg} border ${badgeBorder} ${verdictColor} font-mono font-black text-2xl flex items-center justify-center gap-2 shadow-inner`;
+
+            if (sublineEl) {
+                if (currentLang === 'es') {
+                    sublineEl.innerHTML = `${passedCount} de 3 catalizadores personalizados cumplieron con las cifras oficiales de la SEC.`;
+                } else {
+                    sublineEl.innerHTML = `${passedCount} of 3 custom catalyst conditions met or exceeded official SEC reported numbers.`;
+                }
+            }
+
+            // Render Granular Results
+            const pillarsContainer = document.getElementById('verdictPillarsList');
+            if (pillarsContainer) {
+                let pillarsHtml = '';
+                results.forEach((res, i) => {
+                    const statusBadge = res.isPassed
+                        ? `<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase">${currentLang === 'es' ? 'CUMPLIDO' : 'PASSED'}</span>`
+                        : `<span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-red-500/20 text-red-400 border border-red-500/30 uppercase">${currentLang === 'es' ? 'INCUMPLIDO' : 'BREACHED'}</span>`;
+
+                    const borderAccent = res.isPassed ? 'border-emerald-500/40' : 'border-red-500/40';
+                    const dotAccent = res.isPassed ? 'bg-emerald-400' : 'bg-red-400';
+
+                    pillarsHtml += `
+                        <div class="p-4 rounded-xl bg-dark-950/70 border border-slate-800 flex flex-col gap-2">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-2.5 h-2.5 rounded-full ${dotAccent} shrink-0"></span>
+                                    <span class="text-sm font-bold text-white">${i + 1}. ${res.catTitle}</span>
+                                </div>
+                                <div class="flex items-center gap-2 self-start sm:self-auto">
+                                    <span class="font-mono text-[11px] text-brand-300 bg-dark-900 px-2 py-0.5 rounded border border-slate-700">${res.citation}</span>
+                                    ${statusBadge}
+                                </div>
+                            </div>
+                            <div class="text-xs text-slate-400 font-mono mt-0.5">
+                                <span class="text-slate-500">${currentLang === 'es' ? 'Tu umbral definido:' : 'Your chosen hurdle:'}</span> <strong class="text-slate-200">${res.chosenHurdle}</strong>
+                            </div>
+                            <p class="text-xs text-slate-300 pl-3.5 border-l-2 ${borderAccent} mt-1 leading-relaxed">
+                                ${res.evidence}
+                            </p>
+                        </div>
+                    `;
+                });
+                pillarsContainer.innerHTML = pillarsHtml;
+            }
+
+            lucide.createIcons();
+        }
+
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('thesischeck_lang', lang);
+
+            const btnEn = document.getElementById('btn-lang-en');
+            const btnEs = document.getElementById('btn-lang-es');
+            if (lang === 'en') {
+                btnEn.className = "px-2.5 py-1 rounded font-bold transition bg-brand-500 text-dark-950";
+                btnEs.className = "px-2.5 py-1 rounded font-bold transition text-slate-400 hover:text-white";
+                document.documentElement.lang = "en";
+            } else {
+                btnEs.className = "px-2.5 py-1 rounded font-bold transition bg-brand-500 text-dark-950";
+                btnEn.className = "px-2.5 py-1 rounded font-bold transition text-slate-400 hover:text-white";
+                document.documentElement.lang = "es";
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.innerText = i18n[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.innerHTML = i18n[lang][key];
+                }
+            });
+
+            renderSandbox();
+            lucide.createIcons();
+            if (window.tcAnalytics) {
+                window.tcAnalytics.track('lang_switch', { lang: lang });
+            }
+        }
+
+        function focusWaitlist(e) {
+            if (e) e.preventDefault();
+            const el = document.getElementById('waitlist');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(() => {
+                    const input = document.getElementById('emailInput');
+                    if (input) {
+                        input.focus();
+                        const form = document.getElementById('leadForm');
+                        form.classList.add('ring-4', 'ring-brand-500/50');
+                        setTimeout(() => form.classList.remove('ring-4', 'ring-brand-500/50'), 1500);
+                    }
+                }, 400);
+            }
+        }
+
+        // Attribution & UTM Capture (LOCAL-SB-810)
+        function initAttribution() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+                
+                utmParams.forEach(param => {
+                    let val = urlParams.get(param);
+                    if (val) {
+                        sessionStorage.setItem('tc_' + param, val);
+                    } else {
+                        val = sessionStorage.getItem('tc_' + param) || '';
+                    }
+                    const input = document.querySelector(`input[name="${param}"]`);
+                    if (input) input.value = val;
+                });
+
+                let ref = document.referrer || '';
+                if (ref) {
+                    try {
+                        const refHost = new URL(ref).hostname;
+                        if (refHost && refHost !== window.location.hostname) {
+                            sessionStorage.setItem('tc_referrer', ref);
+                        } else {
+                            ref = sessionStorage.getItem('tc_referrer') || '';
+                        }
+                    } catch(e) {
+                        sessionStorage.setItem('tc_referrer', ref);
+                    }
+                } else {
+                    ref = sessionStorage.getItem('tc_referrer') || '';
+                }
+                const refInput = document.querySelector('input[name="referrer"]');
+                if (refInput) refInput.value = ref;
+            } catch(err) {
+                console.warn('Attribution init warning:', err);
+            }
+        }
+
         // Handle Form Submission with Netlify Forms + Local Storage Fallback
         document.getElementById('leadForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1317,9 +1603,7 @@
             const form = e.target;
             const submitBtn = document.getElementById('submitBtn') || form.querySelector('button[type="submit"]');
             const submitBtnSpan = submitBtn ? submitBtn.querySelector('span') : null;
-            const originalBtnText = submitBtnSpan ? submitBtnSpan.innerText : '';
 
-            // Visual loading state
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.classList.add('opacity-75', 'cursor-wait');
@@ -1338,16 +1622,14 @@
             const utmCampaign = form.querySelector('input[name="utm_campaign"]')?.value || '';
             const referrer = form.querySelector('input[name="referrer"]')?.value || '';
 
-            // Analytics event
             if (window.tcAnalytics) {
-                tcAnalytics.track('waitlist_submit', {
+                window.tcAnalytics.track('waitlist_submit', {
                     email_domain: email.split('@')[1] || '',
                     has_tickers: Boolean(tickers),
                     utm_source: utmSource
                 });
             }
 
-            // Persistent local backup
             try {
                 const leads = JSON.parse(localStorage.getItem('thesischeck_waitlist') || '[]');
                 leads.push({ 
@@ -1365,7 +1647,6 @@
                 console.warn('localStorage save warning:', err);
             }
 
-            // Asynchronous Netlify Form Submission
             const formData = new FormData(form);
             fetch('/', {
                 method: 'POST',
@@ -1379,18 +1660,18 @@
             })
             .catch(function(error) {
                 console.error('Netlify form submission error:', error);
-                // Graceful fallback: show success as data is safely stored in localStorage
                 form.classList.add('opacity-50', 'pointer-events-none');
                 document.getElementById('successMessage').classList.remove('hidden');
                 lucide.createIcons();
             });
         });
 
+        // Initialize state on load
         const savedLang = localStorage.getItem('thesischeck_lang') || 'en';
         setLanguage(savedLang);
         initAttribution();
         if (window.tcAnalytics) {
-            tcAnalytics.initVisit();
+            window.tcAnalytics.initVisit();
         }
     </script>
 </body>
