@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" fill="none">
+    <defs>
+        <linearGradient id="avShield" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#047857" />
+            <stop offset="50%" stop-color="#10B981" />
+            <stop offset="100%" stop-color="#34D399" />
+        </linearGradient>
+        <filter id="avGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="30" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+    <!-- Background: Obsidian Night -->
+    <rect width="800" height="800" fill="#0A0D14"/>
+    
+    <!-- Ambient Radial Lighting behind icon -->
+    <circle cx="400" cy="400" r="280" fill="#10B981" fill-opacity="0.12" filter="url(#avGlow)"/>
+    
+    <!-- Shield Container (Centered, 480x480, rounded rx=120) -->
+    <g transform="translate(160, 160)">
+        <!-- Outer Glow Shield -->
+        <rect x="0" y="0" width="480" height="480" rx="120" fill="#10B981" fill-opacity="0.25" filter="url(#avGlow)"/>
+        <!-- Solid Gradient Shield Body -->
+        <rect x="0" y="0" width="480" height="480" rx="120" fill="url(#avShield)" stroke="#6EE7B7" stroke-width="6"/>
+        <!-- Filing / Document Shape Silhouette -->
+        <path d="M140 145 H280 L340 205 V335 C340 346 331 355 320 355 H160 C149 355 140 346 140 335 V145 Z" fill="#07090E" fill-opacity="0.22"/>
+        <!-- Checkmark Shadow -->
+        <path d="M155 245 L225 315 L335 185" stroke="#07090E" stroke-width="42" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Pure Crisp White Checkmark -->
+        <path d="M155 245 L225 315 L335 185" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+</svg>
