@@ -24,9 +24,19 @@
   </url>
   <url>
     <loc>https://thesischeckai.com/samples/nvidia-nvda-10q-audit.html</loc>
-    <lastmod>2026-09-09</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesischeckai.com/samples/nvidia-nvda-10q-audit.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://thesischeckai.com/samples/nvidia-nvda-10q-audit-es.html" />
+  </url>
+  <url>
+    <loc>https://thesischeckai.com/samples/nvidia-nvda-10q-audit-es.html</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thesischeckai.com/samples/nvidia-nvda-10q-audit.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://thesischeckai.com/samples/nvidia-nvda-10q-audit-es.html" />
   </url>
   <url>
     <loc>https://thesischeckai.com/llms.txt</loc>
