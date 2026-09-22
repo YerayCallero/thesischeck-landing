@@ -148,6 +148,8 @@ Investors can join the private beta waitlist at [https://thesischeckai.com/](htt
 - **Alphabet Live Sample:** `https://thesischeckai.com/samples/alphabet-googl-10q-audit.html`
 - **CrowdStrike Live Sample:** `https://thesischeckai.com/samples/crowdstrike-crwd-10q-audit.html`
 - **NVIDIA Live Sample:** `https://thesischeckai.com/samples/nvidia-nvda-10q-audit.html`
+- **NIKE Live Sample:** `https://thesischeckai.com/samples/nike-nke-10q-audit.html`
+- **ASML Live Sample:** `https://thesischeckai.com/samples/asml-20f-audit.html`
 - **Standard llms.txt:** `https://thesischeckai.com/llms.txt`
 - **Full llms.txt:** `https://thesischeckai.com/llms-full.txt`
 - **Sitemap XML:** `https://thesischeckai.com/sitemap.xml`
