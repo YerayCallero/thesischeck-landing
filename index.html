@@ -1868,25 +1868,48 @@
                 formData.set('subject', `🎯 Nuevo Lead ThesisCheck: ${email} [${tickers || 'Sin tickers'}]`);
                 formData.set('from_name', 'ThesisCheck Waitlist');
 
+                const object = Object.fromEntries(formData);
+                const json = JSON.stringify(object);
+
                 fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    body: formData
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: json
                 })
                 .then(function(response) {
                     return response.json();
                 })
                 .then(function(data) {
-                    form.classList.add('opacity-50', 'pointer-events-none');
-                    const successEl = document.getElementById(successMsgId);
-                    if (successEl) successEl.classList.remove('hidden');
-                    lucide.createIcons();
+                    if (data && data.success) {
+                        form.classList.add('opacity-50', 'pointer-events-none');
+                        const successEl = document.getElementById(successMsgId);
+                        if (successEl) successEl.classList.remove('hidden');
+                        lucide.createIcons();
+                    } else {
+                        console.error('Web3Forms returned failure:', data);
+                        alert(currentLang === 'es' ? 'Hubo un error al registrar el correo. Por favor inténtalo de nuevo.' : 'Error submitting registration. Please try again.');
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.classList.remove('opacity-75', 'cursor-wait');
+                        }
+                        if (submitBtnSpan) {
+                            submitBtnSpan.innerText = currentLang === 'es' ? 'Unirme Gratis' : 'Join Free Beta';
+                        }
+                    }
                 })
                 .catch(function(error) {
-                    console.error('Web3Forms submission error:', error);
-                    form.classList.add('opacity-50', 'pointer-events-none');
-                    const successEl = document.getElementById(successMsgId);
-                    if (successEl) successEl.classList.remove('hidden');
-                    lucide.createIcons();
+                    console.error('Web3Forms network error:', error);
+                    alert(currentLang === 'es' ? 'Error de conexión. Por favor inténtalo de nuevo.' : 'Network connection error. Please try again.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('opacity-75', 'cursor-wait');
+                    }
+                    if (submitBtnSpan) {
+                        submitBtnSpan.innerText = currentLang === 'es' ? 'Unirme Gratis' : 'Join Free Beta';
+                    }
                 });
             });
         }
