@@ -319,7 +319,10 @@
 
             <!-- Lead Capture Form -->
             <div id="waitlist" class="max-w-xl mx-auto mb-8 scroll-mt-28">
-                <form id="leadForm" name="beta-waitlist" method="POST" action="/" netlify data-netlify="true" netlify-honeypot="bot-field" class="p-2 bg-dark-800/95 border border-slate-700/90 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col sm:flex-row gap-2 glow-emerald transition">
+                <form id="leadForm" name="beta-waitlist" method="POST" action="https://api.web3forms.com/submit" class="p-2 bg-dark-800/95 border border-slate-700/90 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col sm:flex-row gap-2 glow-emerald transition">
+                    <input type="hidden" name="access_key" value="514119a3-030a-450e-b346-be41fd9b7613" />
+                    <input type="hidden" name="subject" value="🎯 Nuevo registro en ThesisCheck Beta" />
+                    <input type="hidden" name="from_name" value="ThesisCheck Waitlist" />
                     <input type="hidden" name="form-name" value="beta-waitlist" />
                     <input type="hidden" id="langInput" name="language" value="en" />
                     <input type="hidden" name="utm_source" value="" />
@@ -328,7 +331,7 @@
                     <input type="hidden" name="utm_term" value="" />
                     <input type="hidden" name="utm_content" value="" />
                     <input type="hidden" name="referrer" value="" />
-                    <p class="hidden"><label>Don’t fill this out if you're human: <input name="bot-field" /></label></p>
+                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
                     <div class="flex-1 flex items-center px-3.5 py-2.5 bg-dark-900/70 rounded-xl border border-slate-800 focus-within:border-brand-500/50 transition">
                         <i data-lucide="mail" class="w-5 h-5 text-slate-500 mr-2 shrink-0"></i>
                         <input type="email" id="emailInput" name="email" required placeholder="you@domain.com" class="bg-transparent border-none text-white text-sm focus:outline-none w-full placeholder:text-slate-500 font-sans">
@@ -687,7 +690,10 @@
                                     </p>
                                 </div>
 
-                                <form id="sandboxLeadForm" name="sandbox-waitlist" method="POST" action="/" netlify data-netlify="true" netlify-honeypot="bot-field" class="flex flex-col sm:flex-row gap-2 max-w-2xl">
+                                <form id="sandboxLeadForm" name="sandbox-waitlist" method="POST" action="https://api.web3forms.com/submit" class="flex flex-col sm:flex-row gap-2 max-w-2xl">
+                                    <input type="hidden" name="access_key" value="514119a3-030a-450e-b346-be41fd9b7613" />
+                                    <input type="hidden" name="subject" value="🎯 Nuevo registro en ThesisCheck Beta (Sandbox)" />
+                                    <input type="hidden" name="from_name" value="ThesisCheck Waitlist" />
                                     <input type="hidden" name="form-name" value="sandbox-waitlist" />
                                     <input type="hidden" id="sandboxLangInput" name="language" value="en" />
                                     <input type="hidden" name="utm_source" value="" />
@@ -696,7 +702,7 @@
                                     <input type="hidden" name="utm_term" value="" />
                                     <input type="hidden" name="utm_content" value="" />
                                     <input type="hidden" name="referrer" value="" />
-                                    <p class="hidden"><label>Don’t fill this out if human: <input name="bot-field" /></label></p>
+                                    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
                                     
                                     <div class="flex-1 flex items-center px-3.5 py-2.5 bg-dark-950/80 rounded-xl border border-slate-700 focus-within:border-brand-500/60 transition">
                                         <i data-lucide="mail" class="w-4 h-4 text-slate-500 mr-2 shrink-0"></i>
@@ -1858,19 +1864,25 @@
                 }
 
                 const formData = new FormData(form);
-                fetch('/', {
+                formData.set('access_key', '514119a3-030a-450e-b346-be41fd9b7613');
+                formData.set('subject', `🎯 Nuevo Lead ThesisCheck: ${email} [${tickers || 'Sin tickers'}]`);
+                formData.set('from_name', 'ThesisCheck Waitlist');
+
+                fetch('https://api.web3forms.com/submit', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams(formData).toString()
+                    body: formData
                 })
                 .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
                     form.classList.add('opacity-50', 'pointer-events-none');
                     const successEl = document.getElementById(successMsgId);
                     if (successEl) successEl.classList.remove('hidden');
                     lucide.createIcons();
                 })
                 .catch(function(error) {
-                    console.error('Netlify form submission error:', error);
+                    console.error('Web3Forms submission error:', error);
                     form.classList.add('opacity-50', 'pointer-events-none');
                     const successEl = document.getElementById(successMsgId);
                     if (successEl) successEl.classList.remove('hidden');
