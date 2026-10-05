@@ -190,8 +190,14 @@
                     <span id="user-portfolio-count-badge" class="px-2 py-0.5 rounded-full text-[10px] bg-slate-800 text-slate-300 font-mono">0</span>
                 </button>
             </div>
-            <div class="text-[11px] font-mono text-slate-400 px-2 text-center sm:text-right" id="portfolio-mode-desc">
-                Explorando universo modelo pre-auditado de 18 posiciones de calidad
+            <div class="flex items-center gap-2">
+                <div class="text-[11px] font-mono text-slate-400 px-2 text-center sm:text-right" id="portfolio-mode-desc">
+                    Explorando universo modelo pre-auditado de 18 posiciones de calidad
+                </div>
+                <button id="btn-reset-user-portfolio" onclick="resetUserPortfolio()" class="hidden px-2.5 py-1.5 rounded-lg text-[11px] font-mono text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-slate-800 transition-colors items-center gap-1.5 shrink-0" title="Reiniciar datos de mi cartera">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                    <span>Reiniciar Cartera</span>
+                </button>
             </div>
         </section>
 
@@ -604,7 +610,7 @@
             return currentPortfolioMode === 'MODEL' ? modelPositions : userPositions;
         }
 
-        // Fetch or load dataset
+        // Fetch or load dataset & restore local persistence
         async function loadPortfolioData() {
             try {
                 let res = await fetch('./portfolio_sandbox_data.json');
@@ -613,11 +619,39 @@
                 }
                 const data = await res.json();
                 modelPositions = data.positions || [];
-                recalculatePortfolioKPIs();
-                renderTable();
             } catch (err) {
                 console.warn('Fallback loading: fetch failed, falling back to local dataset embedded in window.', err);
             }
+
+            // Restore user portfolio from localStorage if available
+            try {
+                const savedUser = localStorage.getItem('thesischeck_user_positions');
+                const savedSummary = localStorage.getItem('thesischeck_user_summary');
+                if (savedUser) {
+                    const parsed = JSON.parse(savedUser);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        userPositions = parsed;
+                        const countBadge = document.getElementById('user-portfolio-count-badge');
+                        if (countBadge) countBadge.textContent = userPositions.length;
+
+                        const banner = document.getElementById('extracted-portfolio-banner');
+                        const summaryEl = document.getElementById('extracted-portfolio-summary');
+                        if (banner && savedSummary && summaryEl) {
+                            summaryEl.innerHTML = savedSummary;
+                            banner.classList.remove('hidden');
+                        }
+
+                        // Activate user portfolio view on reload
+                        switchPortfolioMode('USER');
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn('Error restoring user portfolio from localStorage', e);
+            }
+
+            recalculatePortfolioKPIs();
+            renderTable();
         }
 
         function recalculatePortfolioKPIs() {
@@ -672,21 +706,39 @@
             const tabModel = document.getElementById('tab-portfolio-model');
             const tabUser = document.getElementById('tab-portfolio-user');
             const modeDesc = document.getElementById('portfolio-mode-desc');
+            const resetBtn = document.getElementById('btn-reset-user-portfolio');
 
             if (mode === 'MODEL') {
                 tabModel.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center justify-center gap-2 bg-brand-500 text-dark-950 shadow-md shadow-brand-500/20';
                 tabUser.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-medium font-mono transition-all flex items-center justify-center gap-2 bg-dark-950 hover:bg-dark-850 text-slate-400 border border-slate-800';
                 if (modeDesc) modeDesc.textContent = 'Explorando universo modelo pre-auditado de 18 posiciones de calidad';
+                if (resetBtn) resetBtn.classList.add('hidden');
             } else {
                 tabUser.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center justify-center gap-2 bg-brand-500 text-dark-950 shadow-md shadow-brand-500/20';
                 tabModel.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-medium font-mono transition-all flex items-center justify-center gap-2 bg-dark-950 hover:bg-dark-850 text-slate-400 border border-slate-800';
                 if (modeDesc) modeDesc.textContent = `Visualizando tus ${userPositions.length} activos extraídos de la entrevista por voz`;
+                if (resetBtn && userPositions.length > 0) resetBtn.classList.remove('hidden');
             }
 
             recalculatePortfolioKPIs();
             filterBySeverity('ALL');
             renderTable();
             if (window.lucide) lucide.createIcons();
+        }
+
+        function resetUserPortfolio() {
+            if (confirm('¿Deseas restablecer tu cartera auditada y reiniciar los datos de la entrevista?')) {
+                try {
+                    localStorage.removeItem('thesischeck_user_positions');
+                    localStorage.removeItem('thesischeck_user_summary');
+                } catch (e) {}
+                userPositions = [];
+                const countBadge = document.getElementById('user-portfolio-count-badge');
+                if (countBadge) countBadge.textContent = '0';
+                const banner = document.getElementById('extracted-portfolio-banner');
+                if (banner) banner.classList.add('hidden');
+                switchPortfolioMode('MODEL');
+            }
         }
 
         function filterBySeverity(severity) {
@@ -1129,6 +1181,14 @@
                 • <strong>Posiciones Auditadas:</strong> <strong>Zoetis (ZTS - 93/100)</strong> y <strong>Alexandria Real Estate (ARE - 72/100)</strong> proyectadas en la pestaña 'Mi Cartera'<br>
                 • <strong>Contraste Forense:</strong> Tus líneas rojas (FCF Payout &gt;100% y Deuda &gt;3.5x) han sido contrastadas contra los filings oficiales 10-Q.
             `;
+
+            // Persist to browser localStorage (survives refreshes)
+            try {
+                localStorage.setItem('thesischeck_user_positions', JSON.stringify(userPositions));
+                localStorage.setItem('thesischeck_user_summary', summaryEl.innerHTML);
+            } catch (e) {
+                console.warn('Could not save user portfolio to localStorage', e);
+            }
 
             if (window.lucide) lucide.createIcons();
         }
