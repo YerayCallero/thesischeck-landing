@@ -248,11 +248,15 @@
                 </div>
             </div>
             
-            <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+            <nav class="hidden md:flex items-center gap-5 text-sm font-medium text-slate-300">
                 <a href="#problema" class="hover:text-white transition" data-i18n="nav_problem">The Problem</a>
                 <a href="#proof" class="hover:text-white transition" data-i18n="nav_proof">Media vs. Filing</a>
                 <a href="#ejemplo" class="hover:text-white transition" data-i18n="nav_report">Sample Audit</a>
                 <a href="#como-funciona" class="hover:text-white transition" data-i18n="nav_how">How It Works</a>
+                <a href="demo/index.html" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-brand-500/15 text-brand-300 border border-brand-500/30 hover:bg-brand-500 hover:text-dark-950 transition-all shadow-sm">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+                    <span>Portfolio Sandbox (18) ➔</span>
+                </a>
                 <div class="relative group">
                     <button class="hover:text-white transition flex items-center gap-1.5 text-brand-400 font-semibold font-mono text-xs bg-brand-500/10 px-2.5 py-1 rounded-lg border border-brand-500/20">
                         <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
@@ -357,9 +361,14 @@
                     <span class="flex items-center gap-1.5"><i data-lucide="check" class="w-3.5 h-3.5 text-brand-400"></i> <span data-i18n="perk_3">Limited to 50 Investors</span></span>
                 </div>
 
-                <!-- Prominent Live Sample Banner -->
+                <!-- Prominent Live Sample Banner & Portfolio Sandbox -->
                 <div class="mt-6 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-                    <span class="text-xs font-mono text-slate-400">Live Audits:</span>
+                    <a href="demo/index.html" onclick="if(window.tcAnalytics) tcAnalytics.track('sandbox_click', { location: 'hero_banner' });" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-brand-500/20 hover:bg-brand-500 hover:text-dark-950 border border-brand-500/60 text-xs font-mono text-brand-300 font-bold transition shadow-sm group">
+                        <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+                        <span>🔥 Portfolio Sandbox (18 Empresas) ➔</span>
+                    </a>
+                    <span class="text-xs font-mono text-slate-500">|</span>
+                    <span class="text-xs font-mono text-slate-400">Auditorías 10-Q Individuales:</span>
                     <a href="samples/alphabet-googl-10q-audit.html" onclick="if(window.tcAnalytics) tcAnalytics.track('sample_view', { sample: 'googl', location: 'hero_banner' });" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-dark-850 hover:bg-dark-800 border border-brand-500/40 text-xs font-mono text-slate-200 hover:text-white transition shadow-sm group">
                         <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
                         <span>GOOGL</span>

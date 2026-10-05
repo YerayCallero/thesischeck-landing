@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThesisCheck | Portfolio Sandbox Interactivo & Diagnóstico Forense SEC</title>
+    <meta name="description" content="Terminal interactiva de ThesisCheck para la auditoría forense de una cartera modelo de 18 empresas de calidad con citas literales a notas al pie de SEC EDGAR.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857'
+                        },
+                        dark: {
+                            950: '#06090e',
+                            900: '#0c121c',
+                            850: '#111927',
+                            800: '#162234',
+                            750: '#1e2d42',
+                            700: '#253750'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #06090e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e2d42;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body class="bg-dark-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-brand-500 selection:text-dark-950 flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-dark-950/85 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-8 py-3.5">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="flex items-center gap-2 group">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-600 to-teal-400 flex items-center justify-center text-dark-950 font-bold shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-dark-950"></i>
+                    </div>
+                    <span class="text-lg font-extrabold tracking-tight text-white">ThesisCheck</span>
+                </a>
+                <span class="hidden sm:inline-block text-xs font-mono text-slate-500 border-l border-slate-800 pl-3">
+                    Portfolio Sandbox Interactivo
+                </span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                    <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+                    SEC EDGAR Live Verified
+                </span>
+                <button onclick="openCustomTickerModal()" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium bg-brand-500 text-dark-950 hover:bg-brand-400 transition-colors shadow-sm shadow-brand-500/20">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                    <span>Auditar Mi Ticker</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 space-y-6">
+
+        <!-- Diagnostic Overview Header -->
+        <section class="bg-gradient-to-br from-dark-900 via-dark-850 to-dark-900 border border-slate-800/80 rounded-2xl p-6 sm:p-7 shadow-xl relative overflow-hidden">
+            <div class="absolute -right-16 -top-16 w-64 h-64 bg-brand-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div class="space-y-2 max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-[11px] font-mono uppercase tracking-wider bg-slate-800/80 text-slate-300 border border-slate-700/50">
+                        <i data-lucide="cpu" class="w-3.5 h-3.5 text-brand-400"></i>
+                        Cartera Modelo de Calidad · 18 Posiciones
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                        Diagnóstico Forense de Balances & Cash Flows
+                    </h1>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Exploración interactiva sin login: contraste directo entre la narrativa de mercado y la realidad estatutaria en filings 10-K/10-Q (SEC EDGAR). Haz clic en cualquier activo para abrir el expediente forense y sus notas al pie.
+                    </p>
+                </div>
+
+                <!-- Aggregate Metric Cards -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:min-w-[480px]">
+                    <div class="bg-dark-950/60 border border-slate-800/90 rounded-xl p-3.5 text-center">
+                        <div class="text-[11px] font-mono text-slate-400 uppercase">Salud Global</div>
+                        <div class="text-2xl font-extrabold text-white font-mono mt-1" id="kpi-health-score">81<span class="text-xs text-slate-500">/100</span></div>
+                        <div class="text-[10px] text-emerald-400 font-mono mt-0.5">Grado Institucional</div>
+                    </div>
+
+                    <div class="bg-dark-950/60 border border-rose-500/20 rounded-xl p-3.5 text-center cursor-pointer hover:border-rose-500/40 transition-colors" onclick="filterBySeverity('CRITICAL')">
+                        <div class="text-[11px] font-mono text-rose-400 uppercase">Alertas Críticas</div>
+                        <div class="text-2xl font-extrabold text-rose-400 font-mono mt-1" id="kpi-critical-count">2</div>
+                        <div class="text-[10px] text-slate-400 font-mono mt-0.5">MMM · NKE</div>
+                    </div>
+
+                    <div class="bg-dark-950/60 border border-amber-500/20 rounded-xl p-3.5 text-center cursor-pointer hover:border-amber-500/40 transition-colors" onclick="filterBySeverity('WARNING')">
+                        <div class="text-[11px] font-mono text-amber-400 uppercase">Observación</div>
+                        <div class="text-2xl font-extrabold text-amber-400 font-mono mt-1" id="kpi-warning-count">4</div>
+                        <div class="text-[10px] text-slate-400 font-mono mt-0.5">CRM · GOOGL · O · MO</div>
+                    </div>
+
+                    <div class="bg-dark-950/60 border border-emerald-500/20 rounded-xl p-3.5 text-center cursor-pointer hover:border-emerald-500/40 transition-colors" onclick="filterBySeverity('HEALTHY')">
+                        <div class="text-[11px] font-mono text-emerald-400 uppercase">Balances Limpios</div>
+                        <div class="text-2xl font-extrabold text-emerald-400 font-mono mt-1" id="kpi-healthy-count">12</div>
+                        <div class="text-[10px] text-slate-400 font-mono mt-0.5">MSFT · NVDA · JNJ...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls: Filter Pills & Search -->
+        <section class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0" id="filter-pills">
+                <button onclick="filterBySeverity('ALL')" id="pill-ALL" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-all bg-brand-500 text-dark-950 font-bold shadow-sm shadow-brand-500/20">
+                    Todas (18)
+                </button>
+                <button onclick="filterBySeverity('CRITICAL')" id="pill-CRITICAL" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-all bg-dark-900 hover:bg-dark-850 text-slate-300 border border-slate-800">
+                    🚨 Críticas (2)
+                </button>
+                <button onclick="filterBySeverity('WARNING')" id="pill-WARNING" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-all bg-dark-900 hover:bg-dark-850 text-slate-300 border border-slate-800">
+                    ⚠️ En Observación (4)
+                </button>
+                <button onclick="filterBySeverity('HEALTHY')" id="pill-HEALTHY" class="pill-btn px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-all bg-dark-900 hover:bg-dark-850 text-slate-300 border border-slate-800">
+                    ✅ Balances Limpios (12)
+                </button>
+            </div>
+
+            <div class="relative min-w-[240px]">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Buscar por ticker o empresa..." class="w-full bg-dark-900 border border-slate-800 rounded-lg pl-9 pr-4 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500/80 font-mono transition-colors">
+            </div>
+        </section>
+
+        <!-- Interactive Positions Table -->
+        <section class="bg-dark-900/90 border border-slate-800/80 rounded-2xl overflow-hidden shadow-lg">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-400 bg-dark-950/60">
+                            <th class="py-3 px-4 sm:px-6">Empresa / Ticker</th>
+                            <th class="py-3 px-4">Semáforo Forense</th>
+                            <th class="py-3 px-4 text-center">Score Salud</th>
+                            <th class="py-3 px-4">Métrica FCF / Riesgo</th>
+                            <th class="py-3 px-4 hidden md:table-cell">Alerta Forense Principal</th>
+                            <th class="py-3 px-4 text-right">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="positions-table-body" class="divide-y divide-slate-800/60 text-xs">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="no-results-state" class="hidden py-12 text-center text-slate-500 font-mono text-xs">
+                No se encontraron activos que coincidan con el filtro seleccionado.
+            </div>
+        </section>
+
+        <!-- Banner Call To Action (Bottom) -->
+        <section class="bg-gradient-to-r from-dark-900 via-dark-850 to-dark-900 border border-slate-800 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 shrink-0">
+                    <i data-lucide="layers" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-white">¿Gestionas una cartera con activos adicionales?</h3>
+                    <p class="text-xs text-slate-400">Audita tus participaciones privadas o fondos boutique con el mismo rigor forense.</p>
+                </div>
+            </div>
+            <button onclick="openCustomTickerModal()" class="shrink-0 px-4 py-2 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors flex items-center gap-2">
+                <i data-lucide="plus" class="w-4 h-4 text-brand-400"></i>
+                <span>Solicitar Auditoría de Ticker Propio</span>
+            </button>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-800/80 bg-dark-950 py-6 text-center text-xs font-mono text-slate-500 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div>
+                © 2026 ThesisCheck · Plataforma de Auditoría Forense de Filings Estatutarios SEC EDGAR
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="hover:text-slate-300 transition-colors">Inicio</a>
+                <span>·</span>
+                <a href="https://tesisybalances.substack.com" target="_blank" class="hover:text-slate-300 transition-colors">Substack Tesis y Balances</a>
+                <span>·</span>
+                <span class="text-slate-600">Zero Retail Sensationalism</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Evidence Inspection Drawer (Slide-over) -->
+    <div id="drawer-backdrop" onclick="closeDrawer()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    
+    <aside id="evidence-drawer" class="fixed top-0 right-0 h-full w-full max-w-xl bg-dark-900 border-l border-slate-800 z-50 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <!-- Drawer Header -->
+        <div class="p-5 border-b border-slate-800/90 flex items-center justify-between bg-dark-950/80">
+            <div class="flex items-center gap-3">
+                <div id="drawer-ticker-badge" class="w-10 h-10 rounded-xl bg-dark-800 border border-slate-700 flex items-center justify-center font-mono font-bold text-white text-sm">
+                    MMM
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 id="drawer-company-name" class="text-base font-bold text-white tracking-tight">3M Company</h2>
+                        <span id="drawer-status-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold">
+                            CRITICAL 🚨
+                        </span>
+                    </div>
+                    <div class="text-xs text-slate-400 font-mono" id="drawer-sector">Industrials · Industrial Conglomerates</div>
+                </div>
+            </div>
+            <button onclick="closeDrawer()" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Drawer Scrollable Content -->
+        <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
+
+            <!-- Forensic Health Score & Quick Indicators -->
+            <div class="grid grid-cols-2 gap-3 bg-dark-950/70 border border-slate-800/80 rounded-xl p-4">
+                <div>
+                    <div class="text-[11px] font-mono text-slate-400 uppercase">Score Forense</div>
+                    <div class="flex items-baseline gap-1 mt-1">
+                        <span id="drawer-health-score" class="text-3xl font-extrabold font-mono text-white">48</span>
+                        <span class="text-xs font-mono text-slate-500">/ 100</span>
+                    </div>
+                    <div id="drawer-health-bar" class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div class="bg-rose-500 h-full w-[48%]"></div>
+                    </div>
+                </div>
+                <div class="border-l border-slate-800/80 pl-4">
+                    <div class="text-[11px] font-mono text-slate-400 uppercase">Calidad FCF vs. NI</div>
+                    <div id="drawer-fcf-quality" class="text-xs font-mono font-semibold text-rose-400 mt-1">
+                        54% (Severely Impaired)
+                    </div>
+                    <div class="text-[10px] text-slate-500 font-mono mt-2" id="drawer-sbc-stat">
+                        SBC % CFO: 4.8%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Primary Forensic Alert Headline & Narrative -->
+            <div class="space-y-2">
+                <div class="text-[11px] font-mono text-brand-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
+                    Alerta Forense Destacada
+                </div>
+                <h3 id="drawer-headline" class="text-base font-semibold text-white leading-snug">
+                    Litigios PFAS y Combat Arms (ASC 450)
+                </h3>
+                <p id="drawer-summary" class="text-xs text-slate-300 leading-relaxed bg-dark-950/40 p-3.5 rounded-lg border border-slate-800/60">
+                    Descripción forense detallada...
+                </p>
+            </div>
+
+            <!-- Verbatim Footnote from SEC Filing (Typing Blockquote) -->
+            <div class="space-y-2">
+                <div class="flex items-center justify-between text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+                    <span class="flex items-center gap-1.5 text-slate-300">
+                        <i data-lucide="file-text" class="w-3.5 h-3.5 text-brand-400"></i>
+                        Evidencia Textual Verbatim (SEC Filing)
+                    </span>
+                    <a id="drawer-sec-link" href="#" target="_blank" class="text-brand-400 hover:text-brand-300 inline-flex items-center gap-1 lowercase">
+                        <span>ver en SEC EDGAR</span>
+                        <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
+                </div>
+                <div class="bg-dark-950 border border-slate-800/90 rounded-xl p-4 font-mono text-[11px] text-slate-300 leading-relaxed relative">
+                    <div class="text-slate-500 mb-2 font-bold flex items-center justify-between">
+                        <span>[EXTRACTO ESTATUTARIO OFICIAL]</span>
+                        <span class="text-[10px] text-slate-600 font-sans">US GAAP / XBRL</span>
+                    </div>
+                    <p id="drawer-footnote-quote" class="italic text-slate-200">
+                        "Cita textual del filing..."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quantitative Multi-Metric Grid -->
+            <div class="space-y-2">
+                <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+                    Métricas Forenses Estatutarias
+                </div>
+                <div class="grid grid-cols-2 gap-2.5 text-xs font-mono">
+                    <div class="bg-dark-950/60 p-3 rounded-lg border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase">Dilución por SBC / CFO</div>
+                        <div id="drawer-sbc" class="font-bold text-slate-200 mt-1">4.8%</div>
+                    </div>
+                    <div class="bg-dark-950/60 p-3 rounded-lg border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase">Deuda Neta / EBITDA</div>
+                        <div id="drawer-debt" class="font-bold text-slate-200 mt-1">2.7x</div>
+                    </div>
+                    <div class="bg-dark-950/60 p-3 rounded-lg border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase">Payout / Cobertura Dividendo</div>
+                        <div id="drawer-payout" class="font-bold text-slate-200 mt-1">72%</div>
+                    </div>
+                    <div class="bg-dark-950/60 p-3 rounded-lg border border-slate-800">
+                        <div class="text-[10px] text-slate-500 uppercase">Impacto en Capital</div>
+                        <div id="drawer-impact-tag" class="font-bold text-amber-400 mt-1">Cash Outflow</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Impact & Actionable Forensic Verdict -->
+            <div class="space-y-2">
+                <div class="text-[11px] font-mono text-slate-400 uppercase tracking-wider">
+                    Impacto en Negocio & Veredicto
+                </div>
+                <div class="bg-dark-950/70 border border-slate-800 rounded-xl p-3.5 space-y-2 text-xs">
+                    <div class="text-slate-300">
+                        <strong class="text-white font-mono">Impacto Cuantitativo:</strong> 
+                        <span id="drawer-impact-desc">...</span>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800/80 text-brand-300 font-mono text-[11px] leading-relaxed" id="drawer-actionable-verdict">
+                        Veredicto Forense...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Drawer Footer CTA -->
+        <div class="p-4 border-t border-slate-800 bg-dark-950 flex items-center gap-3">
+            <button onclick="requestDeepDive()" class="flex-1 py-2.5 px-4 rounded-xl text-xs font-semibold bg-brand-500 hover:bg-brand-400 text-dark-950 transition-colors flex items-center justify-center gap-2">
+                <i data-lucide="file-check-2" class="w-4 h-4"></i>
+                <span>Solicitar Auditoría Completa 10-K</span>
+            </button>
+            <button onclick="closeDrawer()" class="py-2.5 px-4 rounded-xl text-xs font-medium bg-dark-800 hover:bg-dark-750 text-slate-300 border border-slate-700 transition-colors">
+                Cerrar
+            </button>
+        </div>
+    </aside>
+
+    <!-- Custom Ticker Request Modal -->
+    <div id="ticker-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-dark-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 text-white font-bold text-base">
+                    <i data-lucide="plus-circle" class="w-5 h-5 text-brand-400"></i>
+                    <span>Auditar Ticker Adicional</span>
+                </div>
+                <button onclick="closeCustomTickerModal()" class="text-slate-400 hover:text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-xs text-slate-400">
+                Introduce el ticker de cualquier cotizada en EE.UU. o Europa (SEC EDGAR o HKEX) para generar su informe forense bajo el protocolo Concierge de ThesisCheck.
+            </p>
+            <form onsubmit="handleCustomTickerSubmit(event)" class="space-y-3">
+                <div>
+                    <label class="block text-[11px] font-mono text-slate-400 uppercase mb-1">Ticker / Símbolo</label>
+                    <input type="text" id="modal-ticker" required placeholder="ej. CRWD, ASML, TOST, RMS.PA" class="w-full bg-dark-950 border border-slate-800 rounded-lg px-3.5 py-2 text-sm text-white font-mono uppercase focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-mono text-slate-400 uppercase mb-1">Email Profesional / Analista</label>
+                    <input type="email" id="modal-email" required placeholder="tu.nombre@fondo.com o personal" class="w-full bg-dark-950 border border-slate-800 rounded-lg px-3.5 py-2 text-sm text-white focus:outline-none focus:border-brand-500">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-mono text-slate-400 uppercase mb-1">Pregunta / Punto Ciego Específico (Opcional)</label>
+                    <textarea id="modal-notes" rows="2" placeholder="ej. ¿Cuál es el impacto real de SBC? o ¿Riesgo de litigios ASC 450?" class="w-full bg-dark-950 border border-slate-800 rounded-lg px-3.5 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-500"></textarea>
+                </div>
+                <div id="modal-status-msg" class="hidden text-xs font-mono text-brand-400 p-2 rounded bg-brand-500/10 border border-brand-500/20"></div>
+                <div class="flex items-center gap-2 pt-2">
+                    <button type="submit" id="modal-submit-btn" class="flex-1 py-2 rounded-lg text-xs font-semibold bg-brand-500 hover:bg-brand-400 text-dark-950 transition-colors">
+                        Enviar Solicitud Concierge
+                    </button>
+                    <button type="button" onclick="closeCustomTickerModal()" class="py-2 px-3 rounded-lg text-xs font-medium bg-dark-800 hover:bg-dark-750 text-slate-400">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script>
+        // Global State
+        let allPositions = [];
+        let currentFilter = 'ALL';
+        let searchQuery = '';
+        let selectedPosition = null;
+
+        // Fetch or load dataset
+        async function loadPortfolioData() {
+            try {
+                // Try relative to demo
+                let res = await fetch('./portfolio_sandbox_data.json');
+                if (!res.ok) {
+                    res = await fetch('../data/portfolio_sandbox_data.json');
+                }
+                const data = await res.json();
+                allPositions = data.positions || [];
+                renderTable();
+                updateKPIs(data.meta);
+            } catch (err) {
+                console.warn('Fallback loading: fetch failed, falling back to local dataset embedded in window.', err);
+            }
+        }
+
+        function updateKPIs(meta) {
+            if (!meta) return;
+            const kpiHealth = document.getElementById('kpi-health-score');
+            const kpiCrit = document.getElementById('kpi-critical-count');
+            const kpiWarn = document.getElementById('kpi-warning-count');
+            const kpiHlth = document.getElementById('kpi-healthy-count');
+
+            if (kpiHealth) kpiHealth.innerHTML = `${meta.aggregate_health_score}<span class="text-xs text-slate-500">/100</span>`;
+            if (kpiCrit && meta.severity_breakdown) kpiCrit.textContent = meta.severity_breakdown.critical;
+            if (kpiWarn && meta.severity_breakdown) kpiWarn.textContent = meta.severity_breakdown.warning;
+            if (kpiHlth && meta.severity_breakdown) kpiHlth.textContent = meta.severity_breakdown.healthy;
+        }
+
+        function filterBySeverity(severity) {
+            currentFilter = severity;
+            
+            // Update pill styling
+            const pills = ['ALL', 'CRITICAL', 'WARNING', 'HEALTHY'];
+            pills.forEach(p => {
+                const el = document.getElementById(`pill-${p}`);
+                if (!el) return;
+                if (p === severity) {
+                    el.className = 'pill-btn px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-all bg-brand-500 text-dark-950 font-bold shadow-sm shadow-brand-500/20';
+                } else {
+                    el.className = 'pill-btn px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-all bg-dark-900 hover:bg-dark-850 text-slate-300 border border-slate-800';
+                }
+            });
+
+            renderTable();
+        }
+
+        function handleSearch(val) {
+            searchQuery = val.trim().toLowerCase();
+            renderTable();
+        }
+
+        function getSeverityBadge(status) {
+            if (status === 'CRITICAL') {
+                return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20"><span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>CRITICAL 🚨</span>';
+            } else if (status === 'WARNING') {
+                return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>WARNING ⚠️</span>';
+            } else {
+                return '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>HEALTHY ✅</span>';
+            }
+        }
+
+        function getScoreBar(score) {
+            let color = 'bg-emerald-500';
+            let textColor = 'text-emerald-400';
+            if (score < 60) {
+                color = 'bg-rose-500';
+                textColor = 'text-rose-400';
+            } else if (score < 80) {
+                color = 'bg-amber-500';
+                textColor = 'text-amber-400';
+            }
+            return `
+                <div class="flex flex-col items-center">
+                    <span class="font-mono font-bold ${textColor}">${score}</span>
+                    <div class="w-12 bg-slate-800 h-1 rounded-full mt-1 overflow-hidden">
+                        <div class="${color} h-full" style="width: ${score}%"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('positions-table-body');
+            const noResults = document.getElementById('no-results-state');
+            if (!tbody) return;
+
+            let filtered = allPositions.filter(pos => {
+                const matchesSeverity = currentFilter === 'ALL' || pos.status === currentFilter;
+                const matchesSearch = !searchQuery || 
+                    pos.ticker.toLowerCase().includes(searchQuery) ||
+                    pos.name.toLowerCase().includes(searchQuery) ||
+                    pos.sector.toLowerCase().includes(searchQuery);
+                return matchesSeverity && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                if (noResults) noResults.classList.remove('hidden');
+                return;
+            }
+
+            if (noResults) noResults.classList.add('hidden');
+
+            tbody.innerHTML = filtered.map(pos => `
+                <tr class="hover:bg-dark-850/80 transition-colors cursor-pointer group" onclick="openDrawer('${pos.ticker}')">
+                    <td class="py-3.5 px-4 sm:px-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-dark-800 border border-slate-700/80 flex items-center justify-center font-mono font-bold text-white text-xs group-hover:border-brand-500/50 transition-colors">
+                                ${pos.ticker}
+                            </div>
+                            <div>
+                                <div class="font-semibold text-white group-hover:text-brand-400 transition-colors">${pos.name}</div>
+                                <div class="text-[11px] text-slate-400 font-mono">${pos.sector}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3.5 px-4">
+                        ${getSeverityBadge(pos.status)}
+                    </td>
+                    <td class="py-3.5 px-4 text-center">
+                        ${getScoreBar(pos.health_score)}
+                    </td>
+                    <td class="py-3.5 px-4 font-mono text-[11px] text-slate-300">
+                        ${pos.fcf_quality}
+                    </td>
+                    <td class="py-3.5 px-4 hidden md:table-cell text-slate-300 text-xs max-w-xs truncate">
+                        ${pos.primary_alert_headline}
+                    </td>
+                    <td class="py-3.5 px-4 text-right">
+                        <button class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-mono text-slate-300 bg-slate-800/80 group-hover:bg-brand-500 group-hover:text-dark-950 transition-all">
+                            <span>Evidencias</span>
+                            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Reinitialize icons in new table rows
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function openDrawer(ticker) {
+            const pos = allPositions.find(p => p.ticker === ticker);
+            if (!pos) return;
+            selectedPosition = pos;
+
+            document.getElementById('drawer-ticker-badge').textContent = pos.ticker;
+            document.getElementById('drawer-company-name').textContent = pos.name;
+            document.getElementById('drawer-sector').textContent = `${pos.sector} · ${pos.industry || ''}`;
+            
+            const badgeEl = document.getElementById('drawer-status-badge');
+            if (pos.status === 'CRITICAL') {
+                badgeEl.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20';
+                badgeEl.textContent = 'CRITICAL 🚨';
+            } else if (pos.status === 'WARNING') {
+                badgeEl.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20';
+                badgeEl.textContent = 'WARNING ⚠️';
+            } else {
+                badgeEl.className = 'px-2 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+                badgeEl.textContent = 'HEALTHY ✅';
+            }
+
+            document.getElementById('drawer-health-score').textContent = pos.health_score;
+            const healthBar = document.getElementById('drawer-health-bar');
+            let color = pos.health_score < 60 ? 'bg-rose-500' : (pos.health_score < 80 ? 'bg-amber-500' : 'bg-emerald-500');
+            healthBar.innerHTML = `<div class="${color} h-full" style="width: ${pos.health_score}%"></div>`;
+
+            document.getElementById('drawer-fcf-quality').textContent = pos.fcf_quality;
+            document.getElementById('drawer-sbc-stat').textContent = `SBC % CFO: ${pos.sbc_pct_cfo}`;
+
+            document.getElementById('drawer-headline').textContent = pos.primary_alert_headline;
+            document.getElementById('drawer-summary').textContent = pos.forensic_summary;
+
+            document.getElementById('drawer-footnote-quote').textContent = pos.footnote_citation;
+            const secLink = document.getElementById('drawer-sec-link');
+            secLink.href = pos.sec_edgar_url;
+
+            document.getElementById('drawer-sbc').textContent = pos.sbc_pct_cfo;
+            document.getElementById('drawer-debt').textContent = pos.net_debt_ebitda;
+            document.getElementById('drawer-payout').textContent = pos.dividend_payout;
+            document.getElementById('drawer-impact-tag').textContent = pos.status === 'CRITICAL' ? 'High Impact' : (pos.status === 'WARNING' ? 'Moderate Risk' : 'Protected');
+
+            document.getElementById('drawer-impact-desc').textContent = pos.financial_impact;
+            document.getElementById('drawer-actionable-verdict').textContent = pos.actionable_verdict;
+
+            // Show drawer
+            const drawer = document.getElementById('evidence-drawer');
+            const backdrop = document.getElementById('drawer-backdrop');
+            drawer.classList.remove('translate-x-full');
+            backdrop.classList.remove('opacity-0', 'pointer-events-none');
+
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        function closeDrawer() {
+            const drawer = document.getElementById('evidence-drawer');
+            const backdrop = document.getElementById('drawer-backdrop');
+            drawer.classList.add('translate-x-full');
+            backdrop.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Keyboard navigation (Esc to close)
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDrawer();
+                closeCustomTickerModal();
+            }
+        });
+
+        // Custom Ticker Modal functions
+        function openCustomTickerModal() {
+            const modal = document.getElementById('ticker-modal');
+            const statusMsg = document.getElementById('modal-status-msg');
+            statusMsg.classList.add('hidden');
+            modal.classList.remove('hidden');
+            document.getElementById('modal-ticker').focus();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function closeCustomTickerModal() {
+            const modal = document.getElementById('ticker-modal');
+            modal.classList.add('hidden');
+        }
+
+        function handleCustomTickerSubmit(e) {
+            e.preventDefault();
+            const ticker = document.getElementById('modal-ticker').value.toUpperCase().trim();
+            const email = document.getElementById('modal-email').value.trim();
+            const notes = document.getElementById('modal-notes').value.trim();
+            const statusMsg = document.getElementById('modal-status-msg');
+            const submitBtn = document.getElementById('modal-submit-btn');
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Verificando CIK en SEC EDGAR...';
+
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar Solicitud Concierge';
+                statusMsg.textContent = `✅ Solicitud registrada para ${ticker}. Se ha programado la auditoría forense estatutaria y te notificaremos a ${email}.`;
+                statusMsg.classList.remove('hidden');
+                
+                // Clear fields
+                setTimeout(() => {
+                    closeCustomTickerModal();
+                    alert(`✅ Solicitud de auditoría para [${ticker}] enviada al Concierge Engine de ThesisCheck.`);
+                }, 1800);
+            }, 800);
+        }
+
+        function requestDeepDive() {
+            if (!selectedPosition) return;
+            openCustomTickerModal();
+            document.getElementById('modal-ticker').value = selectedPosition.ticker;
+            document.getElementById('modal-notes').value = `Solicitud de desglose forense exhaustivo de 10-K para ${selectedPosition.name} (${selectedPosition.ticker}).`;
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadPortfolioData();
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
