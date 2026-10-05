@@ -475,6 +475,44 @@
             <div class="absolute -top-24 -left-24 w-52 h-52 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
             <div class="absolute -bottom-24 -right-24 w-52 h-52 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
+            <!-- Lead-Gate Overlay (Protects API costs & captures qualified B2B investor leads) -->
+            <div id="voice-lead-gate-modal" class="hidden absolute inset-0 bg-dark-900/95 backdrop-blur-md z-40 rounded-2xl p-6 flex flex-col justify-center items-center text-center space-y-4">
+                <div class="w-12 h-12 rounded-2xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center text-brand-400 shadow-lg shadow-brand-500/10">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                </div>
+                <div class="space-y-1.5">
+                    <h4 class="text-sm font-bold text-white tracking-tight">Desbloquea tu Sesión Forense en Directo</h4>
+                    <p class="text-xs text-slate-400 max-w-xs leading-relaxed">
+                        Introduce tu correo para activar el micrófono y enviarte el desglose oficial de filings 10-Q al concluir la llamada.
+                    </p>
+                </div>
+                <form onsubmit="handleLeadGateSubmit(event)" class="w-full max-w-xs space-y-2.5">
+                    <div>
+                        <input type="email" id="lead-gate-email" required placeholder="tu.nombre@fondo.com o inversor" class="w-full bg-dark-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-brand-500 transition-colors">
+                    </div>
+                    <button type="submit" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-400 text-dark-950 transition-all shadow-md shadow-brand-500/20 flex items-center justify-center gap-1.5">
+                        <i data-lucide="unlock" class="w-3.5 h-3.5"></i>
+                        <span>Activar Micrófono en Directo</span>
+                    </button>
+                </form>
+                <div class="flex items-center gap-2 text-[10px] text-slate-500 font-mono">
+                    <span>🛡️ Límite: 2 sesiones gratuitas/día</span>
+                    <span>•</span>
+                    <button type="button" onclick="cancelLeadGateAndUseArchetype()" class="text-brand-400 hover:underline">O usa la Simulación Guiada →</button>
+                </div>
+            </div>
+
+            <!-- Session Limit Exceeded Banner (Shown if user used >= 2 sessions in 24h) -->
+            <div id="session-limit-banner" class="hidden bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 text-xs font-mono text-amber-300 space-y-1 relative z-10">
+                <div class="font-bold flex items-center gap-1.5 text-amber-400">
+                    <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                    <span>Límite de demostración diaria alcanzado (2/2 sesiones)</span>
+                </div>
+                <div class="text-[11px] text-slate-300 leading-relaxed">
+                    Has completado tus 2 auditorías de voz de hoy. Para proteger costes de IA, se ha activado la <strong>Simulación Guiada</strong>. Puedes explorar cualquier arquetipo sin límite.
+                </div>
+            </div>
+
             <!-- Modal Header -->
             <div class="flex items-center justify-between relative z-10 border-b border-slate-800/80 pb-3">
                 <div class="flex items-center gap-3">
@@ -587,7 +625,6 @@
             <!-- Action Controls -->
             <div class="flex items-center gap-2 pt-1 relative z-10">
                 <button type="button" id="voice-start-btn" onclick="toggleVoiceCall()" class="flex-1 py-3 px-4 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-400 text-dark-950 transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-500/25">
-                    <i data-lucide="mic" class="w-4 h-4"></i>
                     <span id="voice-btn-label">🎙️ Iniciar Entrevista con Micrófono</span>
                 </button>
                 <button type="button" onclick="closeVoiceModal()" class="py-3 px-4 rounded-xl text-xs font-medium bg-dark-800 hover:bg-dark-750 text-slate-300 border border-slate-700 transition-colors">
@@ -652,6 +689,7 @@
         let isVoiceCallActive = false;
         let voiceTimerInterval = null;
         let voiceElapsedSeconds = 0;
+        let voiceInputMode = 'LIVE';
         let vapiInstance = null;
         const VAPI_ASSISTANT_ID = 'f1e5c485-6b1a-43d7-8acd-4ebd91dc07f8';
 
@@ -1039,6 +1077,18 @@
         function openVoiceModal() {
             const modal = document.getElementById('voice-modal');
             modal.classList.remove('hidden');
+
+            // Enforce daily live session cap (max 2 per 24 hours)
+            const count = getLiveSessionsCountToday();
+            const limitBanner = document.getElementById('session-limit-banner');
+            if (count >= MAX_DAILY_LIVE_SESSIONS) {
+                if (limitBanner) limitBanner.classList.remove('hidden');
+                setVoiceInputMode('ARCHETYPE');
+            } else {
+                if (limitBanner) limitBanner.classList.add('hidden');
+                setVoiceInputMode(voiceInputMode || 'LIVE');
+            }
+
             if (window.lucide) lucide.createIcons();
         }
 
@@ -1255,14 +1305,63 @@
             }
         };
 
-        let currentVoiceScenario = 'dgi_quality';
-        let interviewLanguage = 'es';
-        let voiceInputMode = 'LIVE';
-        let liveConversation = [];
-        let speechRecognizer = null;
-        let isListening = false;
-        let isAuditorSpeaking = false;
-        let voiceSimTimeouts = [];
+        let userTurnCount = 0;
+        const MAX_USER_TURNS = 3;
+        const MAX_DAILY_LIVE_SESSIONS = 2;
+
+        function getLiveSessionsCountToday() {
+            try {
+                const raw = localStorage.getItem('thesischeck_sessions_log');
+                if (!raw) return 0;
+                const timestamps = JSON.parse(raw);
+                const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+                const valid = timestamps.filter(t => t > oneDayAgo);
+                localStorage.setItem('thesischeck_sessions_log', JSON.stringify(valid));
+                return valid.length;
+            } catch (e) {
+                return 0;
+            }
+        }
+
+        function recordLiveSessionUsage() {
+            try {
+                const raw = localStorage.getItem('thesischeck_sessions_log');
+                const timestamps = raw ? JSON.parse(raw) : [];
+                timestamps.push(Date.now());
+                localStorage.setItem('thesischeck_sessions_log', JSON.stringify(timestamps));
+            } catch (e) {}
+        }
+
+        function checkLeadEmailVerified() {
+            try {
+                return localStorage.getItem('thesischeck_user_email');
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function handleLeadGateSubmit(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('lead-gate-email');
+            const email = emailInput ? emailInput.value.trim() : '';
+            if (!email) return;
+
+            try {
+                localStorage.setItem('thesischeck_user_email', email);
+            } catch (e) {}
+
+            const leadModal = document.getElementById('voice-lead-gate-modal');
+            if (leadModal) leadModal.classList.add('hidden');
+
+            // Immediately start the voice call
+            startVoiceCall();
+        }
+
+        function cancelLeadGateAndUseArchetype() {
+            const leadModal = document.getElementById('voice-lead-gate-modal');
+            if (leadModal) leadModal.classList.add('hidden');
+            setVoiceInputMode('ARCHETYPE');
+        }
 
         function setInterviewLanguage(lang) {
             interviewLanguage = lang;
@@ -1489,6 +1588,7 @@
             `;
             transcriptBox.scrollTop = transcriptBox.scrollHeight;
 
+            userTurnCount++;
             liveConversation.push({ role: 'user', text: userText });
 
             // Call /api/interview endpoint (Gemini 2.5 Flash)
@@ -1508,8 +1608,14 @@
 
                 if (res.ok) {
                     const data = await res.json();
-                    const reply = data.text || (interviewLanguage === 'es' ? 'Entendido. Continúa explicándome tus líneas rojas.' : 'Understood. Please continue with your sell discipline.');
+                    let reply = data.text || (interviewLanguage === 'es' ? 'Entendido. Continúa explicándome tus líneas rojas.' : 'Understood. Please continue with your sell discipline.');
                     
+                    if (userTurnCount >= MAX_USER_TURNS || data.call_concluded) {
+                        reply += (interviewLanguage === 'es' 
+                            ? " He recopilado todos los elementos clave de tu tesis y tus líneas rojas. Concluyo la llamada para proyectar tu cartera auditada en pantalla."
+                            : " I have collected all key elements of your thesis and sell discipline. Ending call now to project your audited portfolio on screen.");
+                    }
+
                     liveConversation.push({ role: 'auditor', text: reply });
 
                     transcriptBox.innerHTML += `
@@ -1523,8 +1629,17 @@
                     `;
                     transcriptBox.scrollTop = transcriptBox.scrollHeight;
 
+                    if (userTurnCount >= MAX_USER_TURNS || data.call_concluded) {
+                        speakAuditor(reply, () => {
+                            statusText.textContent = 'Llamada completada (máximo 3 turnos). Proyectando terminal...';
+                            setTimeout(() => {
+                                if (isVoiceCallActive) endVoiceCall();
+                            }, 2000);
+                        });
+                        return;
+                    }
+
                     speakAuditor(reply, () => {
-                        // Prepare placeholder for next user turn
                         createInterimTurnPlaceholder();
                     });
                     return;
@@ -1588,9 +1703,37 @@
         }
 
         function startVoiceCall() {
+            if (voiceInputMode === 'LIVE') {
+                // Check 24-hour live session limit (max 2 per day)
+                const count = getLiveSessionsCountToday();
+                if (count >= MAX_DAILY_LIVE_SESSIONS) {
+                    alert('Has alcanzado el límite de 2 auditorías de voz gratuitas en las últimas 24 horas. Para proteger costes de IA, se ha activado la Simulación Guiada.');
+                    const limitBanner = document.getElementById('session-limit-banner');
+                    if (limitBanner) limitBanner.classList.remove('hidden');
+                    setVoiceInputMode('ARCHETYPE');
+                    return;
+                }
+
+                // Check Lead-Gate: verified email required before live mic
+                const email = checkLeadEmailVerified();
+                if (!email) {
+                    const leadModal = document.getElementById('voice-lead-gate-modal');
+                    if (leadModal) {
+                        leadModal.classList.remove('hidden');
+                        const emailInput = document.getElementById('lead-gate-email');
+                        if (emailInput) emailInput.focus();
+                        if (window.lucide) lucide.createIcons();
+                    }
+                    return;
+                }
+
+                recordLiveSessionUsage();
+            }
+
             isVoiceCallActive = true;
             voiceElapsedSeconds = 0;
             liveConversation = [];
+            userTurnCount = 0;
             clearVoiceTimeouts();
 
             const startBtn = document.getElementById('voice-start-btn');

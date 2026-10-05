@@ -1,21 +1,22 @@
 /**
  * Cloudflare Pages Function: /api/interview
- * Endpoint serverless para el Auditor Socrático Forense de ThesisCheck.
- * Conecta en tiempo real con Gemini 2.5 Flash para:
- * 1. Conducir la entrevista socrática por voz ('chat')
- * 2. Extraer el esquema JSON estructurado y proyectar la terminal ('extract')
+ * Endpoint serverless blindado para el Auditor Socrático Forense de ThesisCheck.
+ * Medidas de protección de costes y abuso:
+ * 1. Hard Cap de turnos: Máximo 3 turnos de usuario por llamada (cierre automático).
+ * 2. Tokens acotados: maxOutputTokens 180 (respuestas directas y concisas).
+ * 3. Fallback elegante sin romper la demo ante cuotas agotadas.
  */
 
 const SYSTEM_PROMPT_CHAT_ES = `Eres el Auditor Socrático Forense de ThesisCheck.
 Tu misión es entrevistar al inversor para someter su tesis de inversión a un escrutinio forense implacable basado en los filings oficiales 10-Q y 10-K de la SEC.
 Reglas operativas obligatorias:
-1. Idioma: Español estricto, tono sobrio, inquisitivo, riguroso y escéptico (como un analista senior de equity research o auditor contable). Cero adulación, cero jerga comercial, cero coletillas complacientes.
-2. Si el inversor menciona una empresa o ticker (ej. Zoetis, Alexandria, CrowdStrike, ASML, 3M, Nike, MercadoLibre, Palantir, Nvidia, Tesla, Microsoft, etc.):
-   - Desafía de inmediato su narrativa señalando el principal riesgo contable, dilución por SBC, vencimientos de deuda o contingencias legales (ASC 450).
-   - Exige que defina su línea roja cuantitativa o kill-switch contable que le forzaría a vender la posición.
-3. Si el inversor declara que solo invierte en fondos indexados (Boglehead, VWCE, S&P 500):
-   - Reconoce la ausencia de riesgo idiosincrático por 10-K corporativo y explica que ThesisCheck audita las tripas de las empresas individuales para carteras activas.
-4. Mantén tus intervenciones concisas (máximo 2-3 frases contundentes) para garantizar una conversación de voz ágil y dinámica por teléfono/micrófono.`;
+1. Idioma: Español estricto, tono sobrio, inquisitivo, riguroso y escéptico. Cero adulación, cero jerga comercial.
+2. Si el inversor menciona una empresa o ticker (ej. Zoetis, Alexandria, CrowdStrike, ASML, 3M, Nike, MercadoLibre, Palantir, etc.):
+   - Desafía de inmediato su narrativa señalando el principal riesgo contable, dilución por SBC, deuda o contingencias legales (ASC 450).
+   - Exige que defina su línea roja cuantitativa o kill-switch contable que le forzaría a vender.
+3. Si el inversor declara fondos indexados (Boglehead, VWCE, S&P 500):
+   - Reconoce la ausencia de riesgo idiosincrático por 10-K corporativo y explica que ThesisCheck audita carteras activas.
+4. Mantén tus intervenciones cortas y contundentes (máximo 2 frases) para garantizar una conversación ágil por micrófono.`;
 
 const SYSTEM_PROMPT_CHAT_EN = `You are the ThesisCheck Forensic Socratic Auditor.
 Your mission is to interview the investor to subject their thesis to relentless scrutiny against statutory SEC Form 10-Q and 10-K filings.
@@ -23,7 +24,7 @@ Mandatory rules:
 1. Strict sober, institutional, skeptical equity-research tone. Zero sycophancy or sales talk.
 2. When the investor mentions a company or ticker, challenge their narrative by pointing out balance sheet risks, SBC dilution, debt refinancings, or ASC 450 contingent liabilities.
 3. Demand their quantitative kill-switch or exit red line.
-4. Keep turns short (2-3 sentences max) for an agile voice dialogue.`;
+4. Keep turns short (2 sentences max) for an agile voice dialogue.`;
 
 const SYSTEM_PROMPT_EXTRACT = `Eres el Motor Forense de Extracción de ThesisCheck.
 Analiza la transcripción de la entrevista y extrae estrictamente un objeto JSON válido con este formato:
@@ -63,8 +64,11 @@ export async function onRequestPost(context) {
     try {
         const apiKey = env.GEMINI_API_KEY;
         if (!apiKey) {
-            return new Response(JSON.stringify({ error: "GEMINI_API_KEY no configurada en las variables de entorno de Cloudflare." }), {
-                status: 500,
+            return new Response(JSON.stringify({ 
+                error: "GEMINI_API_KEY_NOT_CONFIGURED", 
+                detail: "La clave de Gemini no está configurada aún en Cloudflare Pages. Utilice el modo de simulación guiada." 
+            }), {
+                status: 200,
                 headers: { "Content-Type": "application/json" }
             });
         }
@@ -74,12 +78,24 @@ export async function onRequestPost(context) {
         const messages = body.messages || [];
         const language = body.language || "es";
 
+        // Cost & abuse guard: hard turn cap (max 6 total messages in sequence)
+        if (action === "chat" && messages.length > 6) {
+            return new Response(JSON.stringify({
+                role: "auditor",
+                text: language === "es"
+                    ? "He registrado tus tesis principales y líneas rojas. Concluyo la llamada para proyectar tu terminal forense personalizada en pantalla."
+                    : "I have recorded your key theses and red lines. Ending call now to project your customized forensic terminal on screen.",
+                call_concluded: true
+            }), {
+                headers: { "Content-Type": "application/json" }
+            });
+        }
+
         const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
         if (action === "chat") {
             const systemPrompt = language === "en" ? SYSTEM_PROMPT_CHAT_EN : SYSTEM_PROMPT_CHAT_ES;
             
-            // Format messages for Gemini API
             const contents = messages.map(m => ({
                 role: m.role === "auditor" ? "model" : "user",
                 parts: [{ text: m.text }]
@@ -90,7 +106,7 @@ export async function onRequestPost(context) {
                 contents: contents,
                 generationConfig: {
                     temperature: 0.3,
-                    maxOutputTokens: 250
+                    maxOutputTokens: 180 // Tight token limit to minimize cost and latency
                 }
             };
 
@@ -101,9 +117,13 @@ export async function onRequestPost(context) {
             });
 
             if (!resp.ok) {
-                const errText = await resp.text();
-                return new Response(JSON.stringify({ error: `Gemini API Error: ${resp.status}`, detail: errText }), {
-                    status: resp.status,
+                // If rate limited or quota exceeded, return fallback message gracefully
+                return new Response(JSON.stringify({
+                    role: "auditor",
+                    text: language === "es"
+                        ? "Entendido. He registrado tus empresas y horizonte. ¿Cuál es tu línea roja cuantitativa en balance o flujo de caja que te forzaría a vender?"
+                        : "Understood. I have recorded your holdings and horizon. What is your quantitative exit red line on free cash flow or debt?"
+                }), {
                     headers: { "Content-Type": "application/json" }
                 });
             }
@@ -116,7 +136,6 @@ export async function onRequestPost(context) {
             });
         } 
         else if (action === "extract") {
-            // Build conversation transcript text
             const transcript = messages.map(m => `${m.role === "auditor" ? "ThesisCheck Auditor" : "Inversor"}: ${m.text}`).join("\n\n");
 
             const payload = {
@@ -135,9 +154,7 @@ export async function onRequestPost(context) {
             });
 
             if (!resp.ok) {
-                const errText = await resp.text();
-                return new Response(JSON.stringify({ error: `Gemini Extract Error: ${resp.status}`, detail: errText }), {
-                    status: resp.status,
+                return new Response(JSON.stringify({ success: false, fallback: true }), {
                     headers: { "Content-Type": "application/json" }
                 });
             }
@@ -156,7 +173,7 @@ export async function onRequestPost(context) {
             });
         }
     } catch (err) {
-        return new Response(JSON.stringify({ error: err.message, stack: err.stack }), {
+        return new Response(JSON.stringify({ error: err.message }), {
             status: 500,
             headers: { "Content-Type": "application/json" }
         });
