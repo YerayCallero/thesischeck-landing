@@ -494,6 +494,28 @@
                 </button>
             </div>
 
+            <!-- Scenario Archetype Selector (Interactive & Stress Testing) -->
+            <div class="space-y-1.5 relative z-10">
+                <div class="flex items-center justify-between text-[10px] font-mono text-slate-400 uppercase">
+                    <span>Arquetipo / Perfil de Inversor:</span>
+                    <span class="text-brand-400 font-semibold">Simulación Socrática</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5" id="scenario-pill-selector">
+                    <button type="button" onclick="selectVoiceScenario('dgi_quality')" id="scenario-btn-dgi_quality" class="scenario-btn px-2 py-1.5 rounded-lg text-[10px] font-mono font-bold bg-brand-500 text-dark-950 transition-all border border-brand-400">
+                        🌱 DGI (ZTS/ARE)
+                    </button>
+                    <button type="button" onclick="selectVoiceScenario('tech_growth')" id="scenario-btn-tech_growth" class="scenario-btn px-2 py-1.5 rounded-lg text-[10px] font-mono bg-dark-950 hover:bg-dark-850 text-slate-300 border border-slate-800 transition-all">
+                        🚀 Tech (ASML/CRWD)
+                    </button>
+                    <button type="button" onclick="selectVoiceScenario('deep_value')" id="scenario-btn-deep_value" class="scenario-btn px-2 py-1.5 rounded-lg text-[10px] font-mono bg-dark-950 hover:bg-dark-850 text-slate-300 border border-slate-800 transition-all">
+                        🚨 Value (MMM/NKE)
+                    </button>
+                    <button type="button" onclick="selectVoiceScenario('adversarial_empty')" id="scenario-btn-adversarial_empty" class="scenario-btn px-2 py-1.5 rounded-lg text-[10px] font-mono bg-dark-950 hover:bg-dark-850 text-slate-300 border border-slate-800 transition-all">
+                        🛡️ Index (0 Tickers)
+                    </button>
+                </div>
+            </div>
+
             <!-- Voice Orb & Audio Visualization -->
             <div class="flex flex-col items-center justify-center py-2 relative z-10 space-y-3">
                 <div class="relative flex items-center justify-center w-36 h-36">
@@ -627,10 +649,14 @@
             try {
                 const savedUser = localStorage.getItem('thesischeck_user_positions');
                 const savedSummary = localStorage.getItem('thesischeck_user_summary');
-                if (savedUser) {
+                const savedScenario = localStorage.getItem('thesischeck_user_scenario');
+                if (savedUser !== null) {
                     const parsed = JSON.parse(savedUser);
-                    if (Array.isArray(parsed) && parsed.length > 0) {
+                    if (Array.isArray(parsed)) {
                         userPositions = parsed;
+                        if (savedScenario) {
+                            currentVoiceScenario = savedScenario;
+                        }
                         const countBadge = document.getElementById('user-portfolio-count-badge');
                         if (countBadge) countBadge.textContent = userPositions.length;
 
@@ -731,6 +757,7 @@
                 try {
                     localStorage.removeItem('thesischeck_user_positions');
                     localStorage.removeItem('thesischeck_user_summary');
+                    localStorage.removeItem('thesischeck_user_scenario');
                 } catch (e) {}
                 userPositions = [];
                 const countBadge = document.getElementById('user-portfolio-count-badge');
@@ -815,19 +842,38 @@
                 if (noResults) {
                     noResults.classList.remove('hidden');
                     if (currentPortfolioMode === 'USER' && userPositions.length === 0) {
-                        noResults.innerHTML = `
-                            <div class="py-10 space-y-3 text-center">
-                                <div class="w-12 h-12 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 mx-auto">
-                                    <i data-lucide="mic" class="w-6 h-6"></i>
+                        let savedScenario = '';
+                        try { savedScenario = localStorage.getItem('thesischeck_user_scenario'); } catch (e) {}
+                        if (currentVoiceScenario === 'adversarial_empty' || savedScenario === 'adversarial_empty') {
+                            noResults.innerHTML = `
+                                <div class="py-10 space-y-3 text-center">
+                                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto">
+                                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                                    </div>
+                                    <div class="text-sm font-semibold text-white">Cartera 100% Pasiva e Indexada</div>
+                                    <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+                                        Has declarado una estrategia boglehead basada en fondos indexados globales (ej. VWCE, S&P 500). Tu cartera no presenta exposición a riesgo contable corporativo individual en filings 10-K.
+                                    </p>
+                                    <button onclick="switchPortfolioMode('MODEL')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-brand-500/10 hover:bg-brand-500/20 text-brand-400 border border-brand-500/30 transition-all">
+                                        Explorar Cartera Modelo Institucional (18) ➔
+                                    </button>
                                 </div>
-                                <div class="text-sm font-semibold text-white">Tu Cartera Personal aún está vacía</div>
-                                <p class="text-xs text-slate-400 max-w-sm mx-auto">Inicia la entrevista con el Auditor Socrático para proyectar tus activos y contrastar tus líneas rojas contra la SEC.</p>
-                                <button onclick="openVoiceModal()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-400 text-dark-950 transition-all shadow-md shadow-brand-500/20">
-                                    <i data-lucide="phone-call" class="w-4 h-4"></i>
-                                    <span>Iniciar Entrevista de Voz (3 min) ➔</span>
-                                </button>
-                            </div>
-                        `;
+                            `;
+                        } else {
+                            noResults.innerHTML = `
+                                <div class="py-10 space-y-3 text-center">
+                                    <div class="w-12 h-12 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 mx-auto">
+                                        <i data-lucide="mic" class="w-6 h-6"></i>
+                                    </div>
+                                    <div class="text-sm font-semibold text-white">Tu Cartera Personal aún está vacía</div>
+                                    <p class="text-xs text-slate-400 max-w-sm mx-auto">Inicia la entrevista con el Auditor Socrático para proyectar tus activos y contrastar tus líneas rojas contra la SEC.</p>
+                                    <button onclick="openVoiceModal()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-400 text-dark-950 transition-all shadow-md shadow-brand-500/20">
+                                        <i data-lucide="phone-call" class="w-4 h-4"></i>
+                                        <span>Iniciar Entrevista de Voz (3 min) ➔</span>
+                                    </button>
+                                </div>
+                            `;
+                        }
                     } else {
                         noResults.textContent = 'No se encontraron activos que coincidan con el filtro seleccionado.';
                     }
@@ -977,6 +1023,242 @@
             modal.classList.add('hidden');
         }
 
+        // Multi-scenario Archetypes for Voice Interview & Stress Testing
+        const VOICE_SCENARIOS = {
+            dgi_quality: {
+                key: 'dgi_quality',
+                label: '🌱 DGI Quality (ZTS / ARE)',
+                dialogue: [
+                    { role: 'auditor', text: "Hello, I'm the ThesisCheck auditor. We can speak in English or Spanish, whichever you prefer. Tell me: what's your investment philosophy and what do you look for in the businesses you buy?" },
+                    { role: 'user', text: "Tengo 45 años, busco jubilarme sobre los 68-70 buscando un 12% CAGR con estrategia DGI. Mis posiciones de mayor peso son Zoetis y Alexandria Real Estate." },
+                    { role: 'auditor', text: "Entendido: 45 años con un horizonte efectivo de unos 23 a 25 años buscando un 12% CAGR en compounders de dividendo creciente. Anoto Zoetis (ZTS) y Alexandria (ARE). ¿Cuál es tu línea roja en balances que te forzaría a vender?" },
+                    { role: 'user', text: "Venta inmediata si el Free Cash Flow real no cubre el 100% del dividendo o si el apalancamiento neto supera 3.5x EBITDA." },
+                    { role: 'auditor', text: "Perfecto. He registrado Zoetis (ZTS) y Alexandria Real Estate (ARE) con tus alertas de cobertura de FCF. Cuelgo la llamada ahora para proyectar tu terminal forense personalizada en pantalla." }
+                ],
+                summaryHtml: `
+                    • <strong>Perfil Detectado:</strong> Quality Compounder & Dividend Growth (DGI)<br>
+                    • <strong>Horizonte Efectivo:</strong> 24 años (Edad actual 45 → Jubilación ~69 años) · Objetivo: 12% CAGR<br>
+                    • <strong>Posiciones Auditadas:</strong> <strong>Zoetis (ZTS - 93/100)</strong> y <strong>Alexandria Real Estate (ARE - 72/100)</strong> proyectadas en la pestaña 'Mi Cartera'<br>
+                    • <strong>Contraste Forense:</strong> Tus líneas rojas (FCF Payout &gt;100% y Deuda &gt;3.5x) han sido contrastadas contra los filings oficiales 10-Q.
+                `,
+                positions: [
+                    {
+                        ticker: "ZTS",
+                        name: "Zoetis Inc.",
+                        sector: "Healthcare",
+                        industry: "Animal Health Pharmaceuticals",
+                        status: "HEALTHY",
+                        health_score: 93,
+                        fcf_quality: "108% (Pricing Power Animal)",
+                        sbc_pct_cfo: "4.2%",
+                        net_debt_ebitda: "1.4x",
+                        dividend_payout: "34% (FCF)",
+                        primary_alert_headline: "Liderazgo global en salud animal con cobertura de dividendos holgada por FCF",
+                        forensic_summary: "Zoetis demuestra un foso analítico excepcional en animales de compañía y ganadería. Los filings Form 10-Q confirman que el flujo de caja libre cubre el dividendo casi 3 veces y los gastos financieros están acotados por debajo del 4% de los ingresos operativos.",
+                        footnote_citation: "Form 10-Q, Item 7 – Results: 'Revenues grew 10% operational, driven by continued adoption of our companion animal dermatology portfolio and Librela/Solensia pain medications.'",
+                        sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0001555280",
+                        financial_impact: "Crecimiento operativo del 10% con margen EBITDA estatutario del 41% y cero contingencias materiales.",
+                        actionable_verdict: "Veredicto Forense: Posición de alta convicción validada con balance de grado de inversión y cobertura plena.",
+                        user_thesis: "Comprada por pricing power en medicamentos veterinarios (Librela/Solensia) y dividendo creciente a 24 años vista.",
+                        user_killswitch: "Venta inmediata si el FCF real no cubre el 100% del dividendo o la deuda neta supera 3.5x EBITDA.",
+                        contrast_verdict: "✅ <strong>LÍNEA ROJA RESPETADA:</strong> El dividendo solo consume el 34% del FCF ($620M pagados vs. $1.8B FCF). Deuda Neta/EBITDA en 1.4x (muy inferior a tu límite de 3.5x).<br>⚠️ <strong>Alerta de Calidad:</strong> El crecimiento del 10% se descompone en +8% por subidas de precio y solo +2% volumen real."
+                    },
+                    {
+                        ticker: "ARE",
+                        name: "Alexandria Real Estate Equities, Inc.",
+                        sector: "Real Estate",
+                        industry: "Life Science Megacampus REIT",
+                        status: "WARNING",
+                        health_score: 72,
+                        fcf_quality: "78% (AFFO vs FCF)",
+                        sbc_pct_cfo: "1.8%",
+                        net_debt_ebitda: "5.2x (Estructura REIT intensiva)",
+                        dividend_payout: "84% (AFFO Payout)",
+                        primary_alert_headline: "Vencimientos de deuda no garantizada y presión en refinanciaciones (Note 9)",
+                        forensic_summary: "Alexandria posee un portfolio clase A insustituible en distritos biotecnológicos (Boston, San Diego). Sin embargo, Note 9 del Form 10-Q muestra vencimientos de deuda a tipos fijos bajos (3.85%) que enfrentan tipos de mercado actuales (>5.5%), elevando el gasto financiero futuro.",
+                        footnote_citation: "Form 10-Q, Note 9 – Senior Notes: '$1.8B in fixed-rate senior notes maturing through 2026 at a weighted rate of 3.85%, confronting current refinancing market yields of 5.50-5.75%.'",
+                        sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0001035449",
+                        financial_impact: "Carga financiera adicional de ~$31M anuales en intereses si se refinancia al 5.6%, reduciendo el buffer del dividendo.",
+                        actionable_verdict: "Veredicto Forense: Foso analítico de Grado A en hubs biotecnológicos (ocupación 94.6%), pero vigilar refinanciaciones de 2026.",
+                        user_thesis: "Comprada por infraestructura crítica en clústeres biofarmacéuticos (Boston, San Diego) y dividendo predecible.",
+                        user_killswitch: "Venta si la cobertura de dividendo por AFFO cae por debajo del 100% o la ocupación baja del 90%.",
+                        contrast_verdict: "✅ <strong>LÍNEA ROJA RESPETADA:</strong> AFFO Payout actual en 84% (cobertura suficiente, pero buffer estrecho del 16%). Ocupación estatutaria en 94.6% (superior a tu límite del 90%).<br>⚠️ <strong>ALERTA FORENSE:</strong> $1.8B en deuda barata al 3.85% vence antes de 2027; refinanciarla al 5.6% restará $31M anuales de flujo disponible."
+                    }
+                ]
+            },
+            tech_growth: {
+                key: 'tech_growth',
+                label: '🚀 Tech Growth (ASML / CRWD)',
+                dialogue: [
+                    { role: 'auditor', text: "Hello, I'm the ThesisCheck auditor. Tell me: what's your investment philosophy and what do you look for in the businesses you buy?" },
+                    { role: 'user', text: "Tengo 32 años, horizonte a 15+ años. Busco alto crecimiento tecnológico con ventajas competitivas profundas. Mis dos mayores apuestas son ASML en litografía y CrowdStrike en ciberseguridad." },
+                    { role: 'auditor', text: "Entendido: horizonte de 15+ años con sesgo tech growth en semiconductores y software. Anoto ASML y CrowdStrike (CRWD). ¿Cuál es tu línea roja en compensación y gobernanza?" },
+                    { role: 'user', text: "Tolero volatilidad de múltiplos, pero vendo de inmediato si la compensación en acciones (SBC) supera el 20% del flujo operativo o si se pierde pricing power en márgenes." },
+                    { role: 'auditor', text: "Registrado ASML y CrowdStrike (CRWD) con línea roja en dilución por SBC > 20% de CFO. Cuelgo para proyectar la terminal forense y contrastar los 10-Q." }
+                ],
+                summaryHtml: `
+                    • <strong>Perfil Detectado:</strong> Hyper-Growth Tech & Mission-Critical Infrastructure<br>
+                    • <strong>Horizonte Efectivo:</strong> 15+ años (Edad actual 32) · Objetivo: Maximizar retornos compuestos<br>
+                    • <strong>Posiciones Auditadas:</strong> <strong>ASML Holding (ASML - 91/100)</strong> y <strong>CrowdStrike (CRWD - 68/100)</strong> proyectadas en 'Mi Cartera'<br>
+                    • <strong>🚨 Alerta Forense Detectada:</strong> CrowdStrike viola tu línea roja estricta de compensación en acciones (SBC > 20% CFO).
+                `,
+                positions: [
+                    {
+                        ticker: "ASML",
+                        name: "ASML Holding N.V.",
+                        sector: "Technology",
+                        industry: "Semiconductor Equipment",
+                        status: "HEALTHY",
+                        health_score: 91,
+                        fcf_quality: "96% (EUV Monopolio)",
+                        sbc_pct_cfo: "1.4%",
+                        net_debt_ebitda: "0.2x",
+                        dividend_payout: "28% (FCF)",
+                        primary_alert_headline: "Monopolio absoluto en litografía High-NA EUV con backlog récord (Form 20-F)",
+                        forensic_summary: "ASML mantiene una posición monopolística irreemplazable en litografía ultravioleta extrema (EUV). Los filings 20-F y 6-K confirman un margen bruto estatutario del 51.3% y dilución por SBC ínfima (1.4% de CFO).",
+                        footnote_citation: "Form 20-F, Item 5 – Operating Results: 'EUV bookings represented €2.6B, with gross margin of 51.3% supported by dual-stage High-NA shipments.'",
+                        sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0000937966",
+                        financial_impact: "Cero deuda neta neta y visibilidad de pedidos firmes hasta 2026.",
+                        actionable_verdict: "Veredicto Forense: Monopolio tecnológico con balance ultrarobusto y riesgo de dilución nulo.",
+                        user_thesis: "Monopolio en EUV indispensable para toda la industria global de IA y chips.",
+                        user_killswitch: "Venta si SBC > 20% de CFO o pérdida de margen bruto por debajo del 45%.",
+                        contrast_verdict: "✅ <strong>LÍNEA ROJA RESPETADA:</strong> SBC en 1.4% de CFO (ampliamente por debajo de tu 20%). Margen bruto en 51.3% con backlog de €36B."
+                    },
+                    {
+                        ticker: "CRWD",
+                        name: "CrowdStrike Holdings, Inc.",
+                        sector: "Technology",
+                        industry: "Cybersecurity Platform",
+                        status: "WARNING",
+                        health_score: 68,
+                        fcf_quality: "64% (Distorsión por SBC)",
+                        sbc_pct_cfo: "27.8% (⚠️ Límite Violado)",
+                        net_debt_ebitda: "0.0x (Caja Neta)",
+                        dividend_payout: "0% (Sin dividendo)",
+                        primary_alert_headline: "Compensación en acciones (SBC) consume 27.8% del Flujo de Caja Operativo (Note 11)",
+                        forensic_summary: "CrowdStrike reporta un fuerte crecimiento de ARR en su plataforma Falcon. Sin embargo, Note 11 del Form 10-Q revela que el Free Cash Flow reportado ($1.0B) está inflado por $310M en Stock-Based Compensation no monetaria, diluyendo a los accionistas a un ritmo del 2.8% anual.",
+                        footnote_citation: "Form 10-Q, Note 11 – Stock-Based Compensation: 'Total stock-based compensation expense was $310.2M for the nine months ended October 31, representing 27.8% of net cash provided by operating activities.'",
+                        sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0001535527",
+                        financial_impact: "Dilución recurrente del 2.5-3% anual; el FCF libre de dilución real es un 36% inferior al reportado.",
+                        actionable_verdict: "Veredicto Forense: Gran producto cloud pero con severa distorsión de flujo de caja real por dilución ejecutiva.",
+                        user_thesis: "Líder indiscutible en EDR/XDR cloud-native con expansión de módulos Falcon.",
+                        user_killswitch: "Venta si SBC supera el 20% del Flujo de Caja Operativo o desaceleración brusca de ARR.",
+                        contrast_verdict: "🚨 <strong>LÍNEA ROJA VIOLADA:</strong> SBC estatutario asciende al <strong>27.8% del CFO</strong>, violando tu umbral máximo del 20%. Los ejecutivos reciben $310M en acciones mientras el accionista sufre dilución oculta en el FCF reportado."
+                    }
+                ]
+            },
+            deep_value: {
+                key: 'deep_value',
+                label: '🚨 Deep Value (MMM / NKE)',
+                dialogue: [
+                    { role: 'auditor', text: "Hello, I'm the ThesisCheck auditor. Tell me: what's your investment philosophy and what do you look for in the businesses you buy?" },
+                    { role: 'user', text: "Tengo 50 años. Hago Deep Value buscando empresas castigadas por el mercado con descuentos extremos sobre múltiplos históricos. Mis dos mayores apuestas de recuperación son 3M y Nike." },
+                    { role: 'auditor', text: "Entendido: estrategia Deep Value en empresas en turnaround. Anoto 3M Company (MMM) y Nike (NKE). ¿Cuál es tu criterio de salida o línea roja contable?" },
+                    { role: 'user', text: "Si los pasivos contingentes no cuantificados amenazan la solvencia o si el inventario obsoleto destruye el margen operativo más de dos trimestres, vendo." },
+                    { role: 'auditor', text: "Anotado 3M y Nike con vigilancia crítica en notas de contingencias legales y rotación de inventarios. Cuelgo para proyectar la auditoría forense de ambas compañías." }
+                ],
+                summaryHtml: `
+                    • <strong>Perfil Detectado:</strong> Contrarian Turnaround & Deep Value<br>
+                    • <strong>Horizonte Efectivo:</strong> 3-5 años de recuperación operativa · Objetivo: Cierre de gap de valoración<br>
+                    • <strong>Posiciones Auditadas:</strong> <strong>3M Company (MMM - 48/100)</strong> y <strong>NIKE (NKE - 52/100)</strong> proyectadas en 'Mi Cartera'<br>
+                    • <strong>🚨 Alerta de Estrés Crítico:</strong> El 100% de tus posiciones presentan severas banderas rojas forenses (Litigios ASC 450 y Contracción de Margen Bruto).
+                `,
+                positions: [
+                    {
+                        ticker: "MMM",
+                        name: "3M Company",
+                        sector: "Industrials",
+                        industry: "Industrial Conglomerates",
+                        status: "CRITICAL",
+                        health_score: 48,
+                        fcf_quality: "41% (Drenaje Legal)",
+                        sbc_pct_cfo: "2.1%",
+                        net_debt_ebitda: "3.8x",
+                        dividend_payout: "82% (Post-recorte)",
+                        primary_alert_headline: "Pasivos contingentes multimillonarios por Combat Arms y PFAS (Note 14 - ASC 450)",
+                        forensic_summary: "3M enfrenta acuerdos de litigios masivos por agua potable (PFAS) de hasta $12.5B y tapones auditivos de combate por $6.0B. Note 14 del Form 10-Q explicita que los pagos de liquidación absorberán miles de millones de caja operativa durante los próximos 7 años.",
+                        footnote_citation: "Form 10-Q, Note 14 – Commitments and Contingencies: 'Cash settlement payments for Public Water Suppliers and Combat Arms earplugs will require aggregate cash outlays exceeding $10.5B through 2030.'",
+                        sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0000066740",
+                        financial_impact: "Obligaciones legales en efectivo equivalentes a más de 3 años enteros de flujo libre de caja.",
+                        actionable_verdict: "Veredicto Forense: Trampa de valor con pasivos legales estatutarios que hipotecan el FCF hasta 2030.",
+                        user_thesis: "Turnaround industrial con marca histórica y spin-off sanitario Solventum.",
+                        user_killswitch: "Venta si pasivos legales amenazan la calificación crediticia o la caja operativa.",
+                        contrast_verdict: "🚨 <strong>LÍNEA ROJA CRÍTICA:</strong> Note 14 refleja un drenaje forzoso de >$10.5B en efectivo hasta 2030 por contingencias ASC 450. El FCF no está disponible para reinversión ni recompras."
+                    },
+                    {
+                        ticker: "NKE",
+                        name: "NIKE, Inc.",
+                        sector: "Consumer Discretionary",
+                        industry: "Footwear & Athletic Apparel",
+                        status: "CRITICAL",
+                        health_score: 52,
+                        fcf_quality: "55% (Promociones agresivas)",
+                        sbc_pct_cfo: "4.8%",
+                        net_debt_ebitda: "1.9x",
+                        dividend_payout: "58%",
+                        primary_alert_headline: "Contracción de margen bruto por liquidación de inventarios y pérdida de canal mayorista",
+                        forensic_summary: "Nike sufre las consecuencias de su fallida estrategia DTC (Direct-to-Consumer) y la sobre-acumulación de producto. Form 10-Q evidencia descuentos promocionales obligados para drenar calzado no vendido, comprimiendo el margen bruto en 180 bps.",
+                        footnote_citation: "Form 10-Q, Item 2 – Gross Margin: 'Gross margin decreased 180 basis points due to higher promotional markdowns and wholesale partner compensation.'",
+                        sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0000320187",
+                        financial_impact: "Caída del 10% en ingresos de calzado lifestyle y acumulación de días de inventario en 112 días.",
+                        actionable_verdict: "Veredicto Forense: Pérdida temporal de poder de fijación de precios y necesidad de recomponer relaciones mayoristas.",
+                        user_thesis: "Rebote cíclico de marca de consumo dominante con nuevo CEO de la casa.",
+                        user_killswitch: "Venta si margen bruto cae más de 200 bps o los inventarios crecen sobre ventas.",
+                        contrast_verdict: "⚠️ <strong>ALERTA DE MÁRGENES:</strong> Margen bruto contraído 180 bps con 112 días de inventario estancado en canales de distribución. En el límite estricto de tu tolerancia de venta."
+                    }
+                ]
+            },
+            adversarial_empty: {
+                key: 'adversarial_empty',
+                label: '🛡️ Passive Index (0 Tickers)',
+                dialogue: [
+                    { role: 'auditor', text: "Hello, I'm the ThesisCheck auditor. Tell me: what's your investment philosophy and what do you look for in the businesses you buy?" },
+                    { role: 'user', text: "Hola, yo no compro acciones individuales. Solo invierto en fondos indexados globales: 80% Vanguard FTSE All-World (VWCE) y 20% bonos. ¿Me sirve de algo ThesisCheck?" },
+                    { role: 'auditor', text: "Totalmente comprensible: sigues una filosofía puramente pasiva y boglehead indexada. En ese caso no tienes riesgo idiosincrático por 10-K ni contabilidad creativa de una empresa individual." },
+                    { role: 'user', text: "Exacto, solo quiero comprobar si vuestro sistema entiende que mi cartera es pasiva y no me inventa acciones falsas." },
+                    { role: 'auditor', text: "ThesisCheck respeta tu asignación 100% pasiva: no inyectaremos empresas ficticias en tu cartera. Cuelgo para mostrarte el diagnóstico específico para carteras indexadas." }
+                ],
+                summaryHtml: `
+                    • <strong>Perfil Detectado:</strong> Inversor Pasivo Indexado (Boglehead / Vanguard All-World)<br>
+                    • <strong>Horizonte:</strong> Largo Plazo · <strong>Estrategia:</strong> Cero Stock Picking Directo<br>
+                    • <strong>Diagnóstico Forense:</strong> Al no tener posiciones directas individuales, tu cartera no presenta riesgo idiosincrático contable ni contingencias 10-K.<br>
+                    • <strong>Recomendación:</strong> Puedes explorar la <strong>Cartera Modelo Institucional (18 posiciones)</strong> para analizar cómo auditamos empresas como Microsoft o ASML si alguna vez analizas satélites activos.
+                `,
+                positions: []
+            }
+        };
+
+        let currentVoiceScenario = 'dgi_quality';
+
+        function selectVoiceScenario(key) {
+            if (!VOICE_SCENARIOS[key]) return;
+            currentVoiceScenario = key;
+
+            // Update UI buttons styling
+            const buttons = document.querySelectorAll('.scenario-btn');
+            buttons.forEach(btn => {
+                btn.className = 'scenario-btn px-2 py-1.5 rounded-lg text-[10px] font-mono bg-dark-950 hover:bg-dark-850 text-slate-300 border border-slate-800 transition-all';
+            });
+            const activeBtn = document.getElementById(`scenario-btn-${key}`);
+            if (activeBtn) {
+                activeBtn.className = 'scenario-btn px-2 py-1.5 rounded-lg text-[10px] font-mono font-bold bg-brand-500 text-dark-950 transition-all border border-brand-400';
+            }
+
+            // Reset transcript preview
+            const transcriptBox = document.getElementById('voice-transcript-box');
+            if (transcriptBox && !isVoiceCallActive) {
+                transcriptBox.innerHTML = `
+                    <div class="text-brand-400 font-semibold mb-1 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+                        <span>ThesisCheck Auditor (Voz):</span>
+                    </div>
+                    <div class="text-slate-200 text-xs italic pl-3 border-l-2 border-brand-500/40">
+                        "${VOICE_SCENARIOS[key].dialogue[0].text}"
+                    </div>
+                `;
+            }
+        }
+
         function toggleVoiceCall() {
             if (!isVoiceCallActive) {
                 startVoiceCall();
@@ -985,10 +1267,19 @@
             }
         }
 
+        let voiceSimTimeouts = [];
+
+        function clearVoiceTimeouts() {
+            voiceSimTimeouts.forEach(t => clearTimeout(t));
+            voiceSimTimeouts = [];
+        }
+
         function startVoiceCall() {
             isVoiceCallActive = true;
             voiceElapsedSeconds = 0;
+            clearVoiceTimeouts();
 
+            const scenario = VOICE_SCENARIOS[currentVoiceScenario] || VOICE_SCENARIOS.dgi_quality;
             const startBtn = document.getElementById('voice-start-btn');
             const btnLabel = document.getElementById('voice-btn-label');
             const statusDot = document.getElementById('voice-status-dot');
@@ -1015,27 +1306,19 @@
                 document.getElementById('voice-call-timer').textContent = `${mins}:${secs}`;
             }, 1000);
 
-            // Conduct Socratic dialogue sequence
+            // Conduct Socratic dialogue sequence from selected scenario
             transcriptBox.innerHTML = `
                 <div class="text-brand-400 font-semibold mb-1 flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
                     <span>ThesisCheck Auditor (Voz):</span>
                 </div>
                 <div class="text-slate-200 text-xs italic pl-3 border-l-2 border-brand-500/40">
-                    "Hello, I'm the ThesisCheck auditor. We can speak in English or Spanish, whichever you prefer. Before we look at specific stocks, tell me in a minute: what's your investment philosophy and what do you look for in the businesses you buy?"
+                    "${scenario.dialogue[0].text}"
                 </div>
             `;
 
-            // Play voice synthesis if supported
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance("Hello, I am the ThesisCheck auditor. Before we look at specific stocks, tell me: what is your investment philosophy and what do you look for in the businesses you buy?");
-                utterance.rate = 1.0;
-                utterance.pitch = 0.95;
-                window.speechSynthesis.speak(utterance);
-            }
-
-            // Simulate investor responses and socratic follow-ups over time
-            setTimeout(() => {
+            // Step 1: User response (after 3.5s)
+            voiceSimTimeouts.push(setTimeout(() => {
                 if (!isVoiceCallActive) return;
                 statusText.textContent = 'Escuchando tu respuesta...';
                 transcriptBox.innerHTML += `
@@ -1044,12 +1327,13 @@
                         <span>Inversor:</span>
                     </div>
                     <div class="text-slate-300 text-xs pl-3 border-l-2 border-slate-700">
-                        "Tengo 45 años, busco jubilarme sobre los 68-70 buscando un 12% CAGR con estrategia DGI. Mis posiciones de mayor peso son Zoetis y Alexandria Real Estate."
+                        "${scenario.dialogue[1].text}"
                     </div>
                 `;
-            }, 4000);
+            }, 3500));
 
-            setTimeout(() => {
+            // Step 2: Auditor socratic inquiry (after 7.5s)
+            voiceSimTimeouts.push(setTimeout(() => {
                 if (!isVoiceCallActive) return;
                 statusText.textContent = 'Auditor verificando catalizadores y líneas rojas...';
                 transcriptBox.innerHTML += `
@@ -1058,12 +1342,13 @@
                         <span>ThesisCheck Auditor:</span>
                     </div>
                     <div class="text-slate-200 text-xs italic pl-3 border-l-2 border-brand-500/40">
-                        "Entendido: 45 años con un horizonte efectivo de unos 23 a 25 años buscando un 12% CAGR en compounders de dividendo creciente. Anoto Zoetis (ZTS) y Alexandria (ARE). ¿Cuál es tu línea roja en balances que te forzaría a vender?"
+                        "${scenario.dialogue[2].text}"
                     </div>
                 `;
-            }, 8500);
+            }, 7500));
 
-            setTimeout(() => {
+            // Step 3: User killswitch response (after 11.5s)
+            voiceSimTimeouts.push(setTimeout(() => {
                 if (!isVoiceCallActive) return;
                 statusText.textContent = 'Escuchando línea roja contable...';
                 transcriptBox.innerHTML += `
@@ -1072,12 +1357,13 @@
                         <span>Inversor:</span>
                     </div>
                     <div class="text-slate-300 text-xs pl-3 border-l-2 border-slate-700">
-                        "Venta inmediata si el Free Cash Flow real no cubre el 100% del dividendo o si el apalancamiento neto supera 3.5x EBITDA."
+                        "${scenario.dialogue[3].text}"
                     </div>
                 `;
-            }, 12500);
+            }, 11500));
 
-            setTimeout(() => {
+            // Step 4: Auditor closing synthesis (after 15s)
+            voiceSimTimeouts.push(setTimeout(() => {
                 if (!isVoiceCallActive) return;
                 statusText.textContent = 'Cierre socrático y síntesis estructurada...';
                 transcriptBox.innerHTML += `
@@ -1086,22 +1372,30 @@
                         <span>ThesisCheck Auditor:</span>
                     </div>
                     <div class="text-slate-200 text-xs italic pl-3 border-l-2 border-brand-500/40">
-                        "Perfecto. He registrado Zoetis (ZTS) y Alexandria Real Estate (ARE) con tus alertas de cobertura de FCF. Cuelgo la llamada ahora para proyectar tu terminal forense personalizada en pantalla."
+                        "${scenario.dialogue[4].text}"
                     </div>
                 `;
-                setTimeout(() => {
+                voiceSimTimeouts.push(setTimeout(() => {
                     if (isVoiceCallActive) endVoiceCall();
-                }, 3000);
-            }, 16000);
+                }, 2500));
+            }, 15000));
         }
+
+        // Programmatic helper to run any scenario instantly for testing
+        window.runVoiceScenario = function(scenarioKey) {
+            selectVoiceScenario(scenarioKey);
+            endVoiceCall();
+        };
 
         function endVoiceCall() {
             isVoiceCallActive = false;
             clearInterval(voiceTimerInterval);
+            clearVoiceTimeouts();
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
             }
 
+            const scenario = VOICE_SCENARIOS[currentVoiceScenario] || VOICE_SCENARIOS.dgi_quality;
             const startBtn = document.getElementById('voice-start-btn');
             const btnLabel = document.getElementById('voice-btn-label');
             const statusDot = document.getElementById('voice-status-dot');
@@ -1121,51 +1415,8 @@
             ripple1.classList.remove('scale-125', 'animate-ping');
             ripple2.classList.remove('scale-125', 'animate-pulse');
 
-            // Inject both audited holdings into the user's personal portfolio
-            userPositions = [
-                {
-                    ticker: "ZTS",
-                    name: "Zoetis Inc.",
-                    sector: "Healthcare",
-                    industry: "Animal Health Pharmaceuticals",
-                    status: "HEALTHY",
-                    health_score: 93,
-                    fcf_quality: "108% (Pricing Power Animal)",
-                    sbc_pct_cfo: "4.2%",
-                    net_debt_ebitda: "1.4x",
-                    dividend_payout: "34% (FCF)",
-                    primary_alert_headline: "Liderazgo global en salud animal con cobertura de dividendos holgada por FCF",
-                    forensic_summary: "Zoetis demuestra un foso analítico excepcional en animales de compañía y ganadería. Los filings Form 10-Q confirman que el flujo de caja libre cubre el dividendo casi 3 veces y los gastos financieros están acotados por debajo del 4% de los ingresos operativos.",
-                    footnote_citation: "Form 10-Q, Item 7 – Results: 'Revenues grew 10% operational, driven by continued adoption of our companion animal dermatology portfolio and Librela/Solensia pain medications.'",
-                    sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0001555280",
-                    financial_impact: "Crecimiento operativo del 10% con margen EBITDA estatutario del 41% y cero contingencias materiales.",
-                    actionable_verdict: "Veredicto Forense: Posición de alta convicción validada con balance de grado de inversión y cobertura plena.",
-                    user_thesis: "Comprada por pricing power en medicamentos veterinarios (Librela/Solensia) y dividendo creciente a 24 años vista.",
-                    user_killswitch: "Venta inmediata si el FCF real no cubre el 100% del dividendo o la deuda neta supera 3.5x EBITDA.",
-                    contrast_verdict: "✅ <strong>LÍNEA ROJA RESPETADA:</strong> El dividendo solo consume el 34% del FCF ($620M pagados vs. $1.8B FCF). Deuda Neta/EBITDA en 1.4x (muy inferior a tu límite de 3.5x).<br>⚠️ <strong>Alerta de Calidad:</strong> El crecimiento del 10% se descompone en +8% por subidas de precio y solo +2% volumen real."
-                },
-                {
-                    ticker: "ARE",
-                    name: "Alexandria Real Estate Equities, Inc.",
-                    sector: "Real Estate",
-                    industry: "Life Science Megacampus REIT",
-                    status: "WARNING",
-                    health_score: 72,
-                    fcf_quality: "78% (AFFO vs FCF)",
-                    sbc_pct_cfo: "1.8%",
-                    net_debt_ebitda: "5.2x (Estructura REIT intensiva)",
-                    dividend_payout: "84% (AFFO Payout)",
-                    primary_alert_headline: "Vencimientos de deuda no garantizada y presión en refinanciaciones (Note 9)",
-                    forensic_summary: "Alexandria posee un portfolio clase A insustituible en distritos biotecnológicos (Boston, San Diego). Sin embargo, Note 9 del Form 10-Q muestra vencimientos de deuda a tipos fijos bajos (3.85%) que enfrentan tipos de mercado actuales (>5.5%), elevando el gasto financiero futuro.",
-                    footnote_citation: "Form 10-Q, Note 9 – Senior Notes: '$1.8B in fixed-rate senior notes maturing through 2026 at a weighted rate of 3.85%, confronting current refinancing market yields of 5.50-5.75%.'",
-                    sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0001035449",
-                    financial_impact: "Carga financiera adicional de ~$31M anuales en intereses si se refinancia al 5.6%, reduciendo el buffer del dividendo.",
-                    actionable_verdict: "Veredicto Forense: Foso analítico de Grado A en hubs biotecnológicos (ocupación 94.6%), pero vigilar refinanciaciones de 2026.",
-                    user_thesis: "Comprada por infraestructura crítica en clústeres biofarmacéuticos (Boston, San Diego) y dividendo predecible.",
-                    user_killswitch: "Venta si la cobertura de dividendo por AFFO cae por debajo del 100% o la ocupación baja del 90%.",
-                    contrast_verdict: "✅ <strong>LÍNEA ROJA RESPETADA:</strong> AFFO Payout actual en 84% (cobertura suficiente, pero buffer estrecho del 16%). Ocupación estatutaria en 94.6% (superior a tu límite del 90%).<br>⚠️ <strong>ALERTA FORENSE:</strong> $1.8B en deuda barata al 3.85% vence antes de 2027; refinanciarla al 5.6% restará $31M anuales de flujo disponible."
-                }
-            ];
+            // Inject scenario positions into userPositions
+            userPositions = JSON.parse(JSON.stringify(scenario.positions));
 
             // Update user portfolio badge count
             const countBadge = document.getElementById('user-portfolio-count-badge');
@@ -1175,17 +1426,13 @@
             switchPortfolioMode('USER');
 
             banner.classList.remove('hidden');
-            summaryEl.innerHTML = `
-                • <strong>Perfil Detectado:</strong> Quality Compounder & Dividend Growth (DGI)<br>
-                • <strong>Horizonte Efectivo:</strong> 24 años (Edad actual 45 → Jubilación ~69 años) · Objetivo: 12% CAGR<br>
-                • <strong>Posiciones Auditadas:</strong> <strong>Zoetis (ZTS - 93/100)</strong> y <strong>Alexandria Real Estate (ARE - 72/100)</strong> proyectadas en la pestaña 'Mi Cartera'<br>
-                • <strong>Contraste Forense:</strong> Tus líneas rojas (FCF Payout &gt;100% y Deuda &gt;3.5x) han sido contrastadas contra los filings oficiales 10-Q.
-            `;
+            summaryEl.innerHTML = scenario.summaryHtml;
 
             // Persist to browser localStorage (survives refreshes)
             try {
                 localStorage.setItem('thesischeck_user_positions', JSON.stringify(userPositions));
                 localStorage.setItem('thesischeck_user_summary', summaryEl.innerHTML);
+                localStorage.setItem('thesischeck_user_scenario', currentVoiceScenario);
             } catch (e) {
                 console.warn('Could not save user portfolio to localStorage', e);
             }
