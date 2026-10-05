@@ -108,7 +108,7 @@
 
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div class="space-y-2 max-w-2xl">
-                    <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-[11px] font-mono uppercase tracking-wider bg-slate-800/80 text-slate-300 border border-slate-700/50">
+                    <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-[11px] font-mono uppercase tracking-wider bg-slate-800/80 text-slate-300 border border-slate-700/50" id="portfolio-context-badge">
                         <i data-lucide="cpu" class="w-3.5 h-3.5 text-brand-400"></i>
                         Cartera Modelo de Calidad · 18 Posiciones
                     </div>
@@ -175,6 +175,24 @@
                 <i data-lucide="phone-call" class="w-4 h-4 group-hover:scale-110 transition-transform"></i>
                 <span>Iniciar Llamada de Voz ➔</span>
             </button>
+        </section>
+
+        <!-- Portfolio Mode Switcher (Model Portfolio Sandbox vs. My Audited Portfolio) -->
+        <section class="bg-dark-900/90 border border-slate-800/80 rounded-2xl p-2.5 sm:p-3 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <button onclick="switchPortfolioMode('MODEL')" id="tab-portfolio-model" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center justify-center gap-2 bg-brand-500 text-dark-950 shadow-md shadow-brand-500/20">
+                    <i data-lucide="building-2" class="w-4 h-4"></i>
+                    <span>Cartera Modelo Institucional (18)</span>
+                </button>
+                <button onclick="switchPortfolioMode('USER')" id="tab-portfolio-user" class="flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-medium font-mono transition-all flex items-center justify-center gap-2 bg-dark-950 hover:bg-dark-850 text-slate-400 border border-slate-800">
+                    <i data-lucide="user-check" class="w-4 h-4 text-emerald-400"></i>
+                    <span>Mi Cartera Auditada (Voz)</span>
+                    <span id="user-portfolio-count-badge" class="px-2 py-0.5 rounded-full text-[10px] bg-slate-800 text-slate-300 font-mono">0</span>
+                </button>
+            </div>
+            <div class="text-[11px] font-mono text-slate-400 px-2 text-center sm:text-right" id="portfolio-mode-desc">
+                Explorando universo modelo pre-auditado de 18 posiciones de calidad
+            </div>
         </section>
 
         <!-- Controls: Filter Pills & Search -->
@@ -306,6 +324,48 @@
                     </div>
                     <div class="text-[10px] text-slate-500 font-mono mt-2" id="drawer-sbc-stat">
                         SBC % CFO: 4.8%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Socratic Thesis Contrast Block (Cross-examination with Investor Voice Mandate) -->
+            <div id="drawer-thesis-contrast-block" class="space-y-2">
+                <div class="text-[11px] font-mono text-emerald-400 uppercase tracking-wider flex items-center justify-between">
+                    <span class="flex items-center gap-1.5 font-bold">
+                        <i data-lucide="crosshair" class="w-3.5 h-3.5"></i>
+                        Contraste Socrático: Tu Tesis Declarada vs. Realidad SEC
+                    </span>
+                    <span id="drawer-thesis-status-badge" class="px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold">
+                        AUDITORÍA PERSONALIZADA
+                    </span>
+                </div>
+                <div class="bg-gradient-to-br from-emerald-950/25 via-dark-950/90 to-dark-900 border border-emerald-500/30 rounded-xl p-4 text-xs space-y-3 font-mono shadow-md">
+                    <div>
+                        <div class="text-[10px] text-brand-400 uppercase font-semibold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+                            <span>Tu Tesis de Compra Declarada (Voz):</span>
+                        </div>
+                        <div id="drawer-user-thesis" class="text-slate-200 mt-1 italic pl-2.5 border-l-2 border-brand-500/50">
+                            "Comprada por pricing power y dividendo creciente..."
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-rose-400 uppercase font-semibold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                            <span>Tu Línea Roja / Kill-Switch:</span>
+                        </div>
+                        <div id="drawer-user-killswitch" class="text-slate-200 mt-1 italic pl-2.5 border-l-2 border-rose-500/50">
+                            "Venta si el FCF no cubre el dividendo o apalancamiento > 3.5x EBITDA."
+                        </div>
+                    </div>
+                    <div class="pt-2 border-t border-slate-800">
+                        <div class="text-[10px] text-emerald-400 uppercase font-semibold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span>Dictamen Forense de la SEC frente a Tu Tesis:</span>
+                        </div>
+                        <div id="drawer-contrast-verdict" class="text-slate-300 mt-1 text-[11px] leading-relaxed">
+                            Contraste contable...
+                        </div>
                     </div>
                 </div>
             </div>
@@ -525,8 +585,10 @@
 
     <!-- Application Script -->
     <script>
-        // Global State
-        let allPositions = [];
+        // Global State: Dual Portfolio View (Model Sandbox vs. User Audited)
+        let modelPositions = [];
+        let userPositions = [];
+        let currentPortfolioMode = 'MODEL'; // 'MODEL' | 'USER'
         let currentFilter = 'ALL';
         let searchQuery = '';
         let selectedPosition = null;
@@ -538,6 +600,10 @@
         let vapiInstance = null;
         const VAPI_ASSISTANT_ID = 'f1e5c485-6b1a-43d7-8acd-4ebd91dc07f8';
 
+        function getActivePositions() {
+            return currentPortfolioMode === 'MODEL' ? modelPositions : userPositions;
+        }
+
         // Fetch or load dataset
         async function loadPortfolioData() {
             try {
@@ -546,25 +612,81 @@
                     res = await fetch('../data/portfolio_sandbox_data.json');
                 }
                 const data = await res.json();
-                allPositions = data.positions || [];
+                modelPositions = data.positions || [];
+                recalculatePortfolioKPIs();
                 renderTable();
-                updateKPIs(data.meta);
             } catch (err) {
                 console.warn('Fallback loading: fetch failed, falling back to local dataset embedded in window.', err);
             }
         }
 
-        function updateKPIs(meta) {
-            if (!meta) return;
+        function recalculatePortfolioKPIs() {
+            const list = getActivePositions();
+            const total = list.length;
+            const critical = list.filter(p => p.status === 'CRITICAL').length;
+            const warning = list.filter(p => p.status === 'WARNING').length;
+            const healthy = list.filter(p => p.status === 'HEALTHY').length;
+
+            const avgScore = total > 0 ? Math.round(list.reduce((acc, p) => acc + (p.health_score || 0), 0) / total) : 0;
+
             const kpiHealth = document.getElementById('kpi-health-score');
             const kpiCrit = document.getElementById('kpi-critical-count');
             const kpiWarn = document.getElementById('kpi-warning-count');
             const kpiHlth = document.getElementById('kpi-healthy-count');
 
-            if (kpiHealth) kpiHealth.innerHTML = `${meta.aggregate_health_score}<span class="text-xs text-slate-500">/100</span>`;
-            if (kpiCrit && meta.severity_breakdown) kpiCrit.textContent = meta.severity_breakdown.critical;
-            if (kpiWarn && meta.severity_breakdown) kpiWarn.textContent = meta.severity_breakdown.warning;
-            if (kpiHlth && meta.severity_breakdown) kpiHlth.textContent = meta.severity_breakdown.healthy;
+            if (kpiHealth) kpiHealth.innerHTML = `${avgScore}<span class="text-xs text-slate-500">/100</span>`;
+            if (kpiCrit) kpiCrit.textContent = critical;
+            if (kpiWarn) kpiWarn.textContent = warning;
+            if (kpiHlth) kpiHlth.textContent = healthy;
+
+            // Update filter pills labels
+            const pillAll = document.getElementById('pill-ALL');
+            const pillCrit = document.getElementById('pill-CRITICAL');
+            const pillWarn = document.getElementById('pill-WARNING');
+            const pillHlth = document.getElementById('pill-HEALTHY');
+
+            if (pillAll) pillAll.textContent = `Todas (${total})`;
+            if (pillCrit) pillCrit.textContent = `🚨 Críticas (${critical})`;
+            if (pillWarn) pillWarn.textContent = `⚠️ En Observación (${warning})`;
+            if (pillHlth) pillHlth.textContent = `✅ Balances Limpios (${healthy})`;
+
+            // Update subheader badge text
+            const contextBadge = document.getElementById('portfolio-context-badge');
+            if (contextBadge) {
+                if (currentPortfolioMode === 'MODEL') {
+                    contextBadge.innerHTML = `<i data-lucide="cpu" class="w-3.5 h-3.5 text-brand-400"></i> Cartera Modelo de Calidad · 18 Posiciones`;
+                } else {
+                    contextBadge.innerHTML = `<i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-400"></i> Mi Cartera Personal Auditada · ${total} Posición${total !== 1 ? 'es' : ''} (Voz)`;
+                }
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function switchPortfolioMode(mode) {
+            currentPortfolioMode = mode;
+            currentFilter = 'ALL';
+            searchQuery = '';
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) searchInput.value = '';
+
+            const tabModel = document.getElementById('tab-portfolio-model');
+            const tabUser = document.getElementById('tab-portfolio-user');
+            const modeDesc = document.getElementById('portfolio-mode-desc');
+
+            if (mode === 'MODEL') {
+                tabModel.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center justify-center gap-2 bg-brand-500 text-dark-950 shadow-md shadow-brand-500/20';
+                tabUser.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-medium font-mono transition-all flex items-center justify-center gap-2 bg-dark-950 hover:bg-dark-850 text-slate-400 border border-slate-800';
+                if (modeDesc) modeDesc.textContent = 'Explorando universo modelo pre-auditado de 18 posiciones de calidad';
+            } else {
+                tabUser.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-bold font-mono transition-all flex items-center justify-center gap-2 bg-brand-500 text-dark-950 shadow-md shadow-brand-500/20';
+                tabModel.className = 'flex-1 sm:flex-initial px-4 py-2 rounded-xl text-xs font-medium font-mono transition-all flex items-center justify-center gap-2 bg-dark-950 hover:bg-dark-850 text-slate-400 border border-slate-800';
+                if (modeDesc) modeDesc.textContent = `Visualizando tus ${userPositions.length} activos extraídos de la entrevista por voz`;
+            }
+
+            recalculatePortfolioKPIs();
+            filterBySeverity('ALL');
+            renderTable();
+            if (window.lucide) lucide.createIcons();
         }
 
         function filterBySeverity(severity) {
@@ -625,7 +747,9 @@
             const noResults = document.getElementById('no-results-state');
             if (!tbody) return;
 
-            let filtered = allPositions.filter(pos => {
+            const sourceList = getActivePositions();
+
+            let filtered = sourceList.filter(pos => {
                 const matchesSeverity = currentFilter === 'ALL' || pos.status === currentFilter;
                 const matchesSearch = !searchQuery || 
                     pos.ticker.toLowerCase().includes(searchQuery) ||
@@ -636,7 +760,27 @@
 
             if (filtered.length === 0) {
                 tbody.innerHTML = '';
-                if (noResults) noResults.classList.remove('hidden');
+                if (noResults) {
+                    noResults.classList.remove('hidden');
+                    if (currentPortfolioMode === 'USER' && userPositions.length === 0) {
+                        noResults.innerHTML = `
+                            <div class="py-10 space-y-3 text-center">
+                                <div class="w-12 h-12 rounded-2xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 mx-auto">
+                                    <i data-lucide="mic" class="w-6 h-6"></i>
+                                </div>
+                                <div class="text-sm font-semibold text-white">Tu Cartera Personal aún está vacía</div>
+                                <p class="text-xs text-slate-400 max-w-sm mx-auto">Inicia la entrevista con el Auditor Socrático para proyectar tus activos y contrastar tus líneas rojas contra la SEC.</p>
+                                <button onclick="openVoiceModal()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-400 text-dark-950 transition-all shadow-md shadow-brand-500/20">
+                                    <i data-lucide="phone-call" class="w-4 h-4"></i>
+                                    <span>Iniciar Entrevista de Voz (3 min) ➔</span>
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        noResults.textContent = 'No se encontraron activos que coincidan con el filtro seleccionado.';
+                    }
+                }
+                if (window.lucide) lucide.createIcons();
                 return;
             }
 
@@ -683,7 +827,7 @@
         }
 
         function openDrawer(ticker) {
-            const pos = allPositions.find(p => p.ticker === ticker);
+            const pos = [...userPositions, ...modelPositions].find(p => p.ticker === ticker);
             if (!pos) return;
             selectedPosition = pos;
 
@@ -710,6 +854,26 @@
 
             document.getElementById('drawer-fcf-quality').textContent = pos.fcf_quality;
             document.getElementById('drawer-sbc-stat').textContent = `SBC % CFO: ${pos.sbc_pct_cfo}`;
+
+            // Populate Socratic Thesis Contrast Block
+            const userThesisEl = document.getElementById('drawer-user-thesis');
+            const userKillswitchEl = document.getElementById('drawer-user-killswitch');
+            const contrastVerdictEl = document.getElementById('drawer-contrast-verdict');
+            const thesisBadge = document.getElementById('drawer-thesis-status-badge');
+
+            if (pos.user_thesis) {
+                userThesisEl.textContent = `"${pos.user_thesis}"`;
+                userKillswitchEl.textContent = `"${pos.user_killswitch}"`;
+                contrastVerdictEl.innerHTML = pos.contrast_verdict;
+                thesisBadge.textContent = 'AUDITORÍA PERSONALIZADA (VOZ)';
+                thesisBadge.className = 'px-1.5 py-0.5 rounded text-[9px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold';
+            } else {
+                userThesisEl.textContent = '"Posición pre-cargada de la cartera modelo institucional de calidad."';
+                userKillswitchEl.textContent = '"Línea roja estándar: Payout FCF > 80% o pérdida de grado de inversión estatutario."';
+                contrastVerdictEl.innerHTML = 'Evaluación contable estandarizada frente a criterios institucionales de preservación de flujo de caja libre y rentabilidad sobre capital.';
+                thesisBadge.textContent = 'CARTERA MODELO INSTITUCIONAL';
+                thesisBadge.className = 'px-1.5 py-0.5 rounded text-[9px] font-mono bg-slate-800 text-slate-400 border border-slate-700';
+            }
 
             document.getElementById('drawer-headline').textContent = pos.primary_alert_headline;
             document.getElementById('drawer-summary').textContent = pos.forensic_summary;
@@ -905,39 +1069,65 @@
             ripple1.classList.remove('scale-125', 'animate-ping');
             ripple2.classList.remove('scale-125', 'animate-pulse');
 
-            // Inject the extracted companies into the portfolio sandbox table!
-            const newHolding = {
-                ticker: "ZTS",
-                name: "Zoetis Inc.",
-                sector: "Healthcare",
-                industry: "Animal Health Pharmaceuticals",
-                status: "HEALTHY",
-                status_badge: "HEALTHY ✅",
-                health_score: 93,
-                fcf_quality: "108% (Pricing Power Animal)",
-                sbc_pct_cfo: "4.2%",
-                net_debt_ebitda: "1.4x",
-                dividend_payout: "34% (FCF)",
-                primary_alert_headline: "Liderazgo global en salud animal con cobertura de dividendos holgada por FCF",
-                forensic_summary: "Zoetis demuestra un foso analítico excepcional en animales de compañía y ganadería. Los filings Form 10-Q confirman que el flujo de caja libre cubre el dividendo casi 3 veces y los gastos financieros están acotados por debajo del 4% de los ingresos operativos.",
-                footnote_citation: "Form 10-Q, Item 7 – Results: 'Revenues grew 10% operational, driven by continued adoption of our companion animal dermatology portfolio and Librela/Solensia pain medications.'",
-                sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0001555280",
-                financial_impact: "Crecimiento operativo del 10% con margen EBITDA estatutario del 41% y cero contingencias materiales.",
-                actionable_verdict: "Veredicto Forense: Posición de alta convicción validada con balance de grado de inversión y cobertura plena."
-            };
+            // Inject both audited holdings into the user's personal portfolio
+            userPositions = [
+                {
+                    ticker: "ZTS",
+                    name: "Zoetis Inc.",
+                    sector: "Healthcare",
+                    industry: "Animal Health Pharmaceuticals",
+                    status: "HEALTHY",
+                    health_score: 93,
+                    fcf_quality: "108% (Pricing Power Animal)",
+                    sbc_pct_cfo: "4.2%",
+                    net_debt_ebitda: "1.4x",
+                    dividend_payout: "34% (FCF)",
+                    primary_alert_headline: "Liderazgo global en salud animal con cobertura de dividendos holgada por FCF",
+                    forensic_summary: "Zoetis demuestra un foso analítico excepcional en animales de compañía y ganadería. Los filings Form 10-Q confirman que el flujo de caja libre cubre el dividendo casi 3 veces y los gastos financieros están acotados por debajo del 4% de los ingresos operativos.",
+                    footnote_citation: "Form 10-Q, Item 7 – Results: 'Revenues grew 10% operational, driven by continued adoption of our companion animal dermatology portfolio and Librela/Solensia pain medications.'",
+                    sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0001555280",
+                    financial_impact: "Crecimiento operativo del 10% con margen EBITDA estatutario del 41% y cero contingencias materiales.",
+                    actionable_verdict: "Veredicto Forense: Posición de alta convicción validada con balance de grado de inversión y cobertura plena.",
+                    user_thesis: "Comprada por pricing power en medicamentos veterinarios (Librela/Solensia) y dividendo creciente a 24 años vista.",
+                    user_killswitch: "Venta inmediata si el FCF real no cubre el 100% del dividendo o la deuda neta supera 3.5x EBITDA.",
+                    contrast_verdict: "✅ <strong>LÍNEA ROJA RESPETADA:</strong> El dividendo solo consume el 34% del FCF ($620M pagados vs. $1.8B FCF). Deuda Neta/EBITDA en 1.4x (muy inferior a tu límite de 3.5x).<br>⚠️ <strong>Alerta de Calidad:</strong> El crecimiento del 10% se descompone en +8% por subidas de precio y solo +2% volumen real."
+                },
+                {
+                    ticker: "ARE",
+                    name: "Alexandria Real Estate Equities, Inc.",
+                    sector: "Real Estate",
+                    industry: "Life Science Megacampus REIT",
+                    status: "WARNING",
+                    health_score: 72,
+                    fcf_quality: "78% (AFFO vs FCF)",
+                    sbc_pct_cfo: "1.8%",
+                    net_debt_ebitda: "5.2x (Estructura REIT intensiva)",
+                    dividend_payout: "84% (AFFO Payout)",
+                    primary_alert_headline: "Vencimientos de deuda no garantizada y presión en refinanciaciones (Note 9)",
+                    forensic_summary: "Alexandria posee un portfolio clase A insustituible en distritos biotecnológicos (Boston, San Diego). Sin embargo, Note 9 del Form 10-Q muestra vencimientos de deuda a tipos fijos bajos (3.85%) que enfrentan tipos de mercado actuales (>5.5%), elevando el gasto financiero futuro.",
+                    footnote_citation: "Form 10-Q, Note 9 – Senior Notes: '$1.8B in fixed-rate senior notes maturing through 2026 at a weighted rate of 3.85%, confronting current refinancing market yields of 5.50-5.75%.'",
+                    sec_edgar_url: "https://www.sec.gov/edgar/browse/?CIK=0001035449",
+                    financial_impact: "Carga financiera adicional de ~$31M anuales en intereses si se refinancia al 5.6%, reduciendo el buffer del dividendo.",
+                    actionable_verdict: "Veredicto Forense: Foso analítico de Grado A en hubs biotecnológicos (ocupación 94.6%), pero vigilar refinanciaciones de 2026.",
+                    user_thesis: "Comprada por infraestructura crítica en clústeres biofarmacéuticos (Boston, San Diego) y dividendo predecible.",
+                    user_killswitch: "Venta si la cobertura de dividendo por AFFO cae por debajo del 100% o la ocupación baja del 90%.",
+                    contrast_verdict: "✅ <strong>LÍNEA ROJA RESPETADA:</strong> AFFO Payout actual en 84% (cobertura suficiente, pero buffer estrecho del 16%). Ocupación estatutaria en 94.6% (superior a tu límite del 90%).<br>⚠️ <strong>ALERTA FORENSE:</strong> $1.8B en deuda barata al 3.85% vence antes de 2027; refinanciarla al 5.6% restará $31M anuales de flujo disponible."
+                }
+            ];
 
-            // Avoid duplicate insertion
-            if (!allPositions.some(p => p.ticker === 'ZTS')) {
-                allPositions.unshift(newHolding);
-                renderTable();
-            }
+            // Update user portfolio badge count
+            const countBadge = document.getElementById('user-portfolio-count-badge');
+            if (countBadge) countBadge.textContent = userPositions.length;
+
+            // Automatically switch view to the user's audited portfolio!
+            switchPortfolioMode('USER');
 
             banner.classList.remove('hidden');
             summaryEl.innerHTML = `
                 • <strong>Perfil Detectado:</strong> Quality Compounder & Dividend Growth (DGI)<br>
                 • <strong>Horizonte Efectivo:</strong> 24 años (Edad actual 45 → Jubilación ~69 años) · Objetivo: 12% CAGR<br>
-                • <strong>Posición Captada e Inyectada:</strong> <strong>Zoetis (ZTS)</strong> · Salud Forense 93/100 · FCF Payout: 34% ✅<br>
-                • <strong>Línea Roja Auditada:</strong> FCF Coverage Deficit (&gt;100% payout) y Net Debt &gt;3.5x EBITDA monitoreadas.
+                • <strong>Posiciones Auditadas:</strong> <strong>Zoetis (ZTS - 93/100)</strong> y <strong>Alexandria Real Estate (ARE - 72/100)</strong> proyectadas en la pestaña 'Mi Cartera'<br>
+                • <strong>Contraste Forense:</strong> Tus líneas rojas (FCF Payout &gt;100% y Deuda &gt;3.5x) han sido contrastadas contra los filings oficiales 10-Q.
             `;
 
             if (window.lucide) lucide.createIcons();
